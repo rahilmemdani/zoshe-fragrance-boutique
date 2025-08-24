@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star, ArrowRight, Sparkles, Heart, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import heroPerfume from '@/assets/hero-perfume.jpg';
+import heroPerfume from '@/assets/hero-perfume.jpeg';
 import perfumeCollection from '@/assets/perfume-collection.jpg';
 
 const Home = () => {
@@ -52,19 +52,19 @@ const Home = () => {
     <div className="scroll-smooth">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 hero-gradient opacity-90"></div>
+        {/* <div className="absolute inset-0 hero-gradient opacity-90"></div>
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroPerfume})` }}
-        ></div>
-        {/* <div 
+        ></div> */}
+        <div 
   className="absolute inset-0 bg-cover bg-center"
   style={{
     backgroundImage: `url(${heroPerfume})`,
     backgroundBlendMode: "lighten",
-    // backgroundColor: "rgba(255,255,255,0.5)" // adjust transparency
+    backgroundColor: "rgba(255,255,255,0.10)" // adjust transparency
   }}
-></div> */}
+></div>
 
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
