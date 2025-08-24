@@ -2,39 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Zoshe Luxury Perfume Brand Design System 
+All colors MUST be HSL. Luxury aesthetic with glassmorphism effects.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Zoshe Brand Colors */
+    --cream: 48 40% 93%;           /* Primary background - #F5F1E8 */
+    --lavender: 300 28% 87%;       /* Accent color - #E8D5E8 */
+    --sage: 105 14% 68%;           /* Nature tone - #A8B5A3 */
+    --soft-blue: 210 33% 85%;      /* Calm accent - #C8D8E8 */
+    --deep-purple: 270 16% 55%;    /* Luxury dark - #8B7B9B */
+    
+    /* Semantic Design Tokens */
+    --background: var(--cream);
+    --foreground: var(--deep-purple);
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: var(--cream);
+    --card-foreground: var(--deep-purple);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: var(--cream);
+    --popover-foreground: var(--deep-purple);
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: var(--deep-purple);
+    --primary-foreground: var(--cream);
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: var(--lavender);
+    --secondary-foreground: var(--deep-purple);
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: var(--soft-blue);
+    --muted-foreground: var(--deep-purple);
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: var(--sage);
+    --accent-foreground: var(--deep-purple);
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: var(--cream);
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: var(--lavender);
+    --input: var(--soft-blue);
+    --ring: var(--deep-purple);
+    
+    /* Luxury Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--lavender)), hsl(var(--soft-blue)));
+    --gradient-luxury: linear-gradient(135deg, hsl(var(--deep-purple)), hsl(var(--lavender)));
+    --gradient-nature: linear-gradient(135deg, hsl(var(--sage)), hsl(var(--soft-blue)));
+    --gradient-glass: linear-gradient(135deg, 
+      hsl(var(--cream) / 0.8), 
+      hsl(var(--lavender) / 0.6)
+    );
+    
+    /* Glassmorphism Effects */
+    --glass-bg: hsl(var(--cream) / 0.8);
+    --glass-border: hsl(var(--lavender) / 0.3);
+    --glass-shadow: 0 8px 32px hsl(var(--deep-purple) / 0.15);
+    --glass-backdrop: blur(12px);
+    
+    /* Luxury Shadows */
+    --shadow-luxury: 0 10px 40px hsl(var(--deep-purple) / 0.2);
+    --shadow-elegant: 0 4px 20px hsl(var(--lavender) / 0.3);
+    --shadow-soft: 0 2px 10px hsl(var(--sage) / 0.2);
+    
+    /* Typography */
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Inter', sans-serif;
 
     --radius: 0.5rem;
 
@@ -101,5 +133,62 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+  }
+}
+
+@layer components {
+  /* Glassmorphism Component Classes */
+  .glass-card {
+    @apply bg-[var(--glass-bg)] backdrop-blur-[12px] border border-[var(--glass-border)] rounded-lg;
+    box-shadow: var(--glass-shadow);
+  }
+  
+  .luxury-button {
+    @apply bg-primary text-primary-foreground px-8 py-3 rounded-full font-medium transition-all duration-300;
+    box-shadow: var(--shadow-elegant);
+  }
+  
+  .luxury-button:hover {
+    @apply scale-105;
+    box-shadow: var(--shadow-luxury);
+  }
+  
+  .hero-gradient {
+    background: var(--gradient-luxury);
+  }
+  
+  .perfume-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+  }
+}
+
+@layer utilities {
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
