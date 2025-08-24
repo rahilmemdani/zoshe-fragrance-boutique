@@ -57,13 +57,22 @@ const Home = () => {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroPerfume})` }}
         ></div>
+        {/* <div 
+  className="absolute inset-0 bg-cover bg-center"
+  style={{
+    backgroundImage: `url(${heroPerfume})`,
+    backgroundBlendMode: "lighten",
+    // backgroundColor: "rgba(255,255,255,0.5)" // adjust transparency
+  }}
+></div> */}
+
         
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <div className="fade-in-up">
             <h1 className="text-5xl md:text-7xl font-bold text-cream mb-6">
               Luxury <span className="text-accent">Redefined</span>
             </h1>
-            <p className="text-xl md:text-2xl text-cream/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl text-cream/90 mb-8 max-w-2xl mx-auto" style={{"color": "black"}}>
               Discover the art of perfumery with Zoshe's exclusive collection of handcrafted fragrances
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
