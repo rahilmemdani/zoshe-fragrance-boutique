@@ -49,17 +49,17 @@ const About = () => {
               </h2>
               <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
                 <p>
-                  Founded in 2009 by master perfumer Isabella Zoshe, our brand emerged from a simple yet profound 
+                  Founded in 2024 by master perfumer Isabella Zoshe, our brand emerged from a simple yet profound
                   belief: that fragrance has the power to transport, transform, and create lasting memories.
                 </p>
                 <p>
-                  With over two decades of experience in the world's most prestigious perfume houses, Isabella 
-                  brought together ancient artisanal techniques with modern innovation to create something truly 
+                  With over two decades of experience in the world's most prestigious perfume houses, Isabella
+                  brought together ancient artisanal techniques with modern innovation to create something truly
                   extraordinary.
                 </p>
                 <p>
-                  Today, Zoshe stands as a testament to the art of perfumery, where each bottle represents not 
-                  just a fragrance, but a carefully composed symphony of the finest ingredients sourced from 
+                  Today, Zoshe stands as a testament to the art of perfumery, where each bottle represents not
+                  just a fragrance, but a carefully composed symphony of the finest ingredients sourced from
                   around the globe.
                 </p>
               </div>
@@ -107,109 +107,77 @@ const About = () => {
       </section>
 
       {/* Craftsmanship Section */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              The Art of <span className="text-accent">Perfumery</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              From concept to creation, every Zoshe fragrance undergoes a meticulous process that honors 
-              both tradition and innovation.
-            </p>
+      <section className="py-20 bg-muted/10">
+  <div className="max-w-5xl mx-auto text-center px-6">
+    <h2 className="text-4xl md:text-5xl font-bold text-primary mb-16">
+      The Art of <span className="text-accent">Perfumery</span>
+    </h2>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+      {[
+        { step: "1", title: "Inspiration", desc: "Every fragrance begins with a story, emotion, or memory that serves as our creative foundation.", icon: Sparkles },
+        { step: "2", title: "Composition", desc: "Our master perfumers carefully select and blend premium ingredients to create the perfect harmony.", icon: Award },
+        { step: "3", title: "Perfection", desc: "Months of refinement ensure each fragrance meets our exacting standards before reaching you.", icon: Users }
+      ].map((item, index) => (
+        <div
+          key={index}
+          className="glass-card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center text-center fade-in-up"
+          style={{ animationDelay: `${index * 0.2}s` }}
+        >
+          {/* Icon Circle */}
+          <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4">
+            <item.icon className="w-10 h-10 text-primary" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center space-y-4">
-              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-primary flex items-center justify-center text-cream font-bold text-2xl">
-                1
-              </div>
-              <h3 className="text-xl font-semibold text-primary">Inspiration</h3>
-              <p className="text-muted-foreground">
-                Every fragrance begins with a story, emotion, or memory that serves as our creative foundation.
-              </p>
-            </div>
-            
-            <div className="text-center space-y-4">
-              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-primary flex items-center justify-center text-cream font-bold text-2xl">
-                2
-              </div>
-              <h3 className="text-xl font-semibold text-primary">Composition</h3>
-              <p className="text-muted-foreground">
-                Our master perfumers carefully select and blend premium ingredients to create the perfect harmony.
-              </p>
-            </div>
-            
-            <div className="text-center space-y-4">
-              <div className="w-20 h-20 mx-auto rounded-full bg-gradient-primary flex items-center justify-center text-cream font-bold text-2xl">
-                3
-              </div>
-              <h3 className="text-xl font-semibold text-primary">Perfection</h3>
-              <p className="text-muted-foreground">
-                Months of refinement ensure each fragrance meets our exacting standards before reaching you.
-              </p>
-            </div>
-          </div>
+          {/* Step Number */}
+          <div className="text-3xl md:text-4xl font-bold text-accent mb-3">{item.step}</div>
+
+          {/* Title */}
+          <h3 className="text-xl md:text-2xl font-semibold text-primary mb-2">{item.title}</h3>
+
+          {/* Description */}
+          <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+
+          {/* Accent Gradient Bar */}
+          <div className="w-16 h-1 bg-gradient-to-r from-accent to-primary rounded-full mt-6"></div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* Timeline Section */}
       <section className="py-20 bg-muted/30">
-        <div className="max-w-4xl mx-auto px-6">
+        <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
               Our <span className="text-accent">Journey</span>
             </h2>
           </div>
 
-          <div className="space-y-12">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="glass-card p-6 flex-1">
-                <div className="text-accent font-bold text-lg mb-2">2009</div>
-                <h3 className="text-xl font-semibold text-primary mb-2">The Beginning</h3>
-                <p className="text-muted-foreground">
-                  Isabella Zoshe founded the company with a vision to create luxury fragrances that tell stories.
-                </p>
-              </div>
-              <div className="w-4 h-4 rounded-full bg-accent shrink-0"></div>
-              <div className="flex-1"></div>
-            </div>
+          <div className="relative flex flex-col items-center">
+            {/* Central Line */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-full bg-accent/20"></div>
 
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="flex-1"></div>
-              <div className="w-4 h-4 rounded-full bg-accent shrink-0"></div>
-              <div className="glass-card p-6 flex-1">
-                <div className="text-accent font-bold text-lg mb-2">2015</div>
-                <h3 className="text-xl font-semibold text-primary mb-2">International Recognition</h3>
-                <p className="text-muted-foreground">
-                  Zoshe perfumes gained international acclaim, winning prestigious industry awards.
-                </p>
-              </div>
-            </div>
+            {[
+              { year: "2024", title: "The Beginning", desc: "Isabella Zoshe founded the company with a vision to create luxury fragrances that tell stories." },
+              { year: "2025", title: "International Recognition", desc: "Zoshe perfumes gained international acclaim, winning prestigious industry awards." },
+              // { year: "2020", title: "Innovation Era", desc: "Launched our custom fragrance services and state-of-the-art scent laboratory." },
+              // { year: "2025", title: "Global Expansion", desc: "Today, Zoshe serves discerning clients across the globe with unparalleled luxury fragrances." }
+            ].map((item, idx) => (
+              <div key={idx} className="flex flex-col items-center mb-12 relative z-10">
+                {/* Dot */}
+                <div className="w-5 h-5 bg-accent rounded-full shadow-lg mb-6"></div>
 
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="glass-card p-6 flex-1">
-                <div className="text-accent font-bold text-lg mb-2">2020</div>
-                <h3 className="text-xl font-semibold text-primary mb-2">Innovation Era</h3>
-                <p className="text-muted-foreground">
-                  Launched our custom fragrance services and state-of-the-art scent laboratory.
-                </p>
+                {/* Card */}
+                <div className="glass-card p-6 text-center max-w-xl hover:shadow-2xl transition-shadow duration-300">
+                  <div className="text-accent font-bold text-lg mb-2">{item.year}</div>
+                  <h3 className="text-xl font-semibold text-primary mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground">{item.desc}</p>
+                </div>
               </div>
-              <div className="w-4 h-4 rounded-full bg-accent shrink-0"></div>
-              <div className="flex-1"></div>
-            </div>
-
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="flex-1"></div>
-              <div className="w-4 h-4 rounded-full bg-accent shrink-0"></div>
-              <div className="glass-card p-6 flex-1">
-                <div className="text-accent font-bold text-lg mb-2">2024</div>
-                <h3 className="text-xl font-semibold text-primary mb-2">Global Expansion</h3>
-                <p className="text-muted-foreground">
-                  Today, Zoshe serves discerning clients across the globe with unparalleled luxury fragrances.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

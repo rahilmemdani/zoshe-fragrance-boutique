@@ -135,11 +135,11 @@ const Customization = () => {
                     {/* <Button className="luxury-button flex items-center gap-1">
                       Contact us <ArrowRight className="w-4 h-4" />
                     </Button> */}
- <a href="mailto:sales@zoshe.com?subject=Custom%20Hamper%20Inquiry">
-  <Button className="luxury-button flex items-center gap-1">
-    Contact Us <ArrowRight className="w-4 h-4" />
-  </Button>
-</a>
+                    <a href="mailto:sales@zoshe.com?subject=Custom%20Hamper%20Inquiry">
+                      <Button className="luxury-button flex items-center gap-1">
+                        Contact Us <ArrowRight className="w-4 h-4" />
+                      </Button>
+                    </a>
 
                   </div>
                 </CardContent>
@@ -152,42 +152,42 @@ const Customization = () => {
 
       {/* Process Section */}
       <section className="py-20 bg-muted/10">
-  <div className="max-w-5xl mx-auto text-center px-6">
-    <h2 className="text-4xl md:text-5xl font-bold text-primary mb-16">
-      How It Works
-    </h2>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-      {[
-        { step: "01", title: "Consultation", desc: "Discuss your vision and requirements with our experts", icon: Gift },
-        { step: "02", title: "Customization", desc: "We craft your personalized experience or product", icon: Sparkles },
-        { step: "03", title: "Delivery", desc: "Receive your luxury creation, perfectly packaged", icon: Building2 }
-      ].map((item, index) => (
-        <div
-          key={index}
-          className="glass-card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center text-center fade-in-up"
-          style={{ animationDelay: `${index * 0.2}s` }}
-        >
-          {/* Icon Circle */}
-          <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4">
-            <item.icon className="w-10 h-10 text-primary" />
+        <div className="max-w-5xl mx-auto text-center px-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-16">
+            How It Works
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              { step: "01", title: "Consultation", desc: "Discuss your vision and requirements with our experts", icon: Gift },
+              { step: "02", title: "Customization", desc: "We craft your personalized experience or product", icon: Sparkles },
+              { step: "03", title: "Delivery", desc: "Receive your luxury creation, perfectly packaged", icon: Building2 }
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="glass-card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center text-center fade-in-up"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                {/* Icon Circle */}
+                <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4">
+                  <item.icon className="w-10 h-10 text-primary" />
+                </div>
+
+                {/* Step Number */}
+                <div className="text-3xl md:text-4xl font-bold text-accent mb-3">{item.step}</div>
+
+                {/* Title */}
+                <h3 className="text-xl md:text-2xl font-semibold text-primary mb-2">{item.title}</h3>
+
+                {/* Description */}
+                <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+
+                {/* Accent Gradient Bar */}
+                <div className="w-16 h-1 bg-gradient-to-r from-accent to-primary rounded-full mt-6"></div>
+              </div>
+            ))}
           </div>
-
-          {/* Step Number */}
-          <div className="text-3xl md:text-4xl font-bold text-accent mb-3">{item.step}</div>
-
-          {/* Title */}
-          <h3 className="text-xl md:text-2xl font-semibold text-primary mb-2">{item.title}</h3>
-
-          {/* Description */}
-          <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
-
-          {/* Accent Gradient Bar */}
-          <div className="w-16 h-1 bg-gradient-to-r from-accent to-primary rounded-full mt-6"></div>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
+      </section>
 
 
       {/* CTA Section */}
