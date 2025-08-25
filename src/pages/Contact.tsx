@@ -6,13 +6,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
-  Instagram, 
-  Facebook, 
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Instagram,
+  Facebook,
   Twitter,
   Send,
   MessageCircle,
@@ -39,7 +39,7 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
     setTimeout(() => {
       toast({
@@ -59,16 +59,16 @@ const Contact = () => {
   };
 
   const contactInfo = [
-    {
-      icon: MapPin,
-      title: "Visit Our Boutique",
-      details: ["123 Luxury Lane", "Beverly Hills, CA 90210", "United States"],
-      action: "Get Directions"
-    },
+    // {
+    //   icon: MapPin,
+    //   title: "Visit Our Boutique",
+    //   details: ["123 Luxury Lane", "Beverly Hills, CA 90210", "United States"],
+    //   action: "Get Directions"
+    // },
     {
       icon: Phone,
       title: "Call Us",
-      details: ["+91 79772 33704","", "WhatsApp Available"],
+      details: ["+91 79772 33704", "", "WhatsApp Available"],
       action: "Call Now"
     },
     {
@@ -77,12 +77,12 @@ const Contact = () => {
       details: ["zosheperfume@gmail.com"],
       action: "Send Email"
     },
-    {
-      icon: Clock,
-      title: "Business Hours",
-      details: ["Mon-Fri: 9:00 AM - 8:00 PM", "Saturday: 10:00 AM - 6:00 PM", "Sunday: 12:00 PM - 5:00 PM"],
-      action: "View Calendar"
-    }
+    // {
+    //   icon: Clock,
+    //   title: "Business Hours",
+    //   details: ["Mon-Fri: 9:00 AM - 8:00 PM", "Saturday: 10:00 AM - 6:00 PM", "Sunday: 12:00 PM - 5:00 PM"],
+    //   action: "View Calendar"
+    // }
   ];
 
   const inquiryTypes = [
@@ -94,7 +94,7 @@ const Contact = () => {
   ];
 
   const socialLinks = [
-    { icon: Instagram, name: 'Instagram', handle: '@zoshe.perfume'}
+    { icon: Instagram, name: 'Instagram', handle: '@zoshe.perfume' }
     // { icon: Facebook, name: 'Facebook', handle: 'ZosheLuxury'},
     // { icon: Twitter, name: 'Twitter', handle: '@zoshefragrance'}
   ];
@@ -226,8 +226,8 @@ const Contact = () => {
                       />
                     </div>
 
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       disabled={isSubmitting}
                       className="luxury-button w-full text-lg py-3"
                     >
@@ -248,8 +248,8 @@ const Contact = () => {
             {/* Contact Information */}
             <div className="space-y-6 slide-in-left">
               {contactInfo.map((info, index) => (
-                <Card 
-                  key={index} 
+                <Card
+                  key={index}
                   className="glass-card hover:scale-105 transition-all duration-300"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
@@ -269,9 +269,18 @@ const Contact = () => {
                             </p>
                           ))}
                         </div>
-                        <Button variant="outline" size="sm" className="glass-card">
-                          {info.action}
-                        </Button>
+                        {info.action === "Call Now" && (
+                          <Button asChild variant="outline" size="sm" className="glass-card">
+                            <a href="tel:+917977233704">{info.action}</a>
+                          </Button>
+                        )}
+
+                        {info.action === "Send Email" && (
+                          <Button asChild variant="outline" size="sm" className="glass-card">
+                            <a href="mailto:zosheperfume@gmail.com">{info.action}</a>
+                          </Button>
+                        )}
+
                       </div>
                     </div>
                   </CardContent>
@@ -283,17 +292,8 @@ const Contact = () => {
       </section>
 
       {/* Map Section */}
-      <section className="py-20 bg-muted/20">
+      {/* <section className="py-20 bg-muted/20">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              Find Our Boutique
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Visit us in the heart of Beverly Hills for a personalized fragrance experience
-            </p>
-          </div>
-
           <Card className="glass-card overflow-hidden">
             <div className="aspect-video bg-gradient-primary flex items-center justify-center">
               <div className="text-center text-cream">
@@ -309,7 +309,7 @@ const Contact = () => {
             </div>
           </Card>
         </div>
-      </section>
+      </section> */}
 
       {/* Social Media */}
       <section className="py-20 bg-background">
@@ -321,10 +321,10 @@ const Contact = () => {
             Stay connected with us on social media for the latest updates, behind-the-scenes content, and exclusive offers
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
             {socialLinks.map((social, index) => (
-              <Card 
-                key={index} 
+              <Card
+                key={index}
                 className="glass-card hover:scale-105 transition-all duration-300 group cursor-pointer fade-in-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >

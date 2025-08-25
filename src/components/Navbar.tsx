@@ -36,11 +36,10 @@ const Navbar = () => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`text-sm font-medium transition-all duration-200 hover:text-purple-600 hover:scale-105 ${
-                    isActive(item.path)
+                  className={`text-sm font-medium transition-all duration-200 hover:text-purple-600 hover:scale-105 ${isActive(item.path)
                       ? 'text-purple-600 border-b-2 border-purple-600 pb-1'
                       : 'text-gray-700'
-                  }`}
+                    }`}
                 >
                   {item.name}
                 </Link>
@@ -81,9 +80,8 @@ const Navbar = () => {
 
         {/* Side Menu */}
         <div
-          className={`absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-gradient-to-br from-white via-purple-50/90 to-blue-50/90 backdrop-blur-xl shadow-2xl transform transition-transform duration-300 ${
-            isOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+          className={`absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-gradient-to-br from-white via-purple-50/90 to-blue-50/90 backdrop-blur-xl shadow-2xl transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
         >
           <div className="flex flex-col h-full">
             {/* Header */}
@@ -108,11 +106,10 @@ const Navbar = () => {
                     key={item.name}
                     to={item.path}
                     onClick={() => setIsOpen(false)}
-                    className={`block text-lg font-medium transition-all duration-300 hover:text-purple-600 hover:translate-x-2 hover:scale-105 ${
-                      isActive(item.path)
+                    className={`block text-lg font-medium transition-all duration-300 hover:text-purple-600 hover:translate-x-2 hover:scale-105 ${isActive(item.path)
                         ? 'text-purple-600 font-semibold border-l-4 border-purple-600 pl-4'
                         : 'text-gray-700'
-                    }`}
+                      }`}
                     style={{
                       animationDelay: `${index * 0.1}s`,
                       animation: isOpen ? 'slideInRight 0.5s ease-out forwards' : ''
@@ -126,32 +123,31 @@ const Navbar = () => {
 
             {/* Contact & Social */}
             <div className="px-6 py-6 border-t border-purple-200/50 bg-gradient-to-r from-purple-50/50 to-blue-50/50">
-  <div className="flex flex-col gap-3">
-    
-    {/* Contact Info */}
-    <a href="mailto:zosheperfume@gmail.com" className="flex items-center gap-2 hover:text-accent transition-colors">
-      <Mail className="w-4 h-4" />
-      <span className="text-sm opacity-90">zosheperfume@gmail.com</span>
-    </a>
+              <div className="flex flex-col gap-3">
 
-    <a href="tel:+917977233704" className="flex items-center gap-2 hover:text-accent transition-colors">
-      <Phone className="w-4 h-4" />
-      <span className="text-sm opacity-90">+91 79772 33704</span>
-    </a>
+                {/* Contact Info */}
+                <a href="mailto:zosheperfume@gmail.com" className="flex items-center gap-2 hover:text-accent transition-colors">
+                  <Mail className="w-4 h-4" />
+                  <span className="text-sm opacity-90">zosheperfume@gmail.com</span>
+                </a>
 
-    {/* Instagram Icon aligned with email & phone */}
-    <a
-      href="https://www.instagram.com/zoshe.perfume?igsh=MWdwd3ozdmFraG82bw%3D%3D&utm_source=qr"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="flex items-center gap-2 hover:text-accent transition-all"
-    >
-      <Instagram className="w-5 h-5 text-gray-600 hover:text-purple-600" />
-      <span className="text-sm opacity-90">@zoshe.perfume</span>
-    </a>
-  </div>
-</div>
+                <a href="tel:+917977233704" className="flex items-center gap-2 hover:text-accent transition-colors">
+                  <Phone className="w-4 h-4" />
+                  <span className="text-sm opacity-90">+91 79772 33704</span>
+                </a>
 
+                {/* Instagram Icon aligned with email & phone */}
+                <a
+                  href="https://www.instagram.com/zoshe.perfume?igsh=MWdwd3ozdmFraG82bw%3D%3D&utm_source=qr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-accent transition-all"
+                >
+                  <Instagram className="w-5 h-5 text-gray-600 hover:text-purple-600" />
+                  <span className="text-sm opacity-90">@zoshe.perfume</span>
+                </a>
+              </div>
+            </div>
 
           </div>
         </div>
