@@ -2,6 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Gift, Sparkles, Building2, Heart, ArrowRight, Star } from 'lucide-react';
+import makeyourown from '../assets/makeyourown.png';
+import festive from '../assets/festive.png';
+import corporate from "../assets/lab.png"
+// '../assets/corporate.png';
+import lab from "../assets/lab.png"
+// '../assets/lab.png';
 
 const Customization = () => {
   const services = [
@@ -14,7 +20,7 @@ const Customization = () => {
       icon: Gift,
       price: "Starting from $120",
       popular: true,
-      image: "🎁"
+      image: makeyourown
     },
     {
       id: 2,
@@ -24,7 +30,7 @@ const Customization = () => {
       features: ["Seasonal exclusive fragrances", "Holiday-themed packaging", "Limited edition bottles", "Collectible items"],
       icon: Sparkles,
       price: "Starting from $150",
-      image: "🎄"
+      image: festive
     },
     {
       id: 3,
@@ -34,7 +40,7 @@ const Customization = () => {
       features: ["Bulk order discounts", "Custom branding options", "Professional packaging", "Dedicated account manager"],
       icon: Building2,
       price: "Starting from $80/unit",
-      image: "🏢"
+      image: corporate
     },
     {
       id: 4,
@@ -45,27 +51,25 @@ const Customization = () => {
       icon: Heart,
       price: "Starting from $500/event",
       exclusive: true,
-      image: "🧪"
+      image: lab
     }
   ];
 
   return (
     <div className="pt-8">
       {/* Hero Section */}
-      <section className="py-20 hero-gradient text-cream particle-bg">
-        <div className="max-w-4xl mx-auto text-center px-6">
-          <div className="fade-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Customization <span className="text-accent">Services</span>
-            </h1>
-            <p className="text-xl md:text-2xl opacity-90 mb-8">
-              Create unforgettable experiences with our bespoke perfume services
-            </p>
-            <Button className="luxury-button text-lg px-10 py-4">
-              Explore Services
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </div>
+      <section className="py-24 hero-gradient text-cream particle-bg">
+        <div className="max-w-3xl mx-auto text-center px-6">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            Customization <span className="text-accent">Services</span>
+          </h1>
+          <p className="text-xl md:text-2xl opacity-90 mb-8">
+            Create unforgettable experiences with our bespoke perfume services
+          </p>
+          <Button className="luxury-button text-lg px-10 py-4 inline-flex items-center gap-2">
+            Explore Services
+            <ArrowRight className="w-5 h-5" />
+          </Button>
         </div>
       </section>
 
@@ -81,86 +85,69 @@ const Customization = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {services.map((service, index) => (
-              <Card 
-                key={service.id} 
-                className={`glass-card hover:scale-105 transition-all duration-500 group overflow-hidden relative ${
-                  index % 2 === 0 ? 'slide-in-left' : 'fade-in-up'
-                }`}
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-5">
-                  <div className="text-9xl absolute top-4 right-4 group-hover:scale-110 transition-transform duration-500">
-                    {service.image}
-                  </div>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+  {services.map((service) => (
+    <Card key={service.id} className="glass-card overflow-hidden rounded-2xl shadow-xl hover:scale-105 transition-transform duration-500">
+      {/* Image */}
+      <div className="relative">
+        <img 
+          src={service.image} 
+          alt={service.title} 
+          className="w-full h-64 object-cover md:h-80"
+        />
+        <div className="absolute top-4 left-4 flex gap-2">
+          {service.popular && (
+            <Badge className="bg-accent text-accent-foreground flex items-center gap-1">
+              <Star className="w-3 h-3" /> Most Popular
+            </Badge>
+          )}
+          {service.exclusive && (
+            <Badge className="bg-primary text-primary-foreground">Exclusive</Badge>
+          )}
+        </div>
+      </div>
 
-                {/* Badges */}
-                <div className="absolute top-6 left-6 flex gap-2 z-10">
-                  {service.popular && (
-                    <Badge className="bg-accent text-accent-foreground">
-                      <Star className="w-3 h-3 mr-1" />
-                      Most Popular
-                    </Badge>
-                  )}
-                  {service.exclusive && (
-                    <Badge className="bg-primary text-primary-foreground">
-                      Exclusive
-                    </Badge>
-                  )}
-                </div>
-
-                <CardHeader className="pb-4 relative z-10">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                      <service.icon className="w-8 h-8 text-primary" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-2xl text-primary group-hover:text-primary/80 transition-colors">
-                        {service.title}
-                      </CardTitle>
-                      <p className="text-sm text-accent font-medium">{service.subtitle}</p>
-                    </div>
-                  </div>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {service.description}
-                  </p>
-                </CardHeader>
-
-                <CardContent className="relative z-10">
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      {service.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-sm">
-                          <div className="w-1.5 h-1.5 rounded-full bg-accent"></div>
-                          <span className="text-muted-foreground">{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="flex items-center justify-between pt-6 border-t border-border">
-                      <div>
-                        <span className="text-lg font-bold text-primary">{service.price}</span>
-                      </div>
-                      <Button className="luxury-button group">
-                        Learn More
-                        <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+      {/* Content */}
+      <CardContent className="p-6">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="p-3 rounded-full bg-primary/10">
+            <service.icon className="w-7 h-7 text-primary" />
           </div>
+          <div>
+            <CardTitle className="text-2xl text-primary">{service.title}</CardTitle>
+            <p className="text-sm text-accent font-medium">{service.subtitle}</p>
+          </div>
+        </div>
+
+        <p className="text-muted-foreground mb-4">{service.description}</p>
+
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-4">
+          {service.features.map((feature, idx) => (
+            <li key={idx} className="flex items-center gap-2 text-sm">
+              <div className="w-2 h-2 rounded-full bg-accent"></div>
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center justify-between">
+          <span className="text-lg font-bold text-primary">{service.price}</span>
+          <Button className="luxury-button flex items-center gap-1">
+            Learn More <ArrowRight className="w-4 h-4" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  ))}
+</div>
+
         </div>
       </section>
 
       {/* Process Section */}
       <section className="py-20 bg-muted/20">
         <div className="max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-8">
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-12">
             How It Works
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -169,7 +156,7 @@ const Customization = () => {
               { step: "02", title: "Customization", desc: "We craft your personalized experience or product" },
               { step: "03", title: "Delivery", desc: "Receive your luxury creation, perfectly packaged" }
             ].map((item, index) => (
-              <div key={index} className="glass-overlay fade-in-up" style={{ animationDelay: `${index * 0.2}s` }}>
+              <div key={index} className="glass-overlay p-6 rounded-xl shadow-lg fade-in-up" style={{ animationDelay: `${index * 0.2}s` }}>
                 <div className="text-4xl font-bold text-accent mb-4">{item.step}</div>
                 <h3 className="text-xl font-semibold text-primary mb-2">{item.title}</h3>
                 <p className="text-muted-foreground">{item.desc}</p>
@@ -180,15 +167,15 @@ const Customization = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 hero-gradient text-cream">
+      <section className="py-24 hero-gradient text-cream">
         <div className="max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Create Something <span className="text-accent">Extraordinary?</span>
           </h2>
-          <p className="text-lg opacity-90 mb-8">
+          <p className="text-lg opacity-90 mb-10">
             Contact our team to discuss your custom perfume needs and bring your vision to life
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Button className="luxury-button text-lg px-8 py-4">
               Schedule Consultation
             </Button>
