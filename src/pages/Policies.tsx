@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Truck, 
-  RotateCcw, 
-  Shield, 
-  FileText, 
-  Clock, 
+import {
+  Truck,
+  RotateCcw,
+  Shield,
+  FileText,
+  Clock,
   Package,
   CreditCard,
   Globe,
@@ -49,19 +49,25 @@ const Policies = () => {
       {/* Policies Content */}
       <section className="py-20 bg-background">
         <div className="max-w-6xl mx-auto px-6">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 glass-card mb-8">
-              {policyTabs.map((tab) => (
-                <TabsTrigger 
-                  key={tab.id} 
-                  value={tab.id}
-                  className="flex items-center gap-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-                >
-                  <tab.icon className="w-4 h-4" />
-                  <span className="hidden sm:inline">{tab.label}</span>
-                </TabsTrigger>
-              ))}
-            </TabsList>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full h-full">
+            <div className="glass-card rounded-xl p-2 mb-8">
+              <TabsList
+                className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full h-full auto-rows-fr"
+              >
+                {policyTabs.map((tab) => (
+                  <TabsTrigger
+                    key={tab.id}
+                    value={tab.id}
+                    className="flex items-center justify-center gap-2 rounded-lg p-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground w-full h-full"
+                  >
+                    <tab.icon className="w-4 h-4" />
+                    <span className=" sm:inline">{tab.label}</span>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+
+
 
             {/* Shipping Policy */}
             <TabsContent value="shipping" className="space-y-6">
@@ -163,7 +169,7 @@ const Policies = () => {
                     <p className="text-muted-foreground mb-6">
                       We want you to love your Zoshe fragrance. If you're not completely satisfied, you can return or exchange your purchase within 30 days of delivery.
                     </p>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <h4 className="font-semibold text-primary mb-3">Returnable Items</h4>
@@ -227,7 +233,7 @@ const Policies = () => {
                 <CardContent className="space-y-8">
                   <div className="glass-overlay p-6">
                     <h3 className="text-2xl font-semibold text-primary mb-4">Information We Collect</h3>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <div className="flex items-center gap-3 mb-3">

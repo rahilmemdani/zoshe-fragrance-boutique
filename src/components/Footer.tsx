@@ -13,9 +13,13 @@ const Footer = () => {
               Luxury fragrances crafted with the finest ingredients for the most discerning connoisseurs.
             </p>
             <div className="flex space-x-4">
-              <Instagram className="w-5 h-5 hover:text-accent cursor-pointer transition-colors" />
-              <Facebook className="w-5 h-5 hover:text-accent cursor-pointer transition-colors" />
-              <Twitter className="w-5 h-5 hover:text-accent cursor-pointer transition-colors" />
+              <a
+                href="https://www.instagram.com/zoshe.perfume?igsh=MWdwd3ozdmFraG82bw%3D%3D&utm_source=qr"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Instagram className="w-5 h-5 hover:text-accent cursor-pointer transition-colors" />
+              </a>
             </div>
           </div>
 
@@ -46,16 +50,20 @@ const Footer = () => {
             <h4 className="text-lg font-semibold">Contact</h4>
             <div className="space-y-2">
               <div className="flex items-center space-x-2">
-                <Mail className="w-4 h-4" />
-                <span className="text-sm opacity-90">hello@zoshe.com</span>
+                <a href="mailto:zosheperfume@gmail.com" className="flex items-center gap-2 hover:text-accent transition-colors">
+                  <Mail className="w-4 h-4" />
+                  <span className="text-sm opacity-90">zosheperfume@gmail.com</span>
+                </a>
               </div>
               <div className="flex items-center space-x-2">
-                <Phone className="w-4 h-4" />
-                <span className="text-sm opacity-90">+1 (555) 123-4567</span>
+                <a href="tel:+917977233704" className="flex items-center gap-2 hover:text-accent transition-colors">
+                  <Phone className="w-4 h-4" />
+                  <span className="text-sm opacity-90">+91 79772 33704</span>
+                </a>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="w-4 h-4" />
-                <span className="text-sm opacity-90">New York, NY</span>
+                <span className="text-sm opacity-90">Mumbai, India</span>
               </div>
             </div>
           </div>
@@ -63,7 +71,7 @@ const Footer = () => {
 
         <div className="border-t border-primary-foreground/20 mt-8 pt-8 text-center">
           <p className="text-sm opacity-75">
-            © 2024 Zoshe Perfumes. All rights reserved. | 
+            © 2024 Zoshe Perfumes. All rights reserved. |
             <Link to="/policies" className="ml-1 hover:opacity-100 transition-opacity">Privacy Policy</Link>
           </p>
         </div>

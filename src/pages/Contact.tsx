@@ -68,13 +68,13 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Call Us",
-      details: ["+1 (555) 123-4567", "Toll-free: 1-800-ZOSHE-99", "WhatsApp Available"],
+      details: ["+91 79772 33704","", "WhatsApp Available"],
       action: "Call Now"
     },
     {
       icon: Mail,
       title: "Email Us",
-      details: ["hello@zoshe.com", "support@zoshe.com", "custom@zoshe.com"],
+      details: ["zosheperfume@gmail.com"],
       action: "Send Email"
     },
     {
@@ -94,9 +94,9 @@ const Contact = () => {
   ];
 
   const socialLinks = [
-    { icon: Instagram, name: 'Instagram', handle: '@zosheperfume', followers: '125K' },
-    { icon: Facebook, name: 'Facebook', handle: 'ZosheLuxury', followers: '89K' },
-    { icon: Twitter, name: 'Twitter', handle: '@zoshefragrance', followers: '67K' }
+    { icon: Instagram, name: 'Instagram', handle: '@zoshe.perfume'}
+    // { icon: Facebook, name: 'Facebook', handle: 'ZosheLuxury'},
+    // { icon: Twitter, name: 'Twitter', handle: '@zoshefragrance'}
   ];
 
   return (
@@ -178,7 +178,7 @@ const Contact = () => {
                           value={formData.phone}
                           onChange={handleInputChange}
                           className="glass-card mt-1"
-                          placeholder="+1 (555) 123-4567"
+                          placeholder="+91 79772 33704"
                         />
                       </div>
                       <div>
@@ -336,7 +336,7 @@ const Contact = () => {
                     {social.name}
                   </h3>
                   <p className="text-muted-foreground mb-2">{social.handle}</p>
-                  <Badge variant="outline">{social.followers} followers</Badge>
+                  {/* <Badge variant="outline">{social.followers} followers</Badge> */}
                 </CardContent>
               </Card>
             ))}
