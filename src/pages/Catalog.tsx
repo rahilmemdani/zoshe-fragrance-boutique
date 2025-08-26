@@ -125,12 +125,12 @@ const Catalog = () => {
 
                   <div className="flex items-center justify-between pt-4 border-t border-border">
                     <span className="text-2xl font-bold text-primary">
-                      ${perfume.price}
+                    ₹{perfume.price}
                     </span>
-                    <Button className="luxury-button">
+                    {/* <Button className="luxury-button">
                       <ShoppingCart className="w-4 h-4 mr-2" />
                       Add to Cart
-                    </Button>
+                    </Button> */}
                   </div>
                 </CardContent>
               </Card>
