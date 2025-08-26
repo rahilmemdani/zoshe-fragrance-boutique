@@ -112,12 +112,12 @@ const Contact = () => {
               We'd love to hear from you. Let's create something beautiful together.
             </p>
             <div className="flex items-center justify-center gap-2 mb-8">
-              <div className="flex items-center gap-1">
+              {/* <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 text-accent fill-current" />
                 ))}
               </div>
-              <span className="text-lg">Rated 4.9/5 by 1,000+ customers</span>
+              <span className="text-lg">Rated 4.9/5 by 1,000+ customers</span> */}
             </div>
           </div>
         </div>
@@ -329,6 +329,7 @@ const Contact = () => {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <CardContent className="p-6 text-center">
+                  <a href="">
                   <div className="p-4 rounded-full bg-primary/10 w-fit mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
                     <social.icon className="w-8 h-8 text-primary" />
                   </div>
@@ -336,6 +337,7 @@ const Contact = () => {
                     {social.name}
                   </h3>
                   <p className="text-muted-foreground mb-2">{social.handle}</p>
+                  </a>
                   {/* <Badge variant="outline">{social.followers} followers</Badge> */}
                 </CardContent>
               </Card>
@@ -354,10 +356,10 @@ const Contact = () => {
             Check out our frequently asked questions or start a live chat with our team
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="luxury-button text-lg px-8 py-4">
+            {/* <Button className="luxury-button text-lg px-8 py-4">
               <MessageCircle className="mr-2 w-5 h-5" />
               Live Chat Support
-            </Button>
+            </Button> */}
             <Button variant="outline" className="glass-card text-cream border-cream/30 hover:bg-cream/10 text-lg px-8 py-4">
               View FAQ
             </Button>
