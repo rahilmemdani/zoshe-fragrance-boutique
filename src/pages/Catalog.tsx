@@ -51,6 +51,9 @@ const Catalog = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [favoriteItems, setFavoriteItems] = useState(new Set());
   const [quickViewPerfume, setQuickViewPerfume] = useState<Perfume | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const perfumesPerPage = 7; // adjust how many perfumes per page
+
 
   useEffect(() => {
     const fetchCatalogue = async () => {
@@ -80,6 +83,12 @@ const Catalog = () => {
   const filteredPerfumes = perfumes.filter((perfume) =>
     perfume.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const indexOfLastPerfume = currentPage * perfumesPerPage;
+  const indexOfFirstPerfume = indexOfLastPerfume - perfumesPerPage;
+  const currentPerfumes = filteredPerfumes.slice(indexOfFirstPerfume, indexOfLastPerfume);
+  const totalPages = Math.ceil(filteredPerfumes.length / perfumesPerPage);
+
 
   const toggleFavorite = (perfumeId: string) => {
     const newFavorites = new Set(favoriteItems);
@@ -295,7 +304,8 @@ const Catalog = () => {
               ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
               : 'grid-cols-1 max-w-4xl mx-auto'
               }`}>
-              {filteredPerfumes.map((perfume, index) => (
+              {/* {filteredPerfumes.map((perfume, index) => ( */}
+              {currentPerfumes.map((perfume, index) => (
                 <Card
                   key={perfume._id}
                   className={`group glass-card overflow-hidden rounded-2xl border border-border/20 shadow-md hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 ${viewMode === 'list' ? 'flex flex-row' : ''
@@ -452,10 +462,46 @@ const Catalog = () => {
             </div>
           )}
         </div>
+        <div className="flex justify-center mt-8 gap-2 flex-wrap z-10 relative">
+          {/* Prev Button */}
+          <Button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            className="px-5 py-2 rounded-lg border border-primary/40 text-secondary font-medium hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          >
+            Prev
+          </Button>
+
+          {/* Page Numbers */}
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <Button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`px-4 py-2 rounded-lg font-medium transition ${page === currentPage
+                  ? 'bg-primary text-white'
+                  : 'border border-primary/40 text-secondary opacity-50 hover:bg-primary/10'
+                }`}
+            >
+              {page}
+            </Button>
+          ))}
+
+          {/* Next Button */}
+          <Button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            className="px-5 py-2 rounded-lg border border-primary/40 text-secondary font-medium hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          >
+            Next
+          </Button>
+        </div>
+
+
+
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-16 bg-gradient-to-r from-primary/5 to-accent/5">
+      {/* <section className="py-16 bg-gradient-to-r from-primary/5 to-accent/5">
         <div className="max-w-4xl mx-auto text-center px-6">
           <h2 className="text-3xl font-bold text-primary mb-4">
             Stay Updated with New Arrivals
@@ -473,7 +519,7 @@ const Catalog = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 };
