@@ -144,8 +144,7 @@ const About = () => {
       ))}
     </div>
   </div>
-</section>
-
+      </section>
 
       {/* Timeline Section */}
       <section className="py-20 bg-muted/30">
