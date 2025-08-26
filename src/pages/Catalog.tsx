@@ -6,6 +6,8 @@ import { Heart, ShoppingCart, Search, Star, Eye, Sparkles, Filter, Grid, List } 
 import { Input } from '@/components/ui/input';
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
 
 // ✅ Setup Sanity client
 const client = createClient({
@@ -169,6 +171,67 @@ const Catalog = () => {
           </div>
         </div>
       </section>
+
+      {/* 🔥 Quick View Modal */}
+<Dialog open={!!quickViewPerfume} onOpenChange={() => setQuickViewPerfume(null)}>
+  <DialogContent className="max-w-3xl p-6">
+    {quickViewPerfume && (
+      <>
+        <DialogHeader>
+          <DialogTitle className="text-2xl font-bold">{quickViewPerfume.name}</DialogTitle>
+        </DialogHeader>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Image */}
+          <div>
+            {quickViewPerfume.images?.[0] ? (
+              <img
+                src={urlFor(quickViewPerfume.images[0].asset).width(600).url()}
+                alt={quickViewPerfume.name}
+                className="w-full h-80 object-cover rounded-lg"
+              />
+            ) : (
+              <div className="bg-muted h-80 rounded-lg flex items-center justify-center">
+                🌸
+              </div>
+            )}
+          </div>
+
+          {/* Details */}
+          <div className="flex flex-col justify-between">
+            <div>
+              <p className="text-muted-foreground mb-4">
+                {quickViewPerfume.description
+                  ?.map((block) =>
+                    block.children.map((child) => child.text).join("")
+                  )
+                  .join(" ")}
+              </p>
+
+              <div className="flex gap-2 mb-4">
+                {["Floral", "Fresh", "Woody"].map((note, idx) => (
+                  <Badge key={idx} variant="outline">
+                    {note}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-3xl font-bold text-primary">
+                ₹{quickViewPerfume.price?.toLocaleString()}
+              </span>
+              {/* <Button className="luxury-button">
+                <ShoppingCart className="w-4 h-4 mr-2" />
+                Add to Cart
+              </Button> */}
+            </div>
+          </div>
+        </div>
+      </>
+    )}
+  </DialogContent>
+</Dialog>
+
 
       {/* Enhanced Products Grid */}
       <section className="py-20 bg-background relative">
