@@ -32,10 +32,10 @@ const Contact = () => {
   };
   const sendWhatsApp = () => {
     // Validation
-    if (!formData.name || !formData.phone || !formData.message) {
+    if (!formData.name || !formData.message) {
       toast({
         title: "Missing details",
-        description: "Please fill in your Name, Email, and Message before contacting us on WhatsApp.",
+        description: "Please fill in your Name and Message before contacting us on WhatsApp.",
         variant: "destructive",
       });
       return;
@@ -50,7 +50,7 @@ const Contact = () => {
     e.preventDefault();
 
     // Validation
-    if (!formData.name || !formData.email || !formData.message || !formData.subject) {
+    if (!formData.name || !formData.message || !formData.subject) {
       toast({
         title: "Missing details",
         description: "Please fill in all required fields before sending an email.",
