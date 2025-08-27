@@ -4,19 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import {
-  MapPin,
   Phone,
   Mail,
-  Clock,
   Instagram,
-  Facebook,
-  Twitter,
   Send,
   MessageCircle,
-  Star
 } from 'lucide-react';
 
 const Contact = () => {
@@ -26,343 +20,227 @@ const Contact = () => {
     phone: '',
     subject: '',
     message: '',
-    inquiry: 'general'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const WHATSAPP_NUMBER = "917977233704";
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+  const sendWhatsApp = () => {
+    // Validation
+    if (!formData.name || !formData.phone || !formData.message) {
+      toast({
+        title: "Missing details",
+        description: "Please fill in your Name, Email, and Message before contacting us on WhatsApp.",
+        variant: "destructive",
+      });
+      return;
+    }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+    const message = `Hi, I’m ${formData.name}.\n\n${formData.message}\n\nYou can reach me at ${formData.email}${formData.phone ? ` or ${formData.phone}` : ""}`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    // Simulate form submission
+    // Validation
+    if (!formData.name || !formData.email || !formData.message || !formData.subject) {
+      toast({
+        title: "Missing details",
+        description: "Please fill in all required fields before sending an email.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
     setTimeout(() => {
       toast({
         title: "Message sent successfully!",
         description: "We'll get back to you within 24 hours.",
       });
       setIsSubmitting(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: '',
-        inquiry: 'general'
-      });
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     }, 1000);
   };
 
-  const contactInfo = [
-    // {
-    //   icon: MapPin,
-    //   title: "Visit Our Boutique",
-    //   details: ["123 Luxury Lane", "Beverly Hills, CA 90210", "United States"],
-    //   action: "Get Directions"
-    // },
-    {
-      icon: Phone,
-      title: "Call Us",
-      details: ["+91 79772 33704", "", "WhatsApp Available"],
-      action: "Call Now"
-    },
-    {
-      icon: Mail,
-      title: "Email Us",
-      details: ["zosheperfume@gmail.com"],
-      action: "Send Email"
-    },
-    // {
-    //   icon: Clock,
-    //   title: "Business Hours",
-    //   details: ["Mon-Fri: 9:00 AM - 8:00 PM", "Saturday: 10:00 AM - 6:00 PM", "Sunday: 12:00 PM - 5:00 PM"],
-    //   action: "View Calendar"
-    // }
-  ];
-
-  const inquiryTypes = [
-    { value: 'general', label: 'General Inquiry' },
-    { value: 'custom', label: 'Custom Orders' },
-    { value: 'corporate', label: 'Corporate Services' },
-    { value: 'support', label: 'Customer Support' },
-    { value: 'press', label: 'Press & Media' }
-  ];
-
-  const socialLinks = [
-    { icon: Instagram, name: 'Instagram', handle: '@zoshe.perfume' }
-    // { icon: Facebook, name: 'Facebook', handle: 'ZosheLuxury'},
-    // { icon: Twitter, name: 'Twitter', handle: '@zoshefragrance'}
-  ];
 
   return (
     <div className="pt-8">
-      {/* Hero Section */}
-      <section className="py-20 hero-gradient text-cream particle-bg">
-        <div className="max-w-4xl mx-auto text-center px-6">
-          <div className="fade-in-up">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Get In <span className="text-accent">Touch</span>
-            </h1>
-            <p className="text-xl md:text-2xl opacity-90 mb-8">
-              We'd love to hear from you. Let's create something beautiful together.
-            </p>
-            <div className="flex items-center justify-center gap-2 mb-8">
-              {/* <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-accent fill-current" />
-                ))}
-              </div>
-              <span className="text-lg">Rated 4.9/5 by 1,000+ customers</span> */}
-            </div>
-          </div>
-        </div>
+      {/* Hero */}
+      <section className="py-20 hero-gradient text-cream particle-bg text-center">
+        <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          Get In <span className="text-accent">Touch</span>
+        </h1>
+        <p className="text-xl md:text-2xl opacity-90 mb-8">
+          Let’s create something unforgettable together.
+        </p>
+        {/* <Button
+        onClick={sendWhatsApp}
+        className="bg-green-500 hover:bg-green-600 text-white text-lg px-8 py-4 shadow-xl hover:scale-105 transition"
+      >
+        <MessageCircle className="w-5 h-5 mr-2" /> Enquire on WhatsApp
+      </Button> */}
       </section>
-
-      {/* Contact Form & Info */}
+      {/* Contact Form + Info */}
       <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="fade-in-up">
-              <Card className="glass-card">
-                <CardHeader>
-                  <CardTitle className="text-3xl text-primary mb-2">
-                    Send us a message
-                  </CardTitle>
-                  <p className="text-muted-foreground">
-                    Fill out the form below and we'll get back to you as soon as possible.
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="name">Full Name *</Label>
-                        <Input
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          className="glass-card mt-1"
-                          placeholder="Your full name"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="email">Email Address *</Label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          className="glass-card mt-1"
-                          placeholder="your.email@example.com"
-                        />
-                      </div>
-                    </div>
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 px-6">
+          {/* Form */}
+          <Card className="glass-card shadow-xl rounded-2xl">
+            <CardHeader className="text-center pb-4">
+              <CardTitle className="text-3xl font-semibold text-primary">
+                Send us a message
+              </CardTitle>
+              <p className="text-muted-foreground text-sm mt-2">
+                We’d love to hear from you! Fill out the form and we’ll get back to you shortly.
+              </p>
+            </CardHeader>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="phone">Phone Number</Label>
-                        <Input
-                          id="phone"
-                          name="phone"
-                          type="tel"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          className="glass-card mt-1"
-                          placeholder="+91 79772 33704"
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="inquiry">Inquiry Type</Label>
-                        <select
-                          id="inquiry"
-                          name="inquiry"
-                          value={formData.inquiry}
-                          onChange={handleInputChange}
-                          className="w-full mt-1 px-3 py-2 bg-[var(--glass-bg)] backdrop-blur-[16px] border border-[var(--glass-border)] rounded-md text-foreground"
-                        >
-                          {inquiryTypes.map((type) => (
-                            <option key={type.value} value={type.value}>
-                              {type.label}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
+            <CardContent>
+              <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Name */}
+                <Input
+                  name="name"
+                  placeholder="Your Name *"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="glass-card h-12 rounded-xl"
+                />
 
-                    <div>
-                      <Label htmlFor="subject">Subject *</Label>
-                      <Input
-                        id="subject"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleInputChange}
-                        required
-                        className="glass-card mt-1"
-                        placeholder="What's this about?"
-                      />
-                    </div>
+                {/* Email */}
+                <Input
+                  name="email"
+                  type="email"
+                  placeholder="Email Address *"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="glass-card h-12 rounded-xl"
+                />
 
-                    <div>
-                      <Label htmlFor="message">Message *</Label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        required
-                        rows={5}
-                        className="glass-card mt-1"
-                        placeholder="Tell us more about your inquiry..."
-                      />
-                    </div>
+                {/* Phone */}
+                <Input
+                  name="phone"
+                  type="number"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  className="glass-card h-12 rounded-xl"
+                  pattern="[0-9+ ]*"
+                />
 
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="luxury-button w-full text-lg py-3"
-                    >
-                      {isSubmitting ? (
-                        <>Sending...</>
-                      ) : (
-                        <>
-                          Send Message
-                          <Send className="ml-2 w-5 h-5" />
-                        </>
-                      )}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
 
-            {/* Contact Information */}
-            <div className="space-y-6 slide-in-left">
-              {contactInfo.map((info, index) => (
-                <Card
-                  key={index}
-                  className="glass-card hover:scale-105 transition-all duration-300"
-                  style={{ animationDelay: `${index * 0.1}s` }}
-                >
-                  <CardContent className="p-6">
-                    <div className="flex items-start gap-4">
-                      <div className="p-3 rounded-full bg-primary/10">
-                        <info.icon className="w-6 h-6 text-primary" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-semibold text-primary mb-2">
-                          {info.title}
-                        </h3>
-                        <div className="space-y-1 mb-4">
-                          {info.details.map((detail, idx) => (
-                            <p key={idx} className="text-muted-foreground">
-                              {detail}
-                            </p>
-                          ))}
-                        </div>
-                        {info.action === "Call Now" && (
-                          <Button asChild variant="outline" size="sm" className="glass-card">
-                            <a href="tel:+917977233704">{info.action}</a>
-                          </Button>
-                        )}
+                {/* Subject */}
+                <Input
+                  name="subject"
+                  placeholder="Subject *"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  required
+                  className="glass-card h-12 rounded-xl"
+                />
 
-                        {info.action === "Send Email" && (
-                          <Button asChild variant="outline" size="sm" className="glass-card">
-                            <a href="mailto:zosheperfume@gmail.com">{info.action}</a>
-                          </Button>
-                        )}
+                {/* Message */}
+                <Textarea
+                  name="message"
+                  rows={5}
+                  placeholder="Your message..."
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                  className="glass-card rounded-xl resize-none"
+                />
 
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+                {/* Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="luxury-button flex-1 h-12 rounded-xl text-lg font-medium"
+                  >
+                    {isSubmitting ? (
+                      "Sending..."
+                    ) : (
+                      <>
+                        Send Email <Send className="ml-2 w-5 h-5" />
+                      </>
+                    )}
+                  </Button>
 
-      {/* Map Section */}
-      {/* <section className="py-20 bg-muted/20">
-        <div className="max-w-7xl mx-auto px-6">
-          <Card className="glass-card overflow-hidden">
-            <div className="aspect-video bg-gradient-primary flex items-center justify-center">
-              <div className="text-center text-cream">
-                <MapPin className="w-16 h-16 mx-auto mb-4 opacity-60" />
-                <h3 className="text-2xl font-bold mb-2">Interactive Map</h3>
-                <p className="text-lg opacity-90">
-                  123 Luxury Lane, Beverly Hills, CA 90210
-                </p>
-                <Button className="luxury-button mt-4">
-                  View on Google Maps
-                </Button>
-              </div>
-            </div>
+                  <Button
+                    type="button"
+                    onClick={sendWhatsApp}
+                    className="bg-green-500 hover:bg-green-600 text-white flex-1 h-12 rounded-xl text-lg font-medium"
+                  >
+                    <MessageCircle className="mr-2 w-5 h-5" /> WhatsApp
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
           </Card>
-        </div>
-      </section> */}
 
-      {/* Social Media */}
-      <section className="py-20 bg-background">
-        <div className="max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-8">
-            Follow Our Journey
-          </h2>
-          <p className="text-lg text-muted-foreground mb-12">
-            Stay connected with us on social media for the latest updates, behind-the-scenes content, and exclusive offers
-          </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-            {socialLinks.map((social, index) => (
-              <Card
-                key={index}
-                className="glass-card hover:scale-105 transition-all duration-300 group cursor-pointer fade-in-up"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <CardContent className="p-6 text-center">
-                  <a href="">
-                  <div className="p-4 rounded-full bg-primary/10 w-fit mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
-                    <social.icon className="w-8 h-8 text-primary" />
+          {/* Info */}
+          <div className="space-y-6">
+            <Card className="glass-card hover:scale-105 transition">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <Phone className="w-6 h-6 text-primary" />
+                  <div>
+                    <h3 className="text-xl font-semibold text-primary">Call / WhatsApp</h3>
+                    <p className="text-muted-foreground mb-2">+91 79772 33704</p>
+                    <Button asChild variant="outline" size="sm">
+                      <a href="tel:+917977233704">Call Now</a>
+                    </Button>
                   </div>
-                  <h3 className="text-xl font-semibold text-primary mb-2">
-                    {social.name}
-                  </h3>
-                  <p className="text-muted-foreground mb-2">{social.handle}</p>
-                  </a>
-                  {/* <Badge variant="outline">{social.followers} followers</Badge> */}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+                </div>
+              </CardContent>
+            </Card>
 
-      {/* FAQ Quick Links */}
-      <section className="py-20 hero-gradient text-cream">
-        <div className="max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Need Quick <span className="text-accent">Answers?</span>
-          </h2>
-          <p className="text-lg opacity-90 mb-8">
-            Check out our frequently asked questions or start a live chat with our team
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* <Button className="luxury-button text-lg px-8 py-4">
-              <MessageCircle className="mr-2 w-5 h-5" />
-              Live Chat Support
-            </Button> */}
-            <Button variant="outline" className="glass-card text-cream border-cream/30 hover:bg-cream/10 text-lg px-8 py-4">
-              View FAQ
-            </Button>
+            <Card className="glass-card hover:scale-105 transition">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <Mail className="w-6 h-6 text-primary" />
+                  <div>
+                    <h3 className="text-xl font-semibold text-primary">Email Us</h3>
+                    <p className="text-muted-foreground mb-2">zosheperfume@gmail.com</p>
+                    <Button asChild variant="outline" size="sm">
+                      <a href="mailto:zosheperfume@gmail.com">Send Email</a>
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="glass-card hover:scale-105 transition">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <Instagram className="w-6 h-6 text-primary" />
+                  <div>
+                    <h3 className="text-xl font-semibold text-primary">Instagram</h3>
+                    <p className="text-muted-foreground mb-2">@zoshe.perfume</p>
+                    <Button asChild variant="outline" size="sm">
+                      <a
+                        href="https://www.instagram.com/direct/t/zoshe.perfume"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        DM us
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+
           </div>
         </div>
       </section>
