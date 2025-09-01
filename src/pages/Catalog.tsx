@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 const WHATSAPP_NUMBER = "917977233704";
 
@@ -104,44 +106,78 @@ const Catalog = () => {
   return (
     <div className="pt-8">
       {/* Enhanced Hero Section */}
-      <section className="py-20 hero-gradient text-cream relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-10 w-40 h-40 bg-accent rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-60 h-60 bg-primary rounded-full blur-3xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-cream/10 rounded-full blur-3xl"></div>
-        </div>
+      <section className="relative overflow-hidden py-28 hero-gradient text-cream">
+        {/* Background Animated Gradient */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-accent/20 via-transparent to-transparent animate-gradient-x"></div>
 
-        <div className="max-w-6xl mx-auto text-center px-6 relative z-10">
-          <div className="animate-fade-in-up">
-            {/* <Badge className="mb-6 bg-cream/20 text-cream px-6 py-3 text-lg backdrop-blur-sm">
-              <Sparkles className="w-5 h-5 mr-2" />
-              Premium Fragrance Collection
-            </Badge> */}
-            <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight">
-              Discover Your
-              <span className="block text-accent drop-shadow-lg">Signature Scent</span>
-            </h1>
-            <p className="text-xl md:text-2xl opacity-90 mb-12 max-w-4xl mx-auto leading-relaxed">
-              Explore our carefully curated selection of luxury fragrances, each crafted to tell your unique story through the art of scent
-            </p>
+        {/* Floating Glow Orbs */}
+        <div className="absolute top-20 left-10 w-40 h-40 bg-accent/40 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-60 h-60 bg-primary/30 rounded-full blur-3xl animate-pulse delay-700"></div>
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-96 h-96 bg-cream/10 rounded-full blur-3xl opacity-40"></div>
 
-            {/* Stats */}
-            <div className="flex flex-col sm:flex-row justify-center gap-8 mt-12">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-accent">{perfumes.length}+</div>
-                <div className="text-cream/80">Premium Fragrances</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-accent">100%</div>
-                <div className="text-cream/80">Authentic Products</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-accent">24/7</div>
-                <div className="text-cream/80">Expert Support</div>
-              </div>
-            </div>
-          </div>
+        {/* Content */}
+        <div className="relative z-10 max-w-6xl mx-auto text-center px-6">
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl md:text-7xl font-bold mb-8 leading-tight"
+          >
+            Discover Our
+            <span className="block bg-gradient-to-r from-accent via-primary to-accent text-transparent bg-clip-text animate-shimmer">
+              Signature Scent
+            </span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="text-xl md:text-2xl opacity-90 mb-12 max-w-3xl mx-auto leading-relaxed"
+          >
+            Explore our carefully curated selection of luxury fragrances, each crafted
+            to tell your unique story through the art of scent.
+          </motion.p>
+
+          {/* Stats with Stagger Animation */}
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              show: {
+                opacity: 1,
+                y: 0,
+                transition: { staggerChildren: 0.2 },
+              },
+            }}
+            className="flex flex-col sm:flex-row justify-center gap-10 mt-12"
+          >
+            {[
+              { value: `${perfumes.length}+`, label: "Premium Fragrances" },
+              { value: "100%", label: "Authentic Products" },
+              { value: "24/7", label: "Expert Support" },
+            ].map((stat, idx) => (
+              <motion.div
+                key={idx}
+                variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
+                className="text-center"
+              >
+                <div className="text-4xl font-bold text-accent">{stat.value}</div>
+                <div className="text-cream/80">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Scroll Down Indicator */}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, repeat: Infinity, repeatType: "reverse", duration: 1.2 }}
+            className="mt-16 flex justify-center"
+          >
+            <ChevronDown className="w-8 h-8 text-cream/70" />
+          </motion.div>
         </div>
       </section>
 
