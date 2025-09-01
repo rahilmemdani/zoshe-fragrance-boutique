@@ -176,7 +176,7 @@ const Catalog = () => {
             transition={{ delay: 1.2, repeat: Infinity, repeatType: "reverse", duration: 1.2 }}
             className="mt-16 flex justify-center"
           >
-            <ChevronDown className="w-8 h-8 text-cream/70" />
+            <ChevronDown className="w-8 h-8" />
           </motion.div>
         </div>
       </section>
