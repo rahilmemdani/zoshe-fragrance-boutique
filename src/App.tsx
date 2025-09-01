@@ -12,6 +12,7 @@ import Reviews from "./pages/Reviews";
 import Contact from "./pages/Contact";
 import Policies from "./pages/Policies";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "../src/ScrollToTop"
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Layout>
+        <ScrollToTop />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
