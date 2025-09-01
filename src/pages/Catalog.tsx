@@ -11,7 +11,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 const WHATSAPP_NUMBER = "917977233704";
 
 // Helper function
-const openWhatsApp = (perfumeName: string) => {
+const openWhatsApp = (perfumeName: string, quickViewPerfume?: Perfume) => {
+  console.log("quickViewPerfume", quickViewPerfume);
   const message = `Hi! I'm interested in the fragrance: ${perfumeName}. Could you share more details?`;
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
@@ -272,7 +273,7 @@ const Catalog = () => {
                       {/* WhatsApp Button */}
                       <Button
                         className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105"
-                        onClick={() => openWhatsApp(quickViewPerfume.name)}
+                        onClick={() => openWhatsApp(quickViewPerfume.name, quickViewPerfume)}
                       >
                         <MessageCircle className="w-4 h-4 mr-2" />
                         Enquire on WhatsApp
@@ -427,9 +428,6 @@ const Catalog = () => {
                         {perfume.promotion}
                       </div>
                     )}
-
-
-
                   </CardContent>
 
                 </Card>
@@ -478,8 +476,8 @@ const Catalog = () => {
               key={page}
               onClick={() => setCurrentPage(page)}
               className={`px-4 py-2 rounded-lg font-medium transition ${page === currentPage
-                  ? 'bg-primary text-white'
-                  : 'border border-primary/40 text-secondary opacity-50 hover:bg-primary/10'
+                ? 'bg-primary text-white'
+                : 'border border-primary/40 text-secondary opacity-50 hover:bg-primary/10'
                 }`}
             >
               {page}

@@ -1,11 +1,79 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Star, ArrowRight, Sparkles, Heart, Users } from 'lucide-react';
+import { Star, ArrowRight, Sparkles, Heart, Users, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroPerfume from '@/assets/hero-perfume.jpeg';
 import perfumeCollection from '@/assets/perfume-collection.jpg';
+import { useEffect, useState } from 'react';
+import { createClient } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
+
 
 const Home = () => {
+  const [perfumes, setPerfumes] = useState<Perfume[]>([]);
+
+  const client = createClient({
+    projectId: 'xclbx4yr',
+    dataset: 'production',
+    apiVersion: '2025-08-26',
+    useCdn: false,
+    token: 'sk8v5swnwPbVyEaXFvXtOFEClS9BA6uQCefWh7kdnKLOS8dcGgz47SzknlsuNeMotAbBZQDU8FBBNDP73CAMVo1dtwHA0gNSL1Fcx6KJ2tJKlmKcEcozaBQPl6IYLRw4rH5nsUgtt7wIVOXTi7LsXHsSOkIjR6aNJwCUX0Zo5lCXwhK72FQn' // 👈 your read-only token
+  });
+
+
+
+  useEffect(() => {
+    const fetchCatalogue = async () => {
+      try {
+        const data = await client.fetch(
+          `*[_type == "catalogue"]{
+            _id,
+            name,
+            slug,
+            price,
+            description,
+            images,
+            scentProfile,
+            promotion,
+            isPremium
+          }`
+        );
+        setPerfumes(data);
+      } catch (error) {
+        console.error('Error fetching catalogue:', error);
+      }
+    };
+    fetchCatalogue();
+  }, []);
+
+const WHATSAPP_NUMBER = "917977233704";
+
+  const openWhatsApp = (perfumeName: string, quickViewPerfume?: Perfume) => {
+    console.log("quickViewPerfume", quickViewPerfume);
+    const message = `Hi! I'm interested in the fragrance: ${perfumeName}. Could you share more details?`;
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank");
+  };
+
+  const builder = imageUrlBuilder(client);
+  function urlFor(source: any) {
+    return builder.image(source);
+  }
+
+  interface Perfume {
+    // isPremium: any;
+    _id: string;
+    name: string;
+    price: number;
+    description: { _type: string; children: { text: string }[] }[];
+    images: { asset: any }[];
+    // slug: { current: string };
+    scentProfile?: string[]; // ✅ new
+    promotion?: string;
+    isPremium?: string;
+  }
+
+
   const featuredProducts = [
     {
       id: 1,
@@ -57,22 +125,22 @@ const Home = () => {
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url(${heroPerfume})` }}
         ></div> */}
-        <div 
-  className="absolute inset-0 bg-cover bg-center"
-  style={{
-    backgroundImage: `url(${heroPerfume})`,
-    backgroundBlendMode: "lighten",
-    backgroundColor: "rgba(255,255,255,0.10)" // adjust transparency
-  }}
-></div>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${heroPerfume})`,
+            backgroundBlendMode: "lighten",
+            backgroundColor: "rgba(255,255,255,0.10)" // adjust transparency
+          }}
+        ></div>
 
-        
+
         <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
           <div className="fade-in-up">
             <h1 className="text-5xl md:text-7xl font-bold text-cream mb-6">
               Luxury <span className="text-accent">Redefined</span>
             </h1>
-            <p className="text-xl md:text-2xl text-cream/90 mb-8 max-w-2xl mx-auto" style={{"color": "black"}}>
+            <p className="text-xl md:text-2xl text-cream/90 mb-8 max-w-2xl mx-auto" style={{ "color": "black" }}>
               Discover the art of perfumery with Zoshe's exclusive collection of handcrafted fragrances
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -110,8 +178,8 @@ const Home = () => {
                 Crafted with <span className="text-accent">Passion</span>
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Born from a vision to revolutionize luxury fragrances, Zoshe combines traditional 
-                perfumery techniques with modern innovation. Each bottle tells a story of elegance, 
+                Born from a vision to revolutionize luxury fragrances, Zoshe combines traditional
+                perfumery techniques with modern innovation. Each bottle tells a story of elegance,
                 sophistication, and timeless beauty.
               </p>
               <div className="grid grid-cols-3 gap-6">
@@ -136,9 +204,9 @@ const Home = () => {
               </Link>
             </div>
             <div className="relative">
-              <img 
-                src={perfumeCollection} 
-                alt="Zoshe Perfume Collection" 
+              <img
+                src={perfumeCollection}
+                alt="Zoshe Perfume Collection"
                 className="rounded-2xl shadow-lg"
               />
               <div className="absolute inset-0 bg-gradient-primary rounded-2xl opacity-20"></div>
@@ -160,25 +228,52 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {featuredProducts.map((product) => (
-              <Card key={product.id} className="glass-card hover:scale-105 transition-transform duration-300 group">
-                <div className="aspect-square bg-gradient-primary rounded-lg mb-4 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Sparkles className="w-12 h-12 text-cream opacity-60 group-hover:scale-110 transition-transform" />
+            {perfumes.filter((product) => product.isPremium)
+              .map((product) => (
+                <Card key={product._id} className="glass-card hover:scale-105 transition-transform duration-300 group">
+                  <div className="aspect-square bg-gradient-primary rounded-lg mb-4 relative overflow-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                    {product.images?.[0] ? (
+                      <img
+                        src={urlFor(product.images[0].asset).width(600).url()}
+                        alt={product.name}
+                        className={`w-full object-cover group-hover:scale-110 transition-transform duration-700`}
+                      />
+                    ) : (
+                      <div className={`bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center`}>
+                        <div className="text-6xl opacity-50">🌸</div>
+                      </div>
+                    )}
+                    </div>
                   </div>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-primary mb-2">{product.name}</h3>
-                  <p className="text-sm text-muted-foreground mb-3">{product.notes}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-primary">{product.price}</span>
-                    <Button size="sm" className="luxury-button">
-                      Add to Cart
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                  <CardContent className="p-6">
+                    <h3 className="text-xl font-semibold text-primary mb-2">{product.name}</h3>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {product.description
+                        ?.map((block) =>
+                          block.children.map((child) => child.text).join("")
+                        )
+                        .join(" ") ||
+                        "Exquisite fragrance crafted with premium ingredients for a luxurious scent experience."}
+                    </p>
+                    <div className="flex flex-col gap-3 border-t border-border/40 pt-3">
+                      {/* Price */}
+                      <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                        ₹{product.price?.toLocaleString()}
+                      </span>
+
+                      {/* WhatsApp Enquire Button */}
+                      <Button
+                        className="bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105 w-full"
+                        onClick={() => openWhatsApp(product.name)}
+                      >
+                        <MessageCircle className="w-4 h-4 mr-2" />
+                        Enquire on WhatsApp
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
           </div>
 
           <div className="text-center mt-12">

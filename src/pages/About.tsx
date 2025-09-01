@@ -1,5 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { createClient } from '@sanity/client';
 import { Sparkles, Award, Users, Globe } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const About = () => {
   const values = [
@@ -24,6 +26,8 @@ const About = () => {
       description: "Zoshe perfumes are loved by connoisseurs across five continents."
     }
   ];
+
+  
 
   return (
     <div className="pt-8">
@@ -108,42 +112,42 @@ const About = () => {
 
       {/* Craftsmanship Section */}
       <section className="py-20 bg-muted/10">
-  <div className="max-w-5xl mx-auto text-center px-6">
-    <h2 className="text-4xl md:text-5xl font-bold text-primary mb-16">
-      The Art of <span className="text-accent">Perfumery</span>
-    </h2>
+        <div className="max-w-5xl mx-auto text-center px-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-primary mb-16">
+            The Art of <span className="text-accent">Perfumery</span>
+          </h2>
 
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-      {[
-        { step: "1", title: "Inspiration", desc: "Every fragrance begins with a story, emotion, or memory that serves as our creative foundation.", icon: Sparkles },
-        { step: "2", title: "Composition", desc: "Our master perfumers carefully select and blend premium ingredients to create the perfect harmony.", icon: Award },
-        { step: "3", title: "Perfection", desc: "Months of refinement ensure each fragrance meets our exacting standards before reaching you.", icon: Users }
-      ].map((item, index) => (
-        <div
-          key={index}
-          className="glass-card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center text-center fade-in-up"
-          style={{ animationDelay: `${index * 0.2}s` }}
-        >
-          {/* Icon Circle */}
-          <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4">
-            <item.icon className="w-10 h-10 text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              { step: "1", title: "Inspiration", desc: "Every fragrance begins with a story, emotion, or memory that serves as our creative foundation.", icon: Sparkles },
+              { step: "2", title: "Composition", desc: "Our master perfumers carefully select and blend premium ingredients to create the perfect harmony.", icon: Award },
+              { step: "3", title: "Perfection", desc: "Months of refinement ensure each fragrance meets our exacting standards before reaching you.", icon: Users }
+            ].map((item, index) => (
+              <div
+                key={index}
+                className="glass-card p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 flex flex-col items-center text-center fade-in-up"
+                style={{ animationDelay: `${index * 0.2}s` }}
+              >
+                {/* Icon Circle */}
+                <div className="flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-4">
+                  <item.icon className="w-10 h-10 text-primary" />
+                </div>
+
+                {/* Step Number */}
+                <div className="text-3xl md:text-4xl font-bold text-accent mb-3">{item.step}</div>
+
+                {/* Title */}
+                <h3 className="text-xl md:text-2xl font-semibold text-primary mb-2">{item.title}</h3>
+
+                {/* Description */}
+                <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
+
+                {/* Accent Gradient Bar */}
+                <div className="w-16 h-1 bg-gradient-to-r from-accent to-primary rounded-full mt-6"></div>
+              </div>
+            ))}
           </div>
-
-          {/* Step Number */}
-          <div className="text-3xl md:text-4xl font-bold text-accent mb-3">{item.step}</div>
-
-          {/* Title */}
-          <h3 className="text-xl md:text-2xl font-semibold text-primary mb-2">{item.title}</h3>
-
-          {/* Description */}
-          <p className="text-muted-foreground leading-relaxed">{item.desc}</p>
-
-          {/* Accent Gradient Bar */}
-          <div className="w-16 h-1 bg-gradient-to-r from-accent to-primary rounded-full mt-6"></div>
         </div>
-      ))}
-    </div>
-  </div>
       </section>
 
       {/* Timeline Section */}
