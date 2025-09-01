@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star, ArrowRight, Sparkles, Heart, Users, MessageCircle } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import heroPerfume from '@/assets/hero-perfume.jpeg';
 import perfumeCollection from '@/assets/perfume-collection.jpg';
@@ -44,7 +45,7 @@ const Home = () => {
     fetchCatalogue();
   }, []);
 
-  const WHATSAPP_NUMBER = "917977233704";
+const WHATSAPP_NUMBER = "917977233704";
 
   const openWhatsApp = (perfumeName: string, quickViewPerfume?: Perfume) => {
     console.log("quickViewPerfume", quickViewPerfume);
@@ -93,7 +94,7 @@ const Home = () => {
     };
     fetchServices();
   }, []);
-
+  
 
   const testimonials = [
     {
@@ -230,17 +231,17 @@ const Home = () => {
                 <Card key={product._id} className="glass-card hover:scale-105 transition-transform duration-300 group">
                   <div className="aspect-square bg-gradient-primary rounded-lg mb-4 relative overflow-hidden">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      {product.images?.[0] ? (
-                        <img
-                          src={urlFor(product.images[0].asset).width(600).url()}
-                          alt={product.name}
-                          className={`w-full object-cover group-hover:scale-110 transition-transform duration-700`}
-                        />
-                      ) : (
-                        <div className={`bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center`}>
-                          <div className="text-6xl opacity-50">🌸</div>
-                        </div>
-                      )}
+                    {product.images?.[0] ? (
+                      <img
+                        src={urlFor(product.images[0].asset).width(600).url()}
+                        alt={product.name}
+                        className={`w-full object-cover group-hover:scale-110 transition-transform duration-700`}
+                      />
+                    ) : (
+                      <div className={`bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center`}>
+                        <div className="text-6xl opacity-50">🌸</div>
+                      </div>
+                    )}
                     </div>
                   </div>
                   <CardContent className="p-6">
@@ -253,6 +254,26 @@ const Home = () => {
                         .join(" ") ||
                         "Exquisite fragrance crafted with premium ingredients for a luxurious scent experience."}
                     </p>
+                    {product?.promotion && (
+                      <div className="absolute top-4 right-0 bg-gradient-to-r from-primary to-accent text-white text-xs sm:text-sm font-semibold px-4 py-1 rounded-l-full shadow-md">
+                        {product.promotion}
+                      </div>
+                    )}
+                    <div className="flex flex-wrap gap-1 sm:gap-2">
+                        {product.scentProfile?.length ? (
+                          product.scentProfile.map((note, idx) => (
+                            <Badge
+                              key={idx}
+                              variant="outline"
+                              className="text-[10px] sm:text-xs border-primary/20 text-primary/70"
+                            >
+                              {note}
+                            </Badge>
+                          ))
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     <div className="flex flex-col gap-3 border-t border-border/40 pt-3">
                       {/* Price */}
                       <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
@@ -285,69 +306,69 @@ const Home = () => {
       </section>
 
       {/* Customisation Services */}
-      <section className="py-20 bg-muted/20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              Popular <span className="text-accent">Services</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Explore our premium customization services, crafted to make your fragrance truly unique.
+<section className="py-20 bg-muted/20">
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="text-center mb-12">
+      <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+        Popular <span className="text-accent">Services</span>
+      </h2>
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        Explore our premium customization services, crafted to make your fragrance truly unique.
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {services.filter((s) => s.popular).map((service) => (
+        <Card
+          key={service._id}
+          className="glass-card hover:scale-105 transition-transform duration-300 group"
+        >
+          <div className="aspect-video rounded-lg mb-4 overflow-hidden relative">
+            {service.imageUrl ? (
+              <img
+                src={service.imageUrl}
+                alt={service.title}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+              />
+            ) : (
+              <div className="bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                <Sparkles className="w-12 h-12 text-primary/50" />
+              </div>
+            )}
+          </div>
+
+          <CardContent className="p-6 flex flex-col gap-3">
+            <h3 className="text-xl font-semibold text-primary">{service.title}</h3>
+            <p className="text-sm text-muted-foreground line-clamp-3">
+              {service.description}
             </p>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.filter((s) => s.popular).map((service) => (
-              <Card
-                key={service._id}
-                className="glass-card hover:scale-105 transition-transform duration-300 group"
-              >
-                <div className="aspect-video rounded-lg mb-4 overflow-hidden relative">
-                  {service.imageUrl ? (
-                    <img
-                      src={service.imageUrl}
-                      alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                  ) : (
-                    <div className="bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                      <Sparkles className="w-12 h-12 text-primary/50" />
-                    </div>
-                  )}
-                </div>
+            <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              ₹{service.price}
+            </span>
 
-                <CardContent className="p-6 flex flex-col gap-3">
-                  <h3 className="text-xl font-semibold text-primary">{service.title}</h3>
-                  <p className="text-sm text-muted-foreground line-clamp-3">
-                    {service.description}
-                  </p>
+            <Button
+              className="bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105 w-full"
+              onClick={() => openWhatsApp(service.title)}
+            >
+              <MessageCircle className="w-4 h-4 mr-2" />
+              Enquire on WhatsApp
+            </Button>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
 
-                  <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    ₹{service.price}
-                  </span>
-
-                  <Button
-                    className="bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105 w-full"
-                    onClick={() => openWhatsApp(service.title)}
-                  >
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    Enquire on WhatsApp
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/customization">
-              <Button className="luxury-button text-lg px-8 py-3">
-                View All Services
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+    <div className="text-center mt-12">
+      <Link to="/customization">
+        <Button className="luxury-button text-lg px-8 py-3">
+          View All Services
+          <ArrowRight className="ml-2 w-5 h-5" />
+        </Button>
+      </Link>
+    </div>
+  </div>
+</section>
 
 
       {/* Testimonials */}
