@@ -1,8 +1,9 @@
-import { createClient } from '@sanity/client'
+import { createClient } from "@sanity/client";
 
 export const sanityClient = createClient({
-  projectId: 'xclbx4yr', // from sanity.json
-  dataset: 'production', // or your dataset
-  apiVersion: '2025-08-26', // use today's date
-  useCdn: true, // set to false to get fresh data
-})
+  projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
+  dataset: import.meta.env.VITE_SANITY_DATASET,
+  apiVersion: import.meta.env.VITE_SANITY_API_VERSION,
+  useCdn: false, // must be false when using token
+  token: import.meta.env.VITE_SANITY_TOKEN,
+});

@@ -5,31 +5,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, MessageCircle, Star } from "lucide-react";
 import { motion } from "framer-motion";
+import { sanityClient } from "../lib/sanityClient";
+import { openWhatsApp } from "../lib/whatsApp";
+
 
 const Customization = () => {
   const [services, setServices] = useState<any[]>([]);
 
-  const client = createClient({
-    projectId: "xclbx4yr",
-    dataset: "production",
-    apiVersion: "2025-08-26",
-    useCdn: false,
-    token:
-      "sk8v5swnwPbVyEaXFvXtOFEClS9BA6uQCefWh7kdnKLOS8dcGgz47SzknlsuNeMotAbBZQDU8FBBNDP73CAMVo1dtwHA0gNSL1Fcx6KJ2tJKlmKcEcozaBQPl6IYLRw4rH5nsUgtt7wIVOXTi7LsXHsSOkIjR6aNJwCUX0Zo5lCXwhK72FQn",
-  });
-
-  const WHATSAPP_NUMBER = "917977233704";
-
-  const openWhatsApp = (title: string) => {
-    const message = `Hi! I'm interested in the service: ${title}. Could you share more details?`;
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(url, "_blank");
-  };
-
   useEffect(() => {
-    client
+    sanityClient
       .fetch(
         `
       *[_type == "customization"] | order(_createdAt desc) {
@@ -119,7 +103,7 @@ const Customization = () => {
             transition={{ delay: 1.2, repeat: Infinity, repeatType: "reverse", duration: 1.2 }}
             className="mt-16 flex justify-center"
           >
-            <ChevronDown className="w-8 h-8" />
+            <ChevronDown className="w-8 h-8 text-cream/70" />
           </motion.div>
         </div>
       </section>

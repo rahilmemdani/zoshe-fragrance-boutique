@@ -8,23 +8,15 @@ import perfumeCollection from '@/assets/perfume-collection.jpg';
 import { useEffect, useState } from 'react';
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
-
+import { sanityClient } from "../lib/sanityClient";
+import { openWhatsApp } from "../lib/whatsApp";
 
 const Home = () => {
   const [perfumes, setPerfumes] = useState<Perfume[]>([]);
-
-  const client = createClient({
-    projectId: 'xclbx4yr',
-    dataset: 'production',
-    apiVersion: '2025-08-26',
-    useCdn: false,
-    token: 'sk8v5swnwPbVyEaXFvXtOFEClS9BA6uQCefWh7kdnKLOS8dcGgz47SzknlsuNeMotAbBZQDU8FBBNDP73CAMVo1dtwHA0gNSL1Fcx6KJ2tJKlmKcEcozaBQPl6IYLRw4rH5nsUgtt7wIVOXTi7LsXHsSOkIjR6aNJwCUX0Zo5lCXwhK72FQn' // 👈 your read-only token
-  });
-
   useEffect(() => {
     const fetchCatalogue = async () => {
       try {
-        const data = await client.fetch(
+        const data = await sanityClient.fetch(
           `*[_type == "catalogue"]{
             _id,
             name,
@@ -45,16 +37,7 @@ const Home = () => {
     fetchCatalogue();
   }, []);
 
-  const WHATSAPP_NUMBER = "917977233704";
-
-  const openWhatsApp = (perfumeName: string, quickViewPerfume?: Perfume) => {
-    console.log("quickViewPerfume", quickViewPerfume);
-    const message = `Hi! I'm interested in the fragrance: ${perfumeName}. Could you share more details?`;
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
-  };
-
-  const builder = imageUrlBuilder(client);
+  const builder = imageUrlBuilder(sanityClient);
   function urlFor(source: any) {
     return builder.image(source);
   }
@@ -77,7 +60,7 @@ const Home = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const data = await client.fetch(`
+        const data = await sanityClient.fetch(`
           *[_type == "customization"]{
             _id,
             title,

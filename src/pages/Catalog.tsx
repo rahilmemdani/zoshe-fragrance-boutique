@@ -9,28 +9,11 @@ import imageUrlBuilder from '@sanity/image-url';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-
-const WHATSAPP_NUMBER = "917977233704";
-
-// Helper function
-const openWhatsApp = (perfumeName: string, quickViewPerfume?: Perfume) => {
-  console.log("quickViewPerfume", quickViewPerfume);
-  const message = `Hi! I'm interested in the fragrance: ${perfumeName}. Could you share more details?`;
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank");
-};
+import { sanityClient } from "../lib/sanityClient";
+import { openWhatsApp } from "../lib/whatsApp";
 
 
-// ✅ Setup Sanity client
-const client = createClient({
-  projectId: 'xclbx4yr',
-  dataset: 'production',
-  apiVersion: '2025-08-26',
-  useCdn: false, // must be false when using token (bypasses CDN cache)
-  token: 'sk8v5swnwPbVyEaXFvXtOFEClS9BA6uQCefWh7kdnKLOS8dcGgz47SzknlsuNeMotAbBZQDU8FBBNDP73CAMVo1dtwHA0gNSL1Fcx6KJ2tJKlmKcEcozaBQPl6IYLRw4rH5nsUgtt7wIVOXTi7LsXHsSOkIjR6aNJwCUX0Zo5lCXwhK72FQn' // 👈 your read-only token
-});
-
-const builder = imageUrlBuilder(client);
+const builder = imageUrlBuilder(sanityClient);
 function urlFor(source: any) {
   return builder.image(source);
 }
@@ -61,7 +44,7 @@ const Catalog = () => {
   useEffect(() => {
     const fetchCatalogue = async () => {
       try {
-        const data = await client.fetch(
+        const data = await sanityClient.fetch(
           `*[_type == "catalogue"]{
             _id,
             name,
