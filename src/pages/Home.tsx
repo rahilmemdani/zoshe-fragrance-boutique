@@ -98,19 +98,19 @@ const Home = () => {
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
+      name: "Ruchita Panjwani",
       rating: 5,
-      text: "Absolutely divine! The quality and longevity of Zoshe perfumes is unmatched."
+      text: "Amazing fragrances long staying, ZOSHE is worth the product."
     },
     {
-      name: "Michael Chen",
+      name: "Aliza Shaikh",
       rating: 5,
-      text: "Custom scent service exceeded all expectations. Perfect for our wedding!"
+      text: "There's a soothing effect of ZOSHE products... I bought a few and absolutely fell in love with them."
     },
     {
-      name: "Emma Davis",
+      name: "Nikita Singh",
       rating: 5,
-      text: "Luxury redefined. Each bottle is a masterpiece of craftsmanship."
+      text: "Beautiful perfume is now my everyday favourite.Thank you so much!!!"
     }
   ];
 
@@ -139,7 +139,7 @@ const Home = () => {
               Luxury <span className="text-accent">Redefined</span>
             </h1>
             <p className="text-xl md:text-2xl text-cream/90 mb-8 max-w-2xl mx-auto" style={{ "color": "black" }}>
-              Discover the art of perfumery with Zoshe's exclusive collection of handcrafted fragrances
+              Discover the art of perfumery with ZOSHE's exclusive collection of handcrafted fragrances
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/catalog">
@@ -176,17 +176,16 @@ const Home = () => {
                 Crafted with <span className="text-accent">Passion</span>
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Born from a vision to revolutionize luxury fragrances, Zoshe combines traditional
-                perfumery techniques with modern innovation. Each bottle tells a story of elegance,
-                sophistication, and timeless beauty.
+              ZOSHE has created is finest products filled with artistry & emotion, a unique blend of high quality materials. 
+              Each product has its own Personality as a personal choice for all.
               </p>
               <div className="grid grid-cols-3 gap-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">15+</div>
+                  <div className="text-3xl font-bold text-primary">5+</div>
                   <div className="text-sm text-muted-foreground">Years of Expertise</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">50+</div>
+                  <div className="text-3xl font-bold text-primary">100+</div>
                   <div className="text-sm text-muted-foreground">Unique Fragrances</div>
                 </div>
                 <div className="text-center">
@@ -204,7 +203,7 @@ const Home = () => {
             <div className="relative">
               <img
                 src={perfumeCollection}
-                alt="Zoshe Perfume Collection"
+                alt="ZOSHE Perfume Collection"
                 className="rounded-2xl shadow-lg"
               />
               <div className="absolute inset-0 bg-gradient-primary rounded-2xl opacity-20"></div>
