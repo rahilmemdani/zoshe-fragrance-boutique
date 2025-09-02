@@ -176,8 +176,8 @@ const Home = () => {
                 Crafted with <span className="text-accent">Passion</span>
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-              ZOSHE has created is finest products filled with artistry & emotion, a unique blend of high quality materials. 
-              Each product has its own Personality as a personal choice for all.
+              ZOSHE crafts its finest products with artistry and emotion, combining high-quality materials in a unique way. 
+              Each creation carries its own personality, offering a personal choice for everyone.
               </p>
               <div className="grid grid-cols-3 gap-6">
                 <div className="text-center">
