@@ -8,22 +8,22 @@ const About = () => {
     {
       icon: Sparkles,
       title: "Artisanal Craftsmanship",
-      description: "Every perfume is handcrafted using traditional techniques passed down through generations."
+      description: "Our products are handcrafted and tailored to our clients' needs using both traditional and modern techniques."
     },
     {
       icon: Award,
       title: "Premium Ingredients",
-      description: "We source only the finest raw materials from renowned perfume capitals around the world."
+      description: "Our finest raw materials are sourced from nationally and internationally renowned companies best known for their service."
     },
     {
       icon: Users,
       title: "Personal Touch",
-      description: "Our master perfumers work closely with each client to create truly personalized fragrances."
+      description: "Our skilled professionals work closely with each client to create truly personalized products."
     },
     {
       icon: Globe,
       title: "Global Excellence",
-      description: "Zoshe perfumes are loved by connoisseurs across five continents."
+      description: "ZOSHE is constantly striving to be loved by many clients in India and across other continents."
     }
   ];
 
@@ -38,7 +38,7 @@ const About = () => {
             Our <span className="text-accent">Story</span>
           </h1>
           <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
-            Born from passion, crafted with precision, and dedicated to creating unforgettable olfactory experiences
+            Embracing the essence of every individual through dedicated craftsmanship.
           </p>
         </div>
       </section>
@@ -53,18 +53,19 @@ const About = () => {
               </h2>
               <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
                 <p>
-                  Founded in 2024 by master perfumer Isabella Zoshe, our brand emerged from a simple yet profound
-                  belief: that fragrance has the power to transport, transform, and create lasting memories.
+                Founded in 2025, a master of perfumery and a social media marketing specialist came together to form a brand named after them.
+                At ZOSHE, we believe your fragrance should be as unique as you are. We are a customized perfume house, dedicated to crafting scents that reflect your personality, style, and essence.
                 </p>
                 <p>
-                  With over two decades of experience in the world's most prestigious perfume houses, Isabella
-                  brought together ancient artisanal techniques with modern innovation to create something truly
-                  extraordinary.
+                Each creation is more than just a perfume—it is a signature. 
+                Using the world's finest ingredients and artisanal blending techniques, our perfumes are tailored to capture individuality and leave a lasting impression.
                 </p>
                 <p>
-                  Today, Zoshe stands as a testament to the art of perfumery, where each bottle represents not
-                  just a fragrance, but a carefully composed symphony of the finest ingredients sourced from
-                  around the globe.
+                With ZOSHE, luxury meets personalization. 
+                Whether you desire a fragrance that tells your story, complements your lifestyle, or defines your presence, we bring your vision to life—drop by drop.
+                Because at ZOSHE, we don't just make perfumes.
+                We create your essence.
+
                 </p>
               </div>
             </div>
@@ -72,8 +73,8 @@ const About = () => {
               <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-primary flex items-center justify-center">
                 <Sparkles className="w-16 h-16 text-cream" />
               </div>
-              <h3 className="text-2xl font-bold text-primary mb-4">Isabella Zoshe</h3>
-              <p className="text-accent font-semibold mb-2">Master Perfumer & Founder</p>
+              <h3 className="text-2xl font-bold text-primary mb-4">Shahreen Mohd Imran</h3>
+              <p className="text-accent font-semibold mb-2">Multi-credentialed Professional</p>
               <p className="text-muted-foreground">
                 "Every fragrance tells a story. My mission is to help you discover yours."
               </p>
@@ -90,7 +91,7 @@ const About = () => {
               Our <span className="text-accent">Values</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              The principles that guide us in creating exceptional fragrances and extraordinary experiences.
+            We create products that are guided by experience, knowledge, and execution.
             </p>
           </div>
 
@@ -119,9 +120,9 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
-              { step: "1", title: "Inspiration", desc: "Every fragrance begins with a story, emotion, or memory that serves as our creative foundation.", icon: Sparkles },
-              { step: "2", title: "Composition", desc: "Our master perfumers carefully select and blend premium ingredients to create the perfect harmony.", icon: Award },
-              { step: "3", title: "Perfection", desc: "Months of refinement ensure each fragrance meets our exacting standards before reaching you.", icon: Users }
+              { step: "1", title: "Inspiration", desc: "Our creative foundation is inspired by the vision of providing customers with a surreal experience through our customized products.", icon: Sparkles },
+              { step: "2", title: "Composition", desc: "Our master professionals carefully select and blend premium ingredients with custom-tailored ideas to create the perfect harmony in the product.", icon: Award },
+              { step: "3", title: "Perfection", desc: "We find finesse in CRUELTY FREE - LUXURIOUS OILS - AFFORDABLE WEAR - GENDER NEUTRAL - MINIMAL CHEMICALS.", icon: Users }
             ].map((item, index) => (
               <div
                 key={index}
@@ -164,8 +165,8 @@ const About = () => {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-full bg-accent/20"></div>
 
             {[
-              { year: "2024", title: "The Beginning", desc: "Isabella Zoshe founded the company with a vision to create luxury fragrances that tell stories." },
-              { year: "2025", title: "International Recognition", desc: "Zoshe perfumes gained international acclaim, winning prestigious industry awards." },
+              { year: "2025", title: "The Beginning", desc: "Zoya and Shahreen founded the company with a vision to create the best products for our clients' tailored necessities. A trip together to the Kingdom of Saudi Arabia as a spiritual journey soon turned into friendship and led to the formation of ZOSHE, where two young individuals combined their best abilities and aspire to conquer great lengths together." },
+              // { year: "2025", title: "International Recognition", desc: "Zoshe perfumes gained international acclaim, winning prestigious industry awards." },
               // { year: "2020", title: "Innovation Era", desc: "Launched our custom fragrance services and state-of-the-art scent laboratory." },
               // { year: "2025", title: "Global Expansion", desc: "Today, Zoshe serves discerning clients across the globe with unparalleled luxury fragrances." }
             ].map((item, idx) => (

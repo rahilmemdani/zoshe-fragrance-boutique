@@ -83,17 +83,17 @@ const Home = () => {
     {
       name: "Ruchita Panjwani",
       rating: 5,
-      text: "Amazing fragrances long staying, ZOSHE is worth the product."
+      text: "Amazing fragrances with long-lasting scent. ZOSHE is a product worth buying."
     },
     {
       name: "Aliza Shaikh",
       rating: 5,
-      text: "There's a soothing effect of ZOSHE products... I bought a few and absolutely fell in love with them."
+      text: "There's a soothing effect to ZOSHE products... I bought a few and absolutely fell in love with them."
     },
     {
       name: "Nikita Singh",
       rating: 5,
-      text: "Beautiful perfume is now my everyday favourite.Thank you so much!!!"
+      text: "Beautiful perfume that is now my everyday favorite. Thank you so much!!!"
     }
   ];
 
@@ -299,7 +299,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Customisation Services */}
+      {/* Customization Services */}
       <section className="py-20 bg-muted/20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
