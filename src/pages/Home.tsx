@@ -303,9 +303,26 @@ const Home = () => {
 
           <div className="text-center mt-12">
             <Link to="/catalog">
-              <Button className="luxury-button text-lg px-8 py-3">
+              {/* <Button className="luxury-button text-lg px-8 py-3">
                 View All Perfumes
                 <ArrowRight className="ml-2 w-5 h-5" />
+              </Button> */}
+              <Button
+                variant="outline"
+                className="
+    rounded-full text-lg px-8 py-3
+    text-white
+    border-transparent bg-primary
+    transition-all duration-300 ease-in-out
+    group
+    hover:border-transparent
+    hover:text-primary
+    hover:bg-white
+    hover:shadow-lg hover:shadow-accent/30
+  "
+              >
+                View All Perfumes
+                <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           </div>
@@ -371,9 +388,26 @@ const Home = () => {
 
           <div className="text-center mt-12">
             <Link to="/customization">
-              <Button className="luxury-button text-lg px-8 py-3">
+              {/* <Button className="luxury-button text-lg px-8 py-3">
                 View All Services
                 <ArrowRight className="ml-2 w-5 h-5" />
+              </Button> */}
+              <Button
+                variant="outline"
+                className="
+    rounded-full text-lg px-8 py-3
+    text-white
+    border-transparent bg-primary
+    transition-all duration-300 ease-in-out
+    group
+    hover:border-transparent
+    hover:text-primary
+    hover:bg-white
+    hover:shadow-lg hover:shadow-accent/30
+  "
+              >
+                View All Services
+                <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
           </div>

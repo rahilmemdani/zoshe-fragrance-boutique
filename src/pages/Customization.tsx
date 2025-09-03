@@ -81,7 +81,7 @@ const Customization = () => {
             className="flex flex-col sm:flex-row justify-center gap-10 mt-12"
           >
             {[
-              { value: `${services.length}+`, label: "Premium Hampers" },
+              { value: `${services.length - 1}+`, label: "Premium Hampers" },
               { value: "100%", label: "Authentic Products" },
               { value: "24/7", label: "Expert Support" },
             ].map((stat, idx) => (

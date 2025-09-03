@@ -137,7 +137,7 @@ const Catalog = () => {
             className="flex flex-col sm:flex-row justify-center gap-10 mt-12"
           >
             {[
-              { value: `${perfumes.length}+`, label: "Premium Fragrances" },
+              { value: `${perfumes.length - 1}+`, label: "Premium Fragrances" },
               { value: "100%", label: "Authentic Products" },
               { value: "24/7", label: "Expert Support" },
             ].map((stat, idx) => (
