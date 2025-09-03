@@ -158,7 +158,7 @@ const Home = () => {
               <h2 className="text-4xl md:text-5xl font-bold text-primary">
                 Crafted with <span className="text-accent">Passion</span>
               </h2>
-              <p className="text-lg text-muted-foreground leading-relaxed">
+              <p className="text-lg sm:text-md text-muted-foreground leading-relaxed">
               ZOSHE crafts its finest products with artistry and emotion, combining high-quality materials in a unique way. 
               Each creation carries its own personality, offering a personal choice for everyone.
               </p>
