@@ -159,10 +159,10 @@ const Home = () => {
                 Crafted with <span className="text-accent">Passion</span>
               </h2>
               <p className="text-lg sm:text-md text-muted-foreground leading-relaxed">
-              ZOSHE crafts its finest products with artistry and emotion, combining high-quality materials in a unique way. 
-              Each creation carries its own personality, offering a personal choice for everyone.
+                ZOSHE crafts its finest products with artistry and emotion, combining high-quality materials in a unique way.
+                Each creation carries its own personality, offering a personal choice for everyone.
               </p>
-              <div className="grid grid-cols-3 gap-6" style={{marginBottom:"20px"}}>
+              <div className="grid grid-cols-3 gap-6" style={{ marginBottom: "20px" }}>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-primary">5+</div>
                   <div className="text-sm text-muted-foreground">Years of Expertise</div>
@@ -177,23 +177,23 @@ const Home = () => {
                 </div>
               </div>
               <Link to="/about">
-              <Button
-  variant="outline"
-  className="
+                <Button
+                  variant="outline"
+                  className="
     rounded-full px-6 py-3
-    border-primary text-primary
-    bg-transparent
+    border-transparent text-white
+    bg-gradient-to-r from-primary to-accent
     transition-all duration-300 ease-in-out
     group
     hover:border-transparent
     hover:text-white
-    hover:bg-gradient-to-r from-primary to-accent
+    hover:bg-white
     hover:shadow-lg hover:shadow-accent/30
   "
->
-  Learn Our Story
-  <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-</Button>
+                >
+                  Learn Our Story
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </Button>
               </Link>
             </div>
             <div className="relative">
@@ -221,9 +221,9 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {perfumes.filter((product) => 
-            product.isPremium)
-             .slice(0, 3)
+            {perfumes.filter((product) =>
+              product.isPremium)
+              .slice(0, 3)
               .map((product) => (
                 <Card
                   key={product._id}
@@ -325,48 +325,48 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.filter((s) => 
-            s.popular)
-            .slice(0, 3)
-            .map((service) => (
-              <Card
-                key={service._id}
-                className="glass-card hover:scale-105 transition-transform duration-300 group"
-              >
-                <div className="aspect-video rounded-lg mb-4 overflow-hidden relative">
-                  {service.imageUrl ? (
-                    <img
-                      src={service.imageUrl}
-                      alt={service.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                  ) : (
-                    <div className="bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                      <Sparkles className="w-12 h-12 text-primary/50" />
-                    </div>
-                  )}
-                </div>
+            {services.filter((s) =>
+              s.popular)
+              .slice(0, 3)
+              .map((service) => (
+                <Card
+                  key={service._id}
+                  className="glass-card hover:scale-105 transition-transform duration-300 group"
+                >
+                  <div className="aspect-video rounded-lg mb-4 overflow-hidden relative">
+                    {service.imageUrl ? (
+                      <img
+                        src={service.imageUrl}
+                        alt={service.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
+                    ) : (
+                      <div className="bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                        <Sparkles className="w-12 h-12 text-primary/50" />
+                      </div>
+                    )}
+                  </div>
 
-                <CardContent className="p-6 flex flex-col gap-3">
-                  <h3 className="text-xl font-semibold text-primary">{service.title}</h3>
-                  <p className="text-sm text-muted-foreground line-clamp-3">
-                    {service.description}
-                  </p>
+                  <CardContent className="p-6 flex flex-col gap-3">
+                    <h3 className="text-xl font-semibold text-primary">{service.title}</h3>
+                    <p className="text-sm text-muted-foreground line-clamp-3">
+                      {service.description}
+                    </p>
 
-                  <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                    ₹{service.price}
-                  </span>
+                    <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                      ₹{service.price}
+                    </span>
 
-                  <Button
-                    className="bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105 w-full"
-                    onClick={() => openWhatsApp(service.title)}
-                  >
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    Enquire on WhatsApp
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+                    <Button
+                      className="bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105 w-full"
+                      onClick={() => openWhatsApp(service.title)}
+                    >
+                      <MessageCircle className="w-4 h-4 mr-2" />
+                      Enquire on WhatsApp
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
           </div>
 
           <div className="text-center mt-12">
