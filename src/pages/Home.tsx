@@ -162,7 +162,7 @@ const Home = () => {
               ZOSHE crafts its finest products with artistry and emotion, combining high-quality materials in a unique way. 
               Each creation carries its own personality, offering a personal choice for everyone.
               </p>
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-3 gap-6" style={{marginBottom:"20px"}}>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-primary">5+</div>
                   <div className="text-sm text-muted-foreground">Years of Expertise</div>
@@ -177,10 +177,23 @@ const Home = () => {
                 </div>
               </div>
               <Link to="/about">
-                <Button variant="outline" className="glass-card">
-                  Learn Our Story
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Button>
+              <Button
+  variant="outline"
+  className="
+    rounded-full px-6 py-3
+    border-primary text-primary
+    bg-transparent
+    transition-all duration-300 ease-in-out
+    group
+    hover:border-transparent
+    hover:text-white
+    hover:bg-gradient-to-r from-primary to-accent
+    hover:shadow-lg hover:shadow-accent/30
+  "
+>
+  Learn Our Story
+  <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+</Button>
               </Link>
             </div>
             <div className="relative">
