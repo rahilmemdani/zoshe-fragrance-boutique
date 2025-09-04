@@ -228,7 +228,7 @@ const Contact = () => {
                     <p className="text-muted-foreground mb-2">@zoshe.perfume</p>
                     <Button asChild variant="outline" size="sm">
                       <a
-                        href="https://www.instagram.com/direct/t/zoshe.perfume"
+                        href="https://www.instagram.com/zoshe.perfume?igsh=MWdwd3ozdmFraG82bw%3D%3D&utm_source=qr"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
