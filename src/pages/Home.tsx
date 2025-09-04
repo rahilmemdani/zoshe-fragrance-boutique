@@ -1,18 +1,140 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Star, ArrowRight, Sparkles, Heart, Users, MessageCircle } from 'lucide-react';
+import { Star, ArrowRight, Sparkles, Heart, Users, MessageCircle, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import heroPerfume from '@/assets/hero-perfume.jpeg';
 import perfumeCollection from '@/assets/perfume-collection.jpg';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import { sanityClient } from "../lib/sanityClient";
 import { openWhatsApp } from "../lib/whatsApp";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
+const builder = imageUrlBuilder(sanityClient);
+function urlFor(source: any) {
+  return builder.image(source);
+}
+
+interface Perfume {
+  // isPremium: any;
+  _id: string;
+  name: string;
+  price: number;
+  description: { _type: string; children: { text: string }[] }[];
+  images: { asset: any }[];
+  // slug: { current: string };
+  scentProfile?: string[]; // ✅ new
+  promotion?: string;
+  isPremium?: string;
+}
+
+
+const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: Perfume; viewMode: string; onQuickViewClick: () => void; }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const intervalRef = useRef<number | null>(null);
+
+  const images = perfume.images || [];
+
+  useEffect(() => {
+    if (images.length > 1 && !isHovered) {
+      intervalRef.current = window.setInterval(() => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }, 3000);
+    } else {
+      clearInterval(intervalRef.current!);
+    }
+    return () => clearInterval(intervalRef.current!);
+  }, [images.length, isHovered]);
+
+
+  const goToPrevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    clearInterval(intervalRef.current!);
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const goToNextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    clearInterval(intervalRef.current!);
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={`relative overflow-hidden ${viewMode === 'list' ? 'w-48 flex-shrink-0' : ''}`}
+    >
+      {images.length > 0 ? (
+        <img
+          src={urlFor(images[currentImageIndex].asset).width(600).url()}
+          alt={`${perfume.name} - Image ${currentImageIndex + 1}`}
+          className={`w-full object-cover group-hover:scale-105 transition-transform duration-700 ${viewMode === 'list' ? 'h-48' : 'h-64 sm:h-72'}`}
+        />
+      ) : (
+        <div className={`bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center ${viewMode === 'list' ? 'h-48' : 'h-64 sm:h-72'}`}>
+          <div className="text-6xl opacity-50">🌸</div>
+        </div>
+      )}
+
+      {/* FIX: Added z-index to ensure controls are on top of the Quick View overlay */}
+      {images.length > 1 && (
+        <>
+          <div className={`absolute top-1/2 left-2 right-2 flex justify-between -translate-y-1/2 transition-opacity duration-300 z-20 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+            <Button size="icon" variant="ghost" onClick={goToPrevImage} className="bg-black/40 hover:bg-black/60 text-white rounded-full h-8 w-8"><ChevronLeft size={20} /></Button>
+            <Button size="icon" variant="ghost" onClick={goToNextImage} className="bg-black/40 hover:bg-black/60 text-white rounded-full h-8 w-8"><ChevronRight size={20} /></Button>
+          </div>
+          <div className={`absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 transition-opacity duration-300 z-20 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+            {images.map((_, index) => (
+              <div key={index} className={`w-2 h-2 rounded-full ${currentImageIndex === index ? 'bg-white' : 'bg-white/50'}`} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* FIX: Added z-10 to place this overlay below the controls */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+        <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+          <Button
+            size="sm"
+            className="bg-cream/90 text-primary hover:bg-cream shadow-lg backdrop-blur-sm"
+            onClick={onQuickViewClick}
+          >
+            <Eye className="w-4 h-4 mr-1" />
+            Quick View
+          </Button>
+        </div>
+      </div>
+      
+      {/* FIX: Added z-20 to ensure badge is on top */}
+      {perfume?.isPremium && (
+        <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground shadow-lg backdrop-blur-sm z-20">
+          Premium
+        </Badge>
+      )}
+    </div>
+  );
+};
 
 const Home = () => {
   const [perfumes, setPerfumes] = useState<Perfume[]>([]);
+  const [viewMode, setViewMode] = useState('grid');
+  const [quickViewPerfume, setQuickViewPerfume] = useState<Perfume | null>(null);
+  const [quickViewImageIndex, setQuickViewImageIndex] = useState(0);
+
+useEffect(() => {
+  setQuickViewImageIndex(0);
+}, [quickViewPerfume]);
+
   useEffect(() => {
     const fetchCatalogue = async () => {
       try {
@@ -36,24 +158,6 @@ const Home = () => {
     };
     fetchCatalogue();
   }, []);
-
-  const builder = imageUrlBuilder(sanityClient);
-  function urlFor(source: any) {
-    return builder.image(source);
-  }
-
-  interface Perfume {
-    // isPremium: any;
-    _id: string;
-    name: string;
-    price: number;
-    description: { _type: string; children: { text: string }[] }[];
-    images: { asset: any }[];
-    // slug: { current: string };
-    scentProfile?: string[]; // ✅ new
-    promotion?: string;
-    isPremium?: string;
-  }
 
   const [services, setServices] = useState<any[]>([]);
 
@@ -230,29 +334,11 @@ const Home = () => {
                   className="relative glass-card rounded-2xl overflow-hidden group hover:shadow-2xl hover:scale-[1.02] transition-all duration-500"
                 >
                   {/* Image */}
-                  <div className="aspect-square relative overflow-hidden">
-                    {product.images?.[0] ? (
-                      <img
-                        src={urlFor(product.images[0].asset).width(600).url()}
-                        alt={product.name}
-                        className="w-full h-full object-cover rounded-t-2xl transform group-hover:scale-110 transition-transform duration-700"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10">
-                        <span className="text-6xl opacity-50">🌸</span>
-                      </div>
-                    )}
-
-                    {/* Overlay gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent opacity-60"></div>
-
-                    {/* Promotion badge */}
-                    {product?.promotion && (
-                      <div className="absolute top-4 left-4 bg-gradient-to-r from-primary to-accent text-white text-xs font-semibold px-4 py-1 rounded-full shadow-md">
-                        {product.promotion}
-                      </div>
-                    )}
-                  </div>
+                  <ProductImageSlider
+                    perfume={product}
+                    viewMode={viewMode}
+                    onQuickViewClick={() => setQuickViewPerfume(product)}
+                  />
 
                   {/* Card Content */}
                   <CardContent className="p-6 flex flex-col gap-4">
@@ -300,6 +386,98 @@ const Home = () => {
 
               ))}
           </div>
+          <Dialog open={!!quickViewPerfume} onOpenChange={() => setQuickViewPerfume(null)}>
+        <DialogContent className="max-w-4xl w-full p-4 sm:p-6 rounded-2xl overflow-y-auto max-h-[90vh]">
+          {quickViewPerfume && (
+            <>
+              <DialogHeader className="mb-6 border-b border-border/40 pb-4">
+                <DialogTitle className="text-2xl sm:text-3xl font-extrabold tracking-wide text-primary leading-tight">
+                  {quickViewPerfume.name}
+                </DialogTitle>
+                {quickViewPerfume.isPremium && (
+                  <Badge className="mt-2 bg-gradient-to-r from-primary to-accent text-white px-3 py-1 rounded-full shadow-md">
+                    Premium Selection
+                  </Badge>
+                )}
+              </DialogHeader>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                {/* MODIFICATION: Replaced static image with an interactive slider */}
+                <div className="relative flex items-center justify-center">
+                  {quickViewPerfume.images && quickViewPerfume.images.length > 0 ? (
+                    <>
+                      <img
+                        src={urlFor(quickViewPerfume.images[quickViewImageIndex].asset).width(600).url()}
+                        alt={`${quickViewPerfume.name} - Image ${quickViewImageIndex + 1}`}
+                        className="w-full h-72 sm:h-80 object-cover rounded-xl shadow-md"
+                      />
+                      {quickViewPerfume.images.length > 1 && (
+                        <>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
+                            onClick={() => setQuickViewImageIndex(prev => prev === 0 ? quickViewPerfume.images.length - 1 : prev - 1)}
+                          >
+                            <ChevronLeft size={22} />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
+                            onClick={() => setQuickViewImageIndex(prev => (prev + 1) % quickViewPerfume.images.length)}
+                          >
+                            <ChevronRight size={22} />
+                          </Button>
+                           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                            {quickViewPerfume.images.map((_, index) => (
+                              <div key={index} className={`w-2 h-2 rounded-full cursor-pointer ${quickViewImageIndex === index ? 'bg-white' : 'bg-white/50'}`} onClick={() => setQuickViewImageIndex(index)} />
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </>
+                  ) : (
+                    <div className="bg-muted h-72 sm:h-80 w-full rounded-xl flex items-center justify-center text-4xl">
+                      🌸
+                    </div>
+                  )}
+                </div>
+
+                {/* Details (No changes) */}
+                <div className="flex flex-col justify-between space-y-4">
+                  <div>
+                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4">
+                      {quickViewPerfume.description?.map((block) => block.children.map((child) => child.text).join("")).join(" ")}
+                    </p>
+                    {quickViewPerfume.scentProfile?.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {quickViewPerfume.scentProfile.map((note, idx) => (
+                          <Badge key={idx} variant="outline" className="text-xs sm:text-sm px-2 py-1 border-primary/30 text-primary/80 rounded-full">
+                            {note}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="border-t border-border/40 pt-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                      <span className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                        ₹{quickViewPerfume.price?.toLocaleString()}
+                      </span>
+                      <Button className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105" onClick={() => openWhatsApp(quickViewPerfume.name)}>
+                        <MessageCircle className="w-4 h-4 mr-2" />
+                        Enquire on WhatsApp
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
 
           <div className="text-center mt-12">
             <Link to="/catalog">
