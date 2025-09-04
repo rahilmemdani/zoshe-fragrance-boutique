@@ -406,13 +406,41 @@ const Catalog = () => {
             </div>
           )}
         </div>
-        <div className="flex justify-center mt-8 gap-2 flex-wrap z-10 relative">
-          <Button disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} className="px-5 py-2 rounded-lg border border-primary/40 text-secondary font-medium hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed transition"> Prev </Button>
+        <div className="flex justify-center mt-8 gap-3 flex-wrap z-10 relative">
+          {/* Previous Button */}
+          <Button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            className="px-3 py-2 rounded-lg border border-primary/40 text-secondary font-medium hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </Button>
+
+          {/* Page Numbers */}
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <Button key={page} onClick={() => setCurrentPage(page)} className={`px-4 py-2 rounded-lg font-medium transition ${page === currentPage ? 'bg-primary text-white' : 'border border-primary/40 text-secondary opacity-50 hover:bg-primary/10'}`}> {page} </Button>
+            <Button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`
+        px-4 py-2 rounded-lg font-medium transition-all duration-200
+        ${page === currentPage
+                }
+      `}
+            >
+              {page}
+            </Button>
           ))}
-          <Button disabled={currentPage === totalPages} onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} className="px-5 py-2 rounded-lg border border-primary/40 text-secondary font-medium hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed transition"> Next </Button>
+
+          {/* Next Button */}
+          <Button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            className="px-3 py-2 rounded-lg border border-primary/40 text-secondary font-medium hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </Button>
         </div>
+
       </section>
     </div>
   );
