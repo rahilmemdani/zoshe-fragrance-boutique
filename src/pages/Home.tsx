@@ -23,7 +23,6 @@ function urlFor(source: any) {
 }
 
 interface Perfume {
-  // isPremium: any;
   _id: string;
   name: string;
   price: number;
@@ -33,6 +32,8 @@ interface Perfume {
   scentProfile?: string[]; // ✅ new
   promotion?: string;
   isPremium?: string;
+  isActive?: string;
+  isOutOfStock?: string;
 }
 
 
@@ -114,7 +115,7 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
           </Button>
         </div>
       </div>
-      
+
       {/* FIX: Added z-20 to ensure badge is on top */}
       {perfume?.isPremium && (
         <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground shadow-lg backdrop-blur-sm z-20">
@@ -131,9 +132,9 @@ const Home = () => {
   const [quickViewPerfume, setQuickViewPerfume] = useState<Perfume | null>(null);
   const [quickViewImageIndex, setQuickViewImageIndex] = useState(0);
 
-useEffect(() => {
-  setQuickViewImageIndex(0);
-}, [quickViewPerfume]);
+  useEffect(() => {
+    setQuickViewImageIndex(0);
+  }, [quickViewPerfume]);
 
   useEffect(() => {
     const fetchCatalogue = async () => {
@@ -148,7 +149,9 @@ useEffect(() => {
             images,
             scentProfile,
             promotion,
-            isPremium
+            isPremium,
+            isActive,
+            isOutOfStock
           }`
         );
         setPerfumes(data);
@@ -326,7 +329,7 @@ useEffect(() => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {perfumes.filter((product) =>
-              product.isPremium)
+              product.isPremium && product.isActive)
               .slice(0, 3)
               .map((product) => (
                 <Card
@@ -339,6 +342,16 @@ useEffect(() => {
                     viewMode={viewMode}
                     onQuickViewClick={() => setQuickViewPerfume(product)}
                   />
+
+                  {/* Out of Stock Overlay */}
+                  {product.isOutOfStock && (
+                    <><div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-2xl"></div><div className="absolute top-4 right-0 transform rotate-[10deg] origin-top-right z-30 pointer-events-none">
+                      <div className="bg-red-600/90 text-white text-xs sm:text-sm font-bold px-4 py-1 shadow-lg rounded-tl-lg rounded-br-lg uppercase tracking-wider backdrop-blur-sm">
+                        Out of Stock
+                      </div>
+                    </div></>
+                  )}
+
 
                   {/* Card Content */}
                   <CardContent className="p-6 flex flex-col gap-4">
@@ -387,97 +400,97 @@ useEffect(() => {
               ))}
           </div>
           <Dialog open={!!quickViewPerfume} onOpenChange={() => setQuickViewPerfume(null)}>
-        <DialogContent className="max-w-4xl w-full p-4 sm:p-6 rounded-2xl overflow-y-auto max-h-[90vh]">
-          {quickViewPerfume && (
-            <>
-              <DialogHeader className="mb-6 border-b border-border/40 pb-4">
-                <DialogTitle className="text-2xl sm:text-3xl font-extrabold tracking-wide text-primary leading-tight">
-                  {quickViewPerfume.name}
-                </DialogTitle>
-                {quickViewPerfume.isPremium && (
-                  <Badge className="mt-2 bg-gradient-to-r from-primary to-accent text-white px-3 py-1 rounded-full shadow-md">
-                    Premium Selection
-                  </Badge>
-                )}
-              </DialogHeader>
+            <DialogContent className="max-w-4xl w-full p-4 sm:p-6 rounded-2xl overflow-y-auto max-h-[90vh]">
+              {quickViewPerfume && (
+                <>
+                  <DialogHeader className="mb-6 border-b border-border/40 pb-4">
+                    <DialogTitle className="text-2xl sm:text-3xl font-extrabold tracking-wide text-primary leading-tight">
+                      {quickViewPerfume.name}
+                    </DialogTitle>
+                    {quickViewPerfume.isPremium && (
+                      <Badge className="mt-2 bg-gradient-to-r from-primary to-accent text-white px-3 py-1 rounded-full shadow-md">
+                        Premium Selection
+                      </Badge>
+                    )}
+                  </DialogHeader>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
-                {/* MODIFICATION: Replaced static image with an interactive slider */}
-                <div className="relative flex items-center justify-center">
-                  {quickViewPerfume.images && quickViewPerfume.images.length > 0 ? (
-                    <>
-                      <img
-                        src={urlFor(quickViewPerfume.images[quickViewImageIndex].asset).width(600).url()}
-                        alt={`${quickViewPerfume.name} - Image ${quickViewImageIndex + 1}`}
-                        className="w-full h-72 sm:h-80 object-cover rounded-xl shadow-md"
-                      />
-                      {quickViewPerfume.images.length > 1 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    {/* MODIFICATION: Replaced static image with an interactive slider */}
+                    <div className="relative flex items-center justify-center">
+                      {quickViewPerfume.images && quickViewPerfume.images.length > 0 ? (
                         <>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
-                            onClick={() => setQuickViewImageIndex(prev => prev === 0 ? quickViewPerfume.images.length - 1 : prev - 1)}
-                          >
-                            <ChevronLeft size={22} />
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
-                            onClick={() => setQuickViewImageIndex(prev => (prev + 1) % quickViewPerfume.images.length)}
-                          >
-                            <ChevronRight size={22} />
-                          </Button>
-                           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                            {quickViewPerfume.images.map((_, index) => (
-                              <div key={index} className={`w-2 h-2 rounded-full cursor-pointer ${quickViewImageIndex === index ? 'bg-white' : 'bg-white/50'}`} onClick={() => setQuickViewImageIndex(index)} />
+                          <img
+                            src={urlFor(quickViewPerfume.images[quickViewImageIndex].asset).width(600).url()}
+                            alt={`${quickViewPerfume.name} - Image ${quickViewImageIndex + 1}`}
+                            className="w-full h-72 sm:h-80 object-cover rounded-xl shadow-md"
+                          />
+                          {quickViewPerfume.images.length > 1 && (
+                            <>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
+                                onClick={() => setQuickViewImageIndex(prev => prev === 0 ? quickViewPerfume.images.length - 1 : prev - 1)}
+                              >
+                                <ChevronLeft size={22} />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
+                                onClick={() => setQuickViewImageIndex(prev => (prev + 1) % quickViewPerfume.images.length)}
+                              >
+                                <ChevronRight size={22} />
+                              </Button>
+                              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                                {quickViewPerfume.images.map((_, index) => (
+                                  <div key={index} className={`w-2 h-2 rounded-full cursor-pointer ${quickViewImageIndex === index ? 'bg-white' : 'bg-white/50'}`} onClick={() => setQuickViewImageIndex(index)} />
+                                ))}
+                              </div>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <div className="bg-muted h-72 sm:h-80 w-full rounded-xl flex items-center justify-center text-4xl">
+                          🌸
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Details (No changes) */}
+                    <div className="flex flex-col justify-between space-y-4">
+                      <div>
+                        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4">
+                          {quickViewPerfume.description?.map((block) => block.children.map((child) => child.text).join("")).join(" ")}
+                        </p>
+                        {quickViewPerfume.scentProfile?.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mb-4">
+                            {quickViewPerfume.scentProfile.map((note, idx) => (
+                              <Badge key={idx} variant="outline" className="text-xs sm:text-sm px-2 py-1 border-primary/30 text-primary/80 rounded-full">
+                                {note}
+                              </Badge>
                             ))}
                           </div>
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <div className="bg-muted h-72 sm:h-80 w-full rounded-xl flex items-center justify-center text-4xl">
-                      🌸
-                    </div>
-                  )}
-                </div>
-
-                {/* Details (No changes) */}
-                <div className="flex flex-col justify-between space-y-4">
-                  <div>
-                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4">
-                      {quickViewPerfume.description?.map((block) => block.children.map((child) => child.text).join("")).join(" ")}
-                    </p>
-                    {quickViewPerfume.scentProfile?.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {quickViewPerfume.scentProfile.map((note, idx) => (
-                          <Badge key={idx} variant="outline" className="text-xs sm:text-sm px-2 py-1 border-primary/30 text-primary/80 rounded-full">
-                            {note}
-                          </Badge>
-                        ))}
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <div className="border-t border-border/40 pt-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                      <span className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        ₹{quickViewPerfume.price?.toLocaleString()}
-                      </span>
-                      <Button className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105" onClick={() => openWhatsApp(quickViewPerfume.name)}>
-                        <MessageCircle className="w-4 h-4 mr-2" />
-                        Enquire on WhatsApp
-                      </Button>
+                      <div className="border-t border-border/40 pt-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                          <span className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                            ₹{quickViewPerfume.price?.toLocaleString()}
+                          </span>
+                          <Button className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105" onClick={() => openWhatsApp(quickViewPerfume.name)}>
+                            <MessageCircle className="w-4 h-4 mr-2" />
+                            Enquire on WhatsApp
+                          </Button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
 
           <div className="text-center mt-12">
             <Link to="/catalog">

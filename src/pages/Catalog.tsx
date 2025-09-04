@@ -27,6 +27,8 @@ interface Perfume {
   scentProfile?: string[];
   promotion?: string;
   isPremium?: string;
+  isActive?: string;
+  isOutOfStock?: string
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -111,7 +113,7 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
           </Button>
         </div>
       </div>
-      
+
       {/* FIX: Added z-20 to ensure badge is on top */}
       {perfume?.isPremium && (
         <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground shadow-lg backdrop-blur-sm z-20">
@@ -135,7 +137,7 @@ const Catalog = () => {
   const [quickViewPerfume, setQuickViewPerfume] = useState<Perfume | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const perfumesPerPage = 7;
-  
+
   // NEW: State for the Quick View modal's image index
   const [quickViewImageIndex, setQuickViewImageIndex] = useState(0);
 
@@ -144,7 +146,7 @@ const Catalog = () => {
       try {
         const data = await sanityClient.fetch(
           `*[_type == "catalogue"]{
-            _id, name, slug, price, description, images, scentProfile, promotion, isPremium
+            _id, name, slug, price, description, images, scentProfile, promotion, isPremium, isActive, isOutOfStock
           }`
         );
         setPerfumes(data);
@@ -201,7 +203,7 @@ const Catalog = () => {
             to tell your unique story through the art of scent.
           </motion.p>
           <motion.div initial="hidden" animate="show" variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { staggerChildren: 0.2 }, }, }} className="flex flex-col sm:flex-row justify-center gap-10 mt-12">
-            {[ { value: `${perfumes.length - 1}+`, label: "Premium Fragrances" }, { value: "100%", label: "Authentic Products" }, { value: "24/7", label: "Expert Support" }, ].map((stat, idx) => (
+            {[{ value: `${perfumes.length - 1}+`, label: "Premium Fragrances" }, { value: "100%", label: "Authentic Products" }, { value: "24/7", label: "Expert Support" },].map((stat, idx) => (
               <motion.div key={idx} variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }} className="text-center">
                 <div className="text-4xl font-bold text-accent">{stat.value}</div>
                 <div className="text-cream/80">{stat.label}</div>
@@ -221,7 +223,7 @@ const Catalog = () => {
             <div className="relative flex-1 w-full max-w-2xl">
               <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 sm:w-5 sm:h-5" />
               <Input placeholder="Search your perfect fragrance..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className="pl-9 sm:pl-12 pr-10 py-2 sm:py-3 text-sm sm:text-lg glass-card border-0 shadow-md focus:shadow-lg transition-all duration-300" />
-              {searchTerm && ( <Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground hover:text-primary" onClick={() => setSearchTerm('')}> <X size={16} /> </Button> )}
+              {searchTerm && (<Button variant="ghost" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground hover:text-primary" onClick={() => setSearchTerm('')}> <X size={16} /> </Button>)}
             </div>
             <div className="hidden lg:flex items-center gap-4">
               <div className="text-sm text-muted-foreground font-medium"> {filteredPerfumes.length}{' '} {filteredPerfumes.length === 1 ? 'fragrance' : 'fragrances'} found </div>
@@ -252,7 +254,7 @@ const Catalog = () => {
               </DialogHeader>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
+
                 {/* MODIFICATION: Replaced static image with an interactive slider */}
                 <div className="relative flex items-center justify-center">
                   {quickViewPerfume.images && quickViewPerfume.images.length > 0 ? (
@@ -264,23 +266,23 @@ const Catalog = () => {
                       />
                       {quickViewPerfume.images.length > 1 && (
                         <>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
+                          <Button
+                            variant="ghost"
+                            size="icon"
                             className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
                             onClick={() => setQuickViewImageIndex(prev => prev === 0 ? quickViewPerfume.images.length - 1 : prev - 1)}
                           >
                             <ChevronLeft size={22} />
                           </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
+                          <Button
+                            variant="ghost"
+                            size="icon"
                             className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
                             onClick={() => setQuickViewImageIndex(prev => (prev + 1) % quickViewPerfume.images.length)}
                           >
                             <ChevronRight size={22} />
                           </Button>
-                           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
                             {quickViewPerfume.images.map((_, index) => (
                               <div key={index} className={`w-2 h-2 rounded-full cursor-pointer ${quickViewImageIndex === index ? 'bg-white' : 'bg-white/50'}`} onClick={() => setQuickViewImageIndex(index)} />
                             ))}
@@ -348,6 +350,23 @@ const Catalog = () => {
                     viewMode={viewMode}
                     onQuickViewClick={() => setQuickViewPerfume(perfume)}
                   />
+                  {perfume.isOutOfStock && (
+                    <>
+                      {/* Frosted overlay */}
+                      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-2xl"></div>
+
+                      {/* Ribbon: right for grid, left for list */}
+                      <div
+                        className={`absolute top-4 z-30 pointer-events-none transform ${viewMode === 'list' ? 'left-0 rotate-[-10deg] origin-top-left' : 'right-0 rotate-[10deg] origin-top-right'
+                          }`}
+                      >
+                        <div className="bg-red-600/90 text-white text-xs sm:text-sm font-bold px-4 py-1 shadow-lg rounded-tl-lg rounded-br-lg uppercase tracking-wider backdrop-blur-sm">
+                          Out of Stock
+                        </div>
+                      </div>
+                    </>
+                  )}
+
                   <CardContent className={`p-4 sm:p-6 space-y-3 sm:space-y-4 relative ${viewMode === "list" ? "flex-1 flex flex-col justify-between" : ""}`}>
                     <div className="space-y-2 sm:space-y-3">
                       <h3 className="text-lg sm:text-xl font-semibold text-primary group-hover:text-primary/80 transition-colors leading-snug">
@@ -357,7 +376,7 @@ const Catalog = () => {
                         {perfume.description?.map((block) => block.children.map((child) => child.text).join("")).join(" ") || "Exquisite fragrance crafted with premium ingredients for a luxurious scent experience."}
                       </p>
                       <div className="flex flex-wrap gap-1 sm:gap-2">
-                        {perfume.scentProfile?.length ? ( perfume.scentProfile.map((note, idx) => ( <Badge key={idx} variant="outline" className="text-[10px] sm:text-xs border-primary/20 text-primary/70"> {note} </Badge> )) ) : ( "" )}
+                        {perfume.scentProfile?.length ? (perfume.scentProfile.map((note, idx) => (<Badge key={idx} variant="outline" className="text-[10px] sm:text-xs border-primary/20 text-primary/70"> {note} </Badge>))) : ("")}
                       </div>
                     </div>
                     <div className="flex flex-col gap-3 border-t border-border/40 pt-3">
@@ -383,7 +402,7 @@ const Catalog = () => {
               <div className="animate-bounce mb-8"> <div className="text-8xl mb-4">🔍</div> </div>
               <h3 className="text-3xl font-bold text-primary mb-4"> No fragrances found </h3>
               <p className="text-lg text-muted-foreground mb-8 max-w-md mx-auto"> {searchTerm ? `We couldn't find any fragrances matching "${searchTerm}". Try a different search term.` : 'Our fragrance collection is currently being updated. Please check back soon!'} </p>
-              {searchTerm && ( <Button className="luxury-button" onClick={() => setSearchTerm('')}> <Search className="w-4 h-4 mr-2" /> Clear Search & Browse All </Button> )}
+              {searchTerm && (<Button className="luxury-button" onClick={() => setSearchTerm('')}> <Search className="w-4 h-4 mr-2" /> Clear Search & Browse All </Button>)}
             </div>
           )}
         </div>
