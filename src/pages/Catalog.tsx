@@ -353,7 +353,7 @@ const Catalog = () => {
                   {perfume.isOutOfStock && (
                     <>
                       {/* Frosted overlay */}
-                      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-2xl"></div>
+                      <div className="absolute inset-0 bg-black/40 rounded-2xl"></div>
 
                       {/* Ribbon: right for grid, left for list */}
                       <div

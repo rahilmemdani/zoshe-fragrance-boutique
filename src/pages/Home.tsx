@@ -345,7 +345,7 @@ const Home = () => {
 
                   {/* Out of Stock Overlay */}
                   {product.isOutOfStock && (
-                    <><div className="absolute inset-0 bg-black/40 backdrop-blur-sm rounded-2xl"></div><div className="absolute top-4 right-0 transform rotate-[10deg] origin-top-right z-30 pointer-events-none">
+                    <><div className="absolute inset-0 bg-black/40 rounded-2xl"></div><div className="absolute top-4 right-0 transform rotate-[10deg] origin-top-right z-30 pointer-events-none">
                       <div className="bg-red-600/90 text-white text-xs sm:text-sm font-bold px-4 py-1 shadow-lg rounded-tl-lg rounded-br-lg uppercase tracking-wider backdrop-blur-sm">
                         Out of Stock
                       </div>
