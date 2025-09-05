@@ -115,7 +115,6 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
   );
 };
 
-
 const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: Perfume; viewMode: string; onQuickViewClick: () => void; }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -254,7 +253,8 @@ const Home = () => {
             description,
             price,
             popular,
-            "imageUrl": image.asset->url
+            "imageUrl": image.asset->url,
+            discountedPrice
           }
         `);
         setServices(data);
@@ -648,10 +648,16 @@ const Home = () => {
                     <p className="text-sm text-muted-foreground line-clamp-3">
                       {service.description}
                     </p>
+                    
 
-                    <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                      ₹{service.price}
-                    </span>
+                    {/* <span className="text-sm font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"> */}
+                       <PriceDisplay 
+                        price={service.price} 
+                        discountedPrice={service.discountedPrice}
+                        size="md"
+                        className="justify-start"
+                      />
+                    {/* </span> */}
 
                     <Button
                       className="hover:bg-green-600 bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105 w-full"

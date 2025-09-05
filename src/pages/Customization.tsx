@@ -3,7 +3,7 @@ import { createClient } from "@sanity/client";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, MessageCircle, Star } from "lucide-react";
+import { ChevronDown, MessageCircle, Sparkles, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { sanityClient } from "../lib/sanityClient";
 import { openWhatsApp } from "../lib/whatsApp";
@@ -25,12 +25,86 @@ const Customization = () => {
         price,
         popular,
         exclusive,
-        "imageUrl": image.asset->url
+        "imageUrl": image.asset->url,
+        discountedPrice
       }
     `
       )
       .then(setServices);
   }, []);
+
+  interface PriceDisplayProps {
+    price: number;
+    discountedPrice?: number;
+    size?: 'sm' | 'md' | 'lg';
+    showBadge?: boolean;
+    className?: string;
+  }
+  
+  const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, className = '' }: PriceDisplayProps) => {
+    const getDiscountPercent = (originalPrice: number, discountPrice?: number) => {
+      if (!discountPrice || discountPrice >= originalPrice) return null;
+      return Math.round(((originalPrice - discountPrice) / originalPrice) * 100);
+    };
+  
+    const sizeClasses = {
+      sm: 'text-lg sm:text-xl',
+      md: 'text-xl sm:text-2xl',
+      lg: 'text-2xl sm:text-3xl md:text-4xl'
+    };
+  
+    const hasDiscount = discountedPrice && discountedPrice < price;
+    const discountPercent = getDiscountPercent(price, discountedPrice);
+  
+    return (
+      <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${className}`}>
+        {hasDiscount ? (
+          <>
+            {/* Original Price - Crossed Out */}
+            <div className="relative">
+              <span className={`${sizeClasses[size]} font-bold text-muted-foreground/60 line-through decoration-2 decoration-red-500 lg:text-xl `}>
+                ₹{price.toLocaleString()}
+              </span>
+            </div>
+            
+            {/* Discounted Price */}
+            <motion.span 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 bg-clip-text text-transparent animate-shimmer`}
+            >
+              ₹{discountedPrice.toLocaleString()}
+            </motion.span>
+  
+            {/* Discount Badge */}
+            {showBadge && discountPercent && (
+              <motion.div
+                initial={{ scale: 0, rotate: -10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ duration: 0.4, type: "spring", bounce: 0.4 }}
+              >
+                <Badge className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs sm:text-sm px-2 py-1 rounded-full shadow-lg border-0 font-semibold">
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  {discountPercent}% OFF
+                </Badge>
+              </motion.div>
+            )}
+          </>
+        ) : (
+          /* Regular Price */
+          <motion.span 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-shimmer lg:text-2xl`}
+          >
+            ₹{price.toLocaleString()}
+          </motion.span>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="pt-8">
@@ -176,19 +250,21 @@ const Customization = () => {
                     )}
 
                     {/* Price + Button */}
-                    <div className="mt-auto space-y-4">
-                      <span className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent block">
-                        ₹{service.price}
-                      </span>
-                      <Button
-                        className="bg-green-500 hover:bg-green-600 text-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 w-full rounded-xl relative overflow-hidden"
-                        onClick={() => openWhatsApp(service.title)}
-                      >
-                        <span className="absolute inset-0 bg-gradient-to-r from-green-500 to-green-600 opacity-0 group-hover:opacity-20 transition-opacity" />
-                        <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
-                        <span className="relative z-10">Enquire on WhatsApp</span>
+                  <div className="border-t border-border/40 pt-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                      {/* UPDATED: Using new PriceDisplay component */}
+                      <PriceDisplay 
+                        price={service.price} 
+                        discountedPrice={service.discountedPrice}
+                        size="md"
+                        className="justify-start"
+                      />
+                      <Button className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105" onClick={() => openWhatsApp(service.name)}>
+                        <MessageCircle className="w-4 h-4 mr-2" />
+                        Enquire on WhatsApp
                       </Button>
                     </div>
+                  </div>
                   </CardContent>
                 </Card>
               </motion.div>
