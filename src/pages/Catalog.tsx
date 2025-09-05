@@ -453,7 +453,7 @@ const Catalog = () => {
                         className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl w-full group relative overflow-hidden"
                         onClick={() => openWhatsApp(perfume.name)}
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-green-600 from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                         <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
                         <span className="relative z-10">Enquire on WhatsApp</span>
                       </Button>

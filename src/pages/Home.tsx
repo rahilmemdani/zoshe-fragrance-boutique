@@ -462,26 +462,14 @@ const Home = () => {
                     )}
 
                     {/* Price + Action */}
-                    {/* <div className="flex flex-col gap-3 border-t border-border/40 pt-3">
-                      <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        ₹{product.price?.toLocaleString()}
-                      </span>
-
-                      <Button
-                        className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                        onClick={() => openWhatsApp(product.name)}
-                      >
-                        <MessageCircle className="w-4 h-4 mr-2" /> Enquire on WhatsApp
-                      </Button>
-                    </div> */}
-                          <div className="flex flex-col gap-4 border-t border-border/40 pt-4">
-                      <PriceDisplay 
-                        price={product.price} 
+                    <div className="flex flex-col gap-4 border-t border-border/40 pt-4">
+                      <PriceDisplay
+                        price={product.price}
                         discountedPrice={product.discountedPrice}
                         size="md"
                         className="justify-start"
                       />
-                      <Button 
+                      <Button
                         className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl w-full group relative overflow-hidden"
                         onClick={() => openWhatsApp(product.name)}
                       >
@@ -570,17 +558,6 @@ const Home = () => {
                           </div>
                         )}
                       </div>
-                      {/* <div className="border-t border-border/40 pt-4">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                          <span className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                            ₹{quickViewPerfume.price?.toLocaleString()}
-                          </span>
-                          <Button className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105" onClick={() => openWhatsApp(quickViewPerfume.name)}>
-                            <MessageCircle className="w-4 h-4 mr-2" />
-                            Enquire on WhatsApp
-                          </Button>
-                        </div>
-                      </div> */}
                       <div className="border-t border-border/40 pt-4">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                           {/* UPDATED: Using new PriceDisplay component */}
@@ -590,7 +567,7 @@ const Home = () => {
                             size="lg"
                             className="justify-start"
                           />
-                          <Button className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105" onClick={() => openWhatsApp(quickViewPerfume.name)}>
+                          <Button className="w-full sm:w-auto bg-gradient-to-r from-green-500 to-green-600 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105 bg-gradient-to-r" onClick={() => openWhatsApp(quickViewPerfume.name)}>
                             <MessageCircle className="w-4 h-4 mr-2" />
                             Enquire on WhatsApp
                           </Button>
@@ -677,7 +654,7 @@ const Home = () => {
                     </span>
 
                     <Button
-                      className="bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105 w-full"
+                      className="hover:bg-green-600 bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105 w-full"
                       onClick={() => openWhatsApp(service.title)}
                     >
                       <MessageCircle className="w-4 h-4 mr-2" />

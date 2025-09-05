@@ -184,7 +184,7 @@ const Customization = () => {
                         className="bg-green-500 hover:bg-green-600 text-white shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 w-full rounded-xl relative overflow-hidden"
                         onClick={() => openWhatsApp(service.title)}
                       >
-                        <span className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-600 opacity-0 group-hover:opacity-20 transition-opacity" />
+                        <span className="absolute inset-0 bg-gradient-to-r from-green-500 to-green-600 opacity-0 group-hover:opacity-20 transition-opacity" />
                         <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
                         <span className="relative z-10">Enquire on WhatsApp</span>
                       </Button>
