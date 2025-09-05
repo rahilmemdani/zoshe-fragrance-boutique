@@ -16,6 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { motion } from 'framer-motion';
 
 const builder = imageUrlBuilder(sanityClient);
 function urlFor(source: any) {
@@ -26,6 +27,7 @@ interface Perfume {
   _id: string;
   name: string;
   price: number;
+  discountedPrice?: number;
   description: { _type: string; children: { text: string }[] }[];
   images: { asset: any }[];
   // slug: { current: string };
@@ -35,6 +37,83 @@ interface Perfume {
   isActive?: string;
   isOutOfStock?: string;
 }
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// NEW: Beautified Price Display Component
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+interface PriceDisplayProps {
+  price: number;
+  discountedPrice?: number;
+  size?: 'sm' | 'md' | 'lg';
+  showBadge?: boolean;
+  className?: string;
+}
+
+const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, className = '' }: PriceDisplayProps) => {
+  const getDiscountPercent = (originalPrice: number, discountPrice?: number) => {
+    if (!discountPrice || discountPrice >= originalPrice) return null;
+    return Math.round(((originalPrice - discountPrice) / originalPrice) * 100);
+  };
+
+  const sizeClasses = {
+    sm: 'text-lg sm:text-xl',
+    md: 'text-xl sm:text-2xl',
+    lg: 'text-2xl sm:text-3xl md:text-4xl'
+  };
+
+  const hasDiscount = discountedPrice && discountedPrice < price;
+  const discountPercent = getDiscountPercent(price, discountedPrice);
+
+  return (
+    <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${className}`}>
+      {hasDiscount ? (
+        <>
+          {/* Original Price - Crossed Out */}
+          <div className="relative">
+            <span className={`${sizeClasses[size]} font-bold text-muted-foreground/60 line-through decoration-2 decoration-red-500 lg:text-xl `}>
+              ₹{price.toLocaleString()}
+            </span>
+          </div>
+
+          {/* Discounted Price */}
+          <motion.span
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 bg-clip-text text-transparent animate-shimmer`}
+          >
+            ₹{discountedPrice.toLocaleString()}
+          </motion.span>
+
+          {/* Discount Badge */}
+          {showBadge && discountPercent && (
+            <motion.div
+              initial={{ scale: 0, rotate: -10 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ duration: 0.4, type: "spring", bounce: 0.4 }}
+            >
+              <Badge className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs sm:text-sm px-2 py-1 rounded-full shadow-lg border-0 font-semibold">
+                <Sparkles className="w-3 h-3 mr-1" />
+                {discountPercent}% OFF
+              </Badge>
+            </motion.div>
+          )}
+        </>
+      ) : (
+        /* Regular Price */
+        <motion.span
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-shimmer`}
+        >
+          ₹{price.toLocaleString()}
+        </motion.span>
+      )}
+    </div>
+  );
+};
 
 
 const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: Perfume; viewMode: string; onQuickViewClick: () => void; }) => {
@@ -151,7 +230,8 @@ const Home = () => {
             promotion,
             isPremium,
             isActive,
-            isOutOfStock
+            isOutOfStock,
+            discountedPrice
           }`
         );
         setPerfumes(data);
@@ -382,7 +462,7 @@ const Home = () => {
                     )}
 
                     {/* Price + Action */}
-                    <div className="flex flex-col gap-3 border-t border-border/40 pt-3">
+                    {/* <div className="flex flex-col gap-3 border-t border-border/40 pt-3">
                       <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                         ₹{product.price?.toLocaleString()}
                       </span>
@@ -392,6 +472,22 @@ const Home = () => {
                         onClick={() => openWhatsApp(product.name)}
                       >
                         <MessageCircle className="w-4 h-4 mr-2" /> Enquire on WhatsApp
+                      </Button>
+                    </div> */}
+                          <div className="flex flex-col gap-4 border-t border-border/40 pt-4">
+                      <PriceDisplay 
+                        price={product.price} 
+                        discountedPrice={product.discountedPrice}
+                        size="md"
+                        className="justify-start"
+                      />
+                      <Button 
+                        className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl w-full group relative overflow-hidden"
+                        onClick={() => openWhatsApp(product.name)}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                        <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
+                        <span className="relative z-10">Enquire on WhatsApp</span>
                       </Button>
                     </div>
                   </CardContent>
@@ -474,11 +570,26 @@ const Home = () => {
                           </div>
                         )}
                       </div>
-                      <div className="border-t border-border/40 pt-4">
+                      {/* <div className="border-t border-border/40 pt-4">
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                           <span className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                             ₹{quickViewPerfume.price?.toLocaleString()}
                           </span>
+                          <Button className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105" onClick={() => openWhatsApp(quickViewPerfume.name)}>
+                            <MessageCircle className="w-4 h-4 mr-2" />
+                            Enquire on WhatsApp
+                          </Button>
+                        </div>
+                      </div> */}
+                      <div className="border-t border-border/40 pt-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                          {/* UPDATED: Using new PriceDisplay component */}
+                          <PriceDisplay
+                            price={quickViewPerfume.price}
+                            discountedPrice={quickViewPerfume.discountedPrice}
+                            size="lg"
+                            className="justify-start"
+                          />
                           <Button className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105" onClick={() => openWhatsApp(quickViewPerfume.name)}>
                             <MessageCircle className="w-4 h-4 mr-2" />
                             Enquire on WhatsApp

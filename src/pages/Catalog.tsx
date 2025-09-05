@@ -12,7 +12,6 @@ import { ChevronDown } from "lucide-react";
 import { sanityClient } from "../lib/sanityClient";
 import { openWhatsApp } from "../lib/whatsApp";
 
-
 const builder = imageUrlBuilder(sanityClient);
 function urlFor(source: any) {
   return builder.image(source);
@@ -22,17 +21,95 @@ interface Perfume {
   _id: string;
   name: string;
   price: number;
+  discountedPrice?: number;
   description: { _type: string; children: { text: string }[] }[];
   images: { asset: any }[];
   scentProfile?: string[];
   promotion?: string;
   isPremium?: string;
   isActive?: string;
-  isOutOfStock?: string
+  isOutOfStock?: string;
 }
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// START: IMAGE SLIDER COMPONENT FOR PRODUCT CARDS
+// NEW: Beautified Price Display Component
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+interface PriceDisplayProps {
+  price: number;
+  discountedPrice?: number;
+  size?: 'sm' | 'md' | 'lg';
+  showBadge?: boolean;
+  className?: string;
+}
+
+const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, className = '' }: PriceDisplayProps) => {
+  const getDiscountPercent = (originalPrice: number, discountPrice?: number) => {
+    if (!discountPrice || discountPrice >= originalPrice) return null;
+    return Math.round(((originalPrice - discountPrice) / originalPrice) * 100);
+  };
+
+  const sizeClasses = {
+    sm: 'text-lg sm:text-xl',
+    md: 'text-xl sm:text-2xl',
+    lg: 'text-2xl sm:text-3xl md:text-4xl'
+  };
+
+  const hasDiscount = discountedPrice && discountedPrice < price;
+  const discountPercent = getDiscountPercent(price, discountedPrice);
+
+  return (
+    <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${className}`}>
+      {hasDiscount ? (
+        <>
+          {/* Original Price - Crossed Out */}
+          <div className="relative">
+            <span className={`${sizeClasses[size]} font-bold text-muted-foreground/60 line-through decoration-2 decoration-red-500 lg:text-xl `}>
+              ₹{price.toLocaleString()}
+            </span>
+          </div>
+          
+          {/* Discounted Price */}
+          <motion.span 
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 bg-clip-text text-transparent animate-shimmer`}
+          >
+            ₹{discountedPrice.toLocaleString()}
+          </motion.span>
+
+          {/* Discount Badge */}
+          {showBadge && discountPercent && (
+            <motion.div
+              initial={{ scale: 0, rotate: -10 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ duration: 0.4, type: "spring", bounce: 0.4 }}
+            >
+              <Badge className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs sm:text-sm px-2 py-1 rounded-full shadow-lg border-0 font-semibold">
+                <Sparkles className="w-3 h-3 mr-1" />
+                {discountPercent}% OFF
+              </Badge>
+            </motion.div>
+          )}
+        </>
+      ) : (
+        /* Regular Price */
+        <motion.span 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+          className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-shimmer`}
+        >
+          ₹{price.toLocaleString()}
+        </motion.span>
+      )}
+    </div>
+  );
+};
+
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// END: Price Display Component
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: Perfume; viewMode: string; onQuickViewClick: () => void; }) => {
@@ -53,7 +130,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
     return () => clearInterval(intervalRef.current!);
   }, [images.length, isHovered]);
 
-
   const goToPrevImage = (e: React.MouseEvent) => {
     e.stopPropagation();
     clearInterval(intervalRef.current!);
@@ -65,7 +141,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
     clearInterval(intervalRef.current!);
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
   };
-
 
   return (
     <div
@@ -85,7 +160,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
         </div>
       )}
 
-      {/* FIX: Added z-index to ensure controls are on top of the Quick View overlay */}
       {images.length > 1 && (
         <>
           <div className={`absolute top-1/2 left-2 right-2 flex justify-between -translate-y-1/2 transition-opacity duration-300 z-20 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
@@ -100,7 +174,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
         </>
       )}
 
-      {/* FIX: Added z-10 to place this overlay below the controls */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
         <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
           <Button
@@ -114,7 +187,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
         </div>
       </div>
 
-      {/* FIX: Added z-20 to ensure badge is on top */}
       {perfume?.isPremium && (
         <Badge className="absolute top-4 left-4 bg-accent text-accent-foreground shadow-lg backdrop-blur-sm z-20">
           Premium
@@ -124,11 +196,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
   );
 };
 
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// END: IMAGE SLIDER COMPONENT
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
 const Catalog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [perfumes, setPerfumes] = useState<Perfume[]>([]);
@@ -137,8 +204,6 @@ const Catalog = () => {
   const [quickViewPerfume, setQuickViewPerfume] = useState<Perfume | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const perfumesPerPage = 7;
-
-  // NEW: State for the Quick View modal's image index
   const [quickViewImageIndex, setQuickViewImageIndex] = useState(0);
 
   useEffect(() => {
@@ -146,7 +211,7 @@ const Catalog = () => {
       try {
         const data = await sanityClient.fetch(
           `*[_type == "catalogue"]{
-            _id, name, slug, price, description, images, scentProfile, promotion, isPremium, isActive, isOutOfStock
+            _id, name, slug, price, description, images, scentProfile, promotion, isPremium, isActive, isOutOfStock, discountedPrice
           }`
         );
         setPerfumes(data);
@@ -157,7 +222,6 @@ const Catalog = () => {
     fetchCatalogue();
   }, []);
 
-  // NEW: Reset the modal slider to the first image whenever a new product is selected
   useEffect(() => {
     if (quickViewPerfume) {
       setQuickViewImageIndex(0);
@@ -185,7 +249,7 @@ const Catalog = () => {
 
   return (
     <div className="pt-8">
-      {/* Hero Section (No changes) */}
+      {/* Hero Section */}
       <section className="relative overflow-hidden py-28 hero-gradient text-cream">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-accent/20 via-transparent to-transparent animate-gradient-x"></div>
         <div className="absolute top-20 left-10 w-40 h-40 bg-accent/40 rounded-full blur-3xl animate-pulse"></div>
@@ -216,7 +280,7 @@ const Catalog = () => {
         </div>
       </section>
 
-      {/* Search & Filter Section (No changes) */}
+      {/* Search & Filter Section */}
       <section className="py-8 sm:py-12 bg-muted/20 border-b border-border/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 items-center justify-between">
@@ -236,7 +300,6 @@ const Catalog = () => {
         </div>
       </section>
 
-
       {/* Quick View Modal */}
       <Dialog open={!!quickViewPerfume} onOpenChange={() => setQuickViewPerfume(null)}>
         <DialogContent className="max-w-4xl w-full p-4 sm:p-6 rounded-2xl overflow-y-auto max-h-[90vh]">
@@ -254,8 +317,6 @@ const Catalog = () => {
               </DialogHeader>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                {/* MODIFICATION: Replaced static image with an interactive slider */}
                 <div className="relative flex items-center justify-center">
                   {quickViewPerfume.images && quickViewPerfume.images.length > 0 ? (
                     <>
@@ -297,7 +358,6 @@ const Catalog = () => {
                   )}
                 </div>
 
-                {/* Details (No changes) */}
                 <div className="flex flex-col justify-between space-y-4">
                   <div>
                     <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4">
@@ -315,9 +375,13 @@ const Catalog = () => {
                   </div>
                   <div className="border-t border-border/40 pt-4">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                      <span className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        ₹{quickViewPerfume.price?.toLocaleString()}
-                      </span>
+                      {/* UPDATED: Using new PriceDisplay component */}
+                      <PriceDisplay 
+                        price={quickViewPerfume.price} 
+                        discountedPrice={quickViewPerfume.discountedPrice}
+                        size="lg"
+                        className="justify-start"
+                      />
                       <Button className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105" onClick={() => openWhatsApp(quickViewPerfume.name)}>
                         <MessageCircle className="w-4 h-4 mr-2" />
                         Enquire on WhatsApp
@@ -350,15 +414,12 @@ const Catalog = () => {
                     viewMode={viewMode}
                     onQuickViewClick={() => setQuickViewPerfume(perfume)}
                   />
+                  
                   {perfume.isOutOfStock && (
                     <>
-                      {/* Frosted overlay */}
                       <div className="absolute inset-0 bg-black/40 rounded-2xl"></div>
-
-                      {/* Ribbon: right for grid, left for list */}
                       <div
-                        className={`absolute top-4 z-30 pointer-events-none transform ${viewMode === 'list' ? 'left-0 rotate-[-10deg] origin-top-left' : 'right-0 rotate-[10deg] origin-top-right'
-                          }`}
+                        className={`absolute top-4 z-30 pointer-events-none transform ${viewMode === 'list' ? 'left-0 rotate-[-10deg] origin-top-left' : 'right-0 rotate-[10deg] origin-top-right'}`}
                       >
                         <div className="bg-red-600/90 text-white text-xs sm:text-sm font-bold px-4 py-1 shadow-lg rounded-tl-lg rounded-br-lg uppercase tracking-wider backdrop-blur-sm">
                           Out of Stock
@@ -379,13 +440,22 @@ const Catalog = () => {
                         {perfume.scentProfile?.length ? (perfume.scentProfile.map((note, idx) => (<Badge key={idx} variant="outline" className="text-[10px] sm:text-xs border-primary/20 text-primary/70"> {note} </Badge>))) : ("")}
                       </div>
                     </div>
-                    <div className="flex flex-col gap-3 border-t border-border/40 pt-3">
-                      <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                        ₹{perfume.price?.toLocaleString()}
-                      </span>
-                      <Button className="bg-green-500 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105 w-full" onClick={() => openWhatsApp(perfume.name)}>
-                        <MessageCircle className="w-4 h-4 mr-2" />
-                        Enquire on WhatsApp
+
+                    {/* UPDATED: Using new PriceDisplay component with enhanced styling */}
+                    <div className="flex flex-col gap-4 border-t border-border/40 pt-4">
+                      <PriceDisplay 
+                        price={perfume.price} 
+                        discountedPrice={perfume.discountedPrice}
+                        size="md"
+                        className="justify-start"
+                      />
+                      <Button 
+                        className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl w-full group relative overflow-hidden"
+                        onClick={() => openWhatsApp(perfume.name)}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                        <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
+                        <span className="relative z-10">Enquire on WhatsApp</span>
                       </Button>
                     </div>
                     {perfume?.promotion && (
@@ -406,8 +476,9 @@ const Catalog = () => {
             </div>
           )}
         </div>
+
+        {/* Pagination */}
         <div className="flex justify-center mt-8 gap-3 flex-wrap z-10 relative">
-          {/* Previous Button */}
           <Button
             disabled={currentPage === 1}
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -416,22 +487,16 @@ const Catalog = () => {
             <ChevronLeft className="w-4 h-4" />
           </Button>
 
-          {/* Page Numbers */}
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <Button
               key={page}
               onClick={() => setCurrentPage(page)}
-              className={`
-        px-4 py-2 rounded-lg font-medium transition-all duration-200
-        ${page === currentPage
-                }
-      `}
+              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${page === currentPage ? 'bg-primary text-white' : 'border border-primary/40 text-secondary hover:bg-primary/10'}`}
             >
               {page}
             </Button>
           ))}
 
-          {/* Next Button */}
           <Button
             disabled={currentPage === totalPages}
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
@@ -440,7 +505,6 @@ const Catalog = () => {
             <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
-
       </section>
     </div>
   );
