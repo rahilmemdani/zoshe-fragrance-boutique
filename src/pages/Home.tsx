@@ -142,8 +142,6 @@ const WhatsAppFloatingWidget = () => {
   );
 };
 
-
-
 const FAQSection = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [faqs, setFaqs] = useState<any[]>([]);
@@ -293,16 +291,6 @@ const FAQSection = () => {
     </section>
   );
 };
-
-
-interface Banner {
-  title: string;
-  subtitle: string;
-  imageUrl?: string;
-  ctaText?: string;
-  ctaLink?: string;
-  endDate?: string;
-}
 
 const OfferBanner = () => {
   const [banners, setBanners] = useState([]);
@@ -879,7 +867,7 @@ const OfferBannerHero = () => {
                       </a>
                     ) : (
                       <Button
-                        onClick={() => openWhatsApp(activeBanner.ctaText || "I'm interested in your current offer")}
+                        onClick={() => openWhatsApp(activeBanner.title || "I'm interested in your current offer")}
                         className="w-full sm:w-auto bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
                       >
                         <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
