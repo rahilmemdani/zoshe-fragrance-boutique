@@ -98,7 +98,7 @@ const About = () => {
 
             {/* Right: Image */}
             <div className="flex justify-center">
-              <div className="relative w-full max-w-md h-[500px] rounded-2xl overflow-hidden shadow-2xl ring-4 ring-accent/10 bg-white flex items-center justify-center">
+              <div className="relative w-full max-w-md h-[550px] rounded-2xl overflow-hidden  flex items-center justify-center">
                 <img
                   src={aboutUs}
                   alt="About ZOSHE"
@@ -106,7 +106,7 @@ const About = () => {
                   loading="lazy"
                 />
                 {/* Subtle glowing background */}
-                <div className="absolute -inset-6 bg-gradient-to-br from-accent/30 to-primary/20 rounded-2xl blur-3xl opacity-40"></div>
+                <div className="absolute -inset-6 bg-gradient-to-br from-accent/30 to-primary/20 rounded-2xl blur-2xl opacity-50"></div>
               </div>
             </div>
           </div>
