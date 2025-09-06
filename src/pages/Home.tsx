@@ -74,7 +74,7 @@ const WhatsAppFloatingWidget = () => {
                 <X className="w-4 h-4" />
               </Button>
             </div>
-            
+
             <div className="space-y-2 mb-4 text-sm text-gray-600">
               <div className="bg-gray-100 rounded-lg p-3">
                 <p>👋 Hi! Welcome to ZOSHE!</p>
@@ -91,7 +91,7 @@ const WhatsAppFloatingWidget = () => {
                 💐 Choose Perfume
               </Button>
               <Button
-                size="sm" 
+                size="sm"
                 className="bg-green-500 hover:bg-green-600 text-white text-xs"
                 onClick={() => openWhatsApp("I want to create a custom hamper")}
               >
@@ -123,7 +123,7 @@ const WhatsAppFloatingWidget = () => {
         className="relative bg-green-500 hover:bg-green-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl transition-colors"
       >
         <MessageCircle className="w-8 h-8" />
-        
+
         {/* Unread badge */}
         {unreadCount > 0 && (
           <motion.div
@@ -147,23 +147,23 @@ const FAQSection = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
 
   const faqs = [
-    { 
-      q: "How long do your fragrances last?", 
+    {
+      q: "How long do your fragrances last?",
       a: "Our premium fragrances are crafted to last 6-8 hours with exceptional longevity. The duration depends on your skin type, application method, and the specific fragrance concentration.",
       icon: <Clock className="w-5 h-5" />
     },
-    { 
-      q: "Do you offer samples?", 
+    {
+      q: "Do you offer samples?",
       a: "Yes! We provide 2ml sample vials for ₹99 each so you can experience our fragrances before committing to a full bottle. Perfect for discovering your signature scent.",
       icon: <Gift className="w-5 h-5" />
     },
-    { 
-      q: "What's your return policy?", 
+    {
+      q: "What's your return policy?",
       a: "We offer a 30-day satisfaction guarantee on all purchases. If you're not completely satisfied with your fragrance, contact us within 30 days for a full refund or exchange.",
       icon: <Shield className="w-5 h-5" />
     },
-    { 
-      q: "How fast is delivery?", 
+    {
+      q: "How fast is delivery?",
       a: "We ensure quick delivery across India - 2-3 days in major cities (Mumbai, Delhi, Bangalore, Pune) and 4-7 days nationwide. Free shipping on orders above ₹2,999.",
       icon: <Truck className="w-5 h-5" />
     }
@@ -176,7 +176,7 @@ const FAQSection = () => {
   return (
     <section className="py-20 bg-muted/20">
       <div className="max-w-4xl mx-auto px-6">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -188,8 +188,8 @@ const FAQSection = () => {
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Find answers to common questions about our luxury fragrances, shipping, and services.
           </p>
-          
-          <Button 
+
+          <Button
             className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg px-8 py-3 rounded-full font-semibold group relative overflow-hidden"
             onClick={() => openWhatsApp("I have a question that's not in your FAQ")}
           >
@@ -198,7 +198,7 @@ const FAQSection = () => {
             <span className="relative z-10">Ask Your Question</span>
           </Button>
         </motion.div>
-        
+
         <div className="space-y-4">
           {faqs.map((faq, index) => (
             <motion.div
@@ -209,7 +209,7 @@ const FAQSection = () => {
               transition={{ delay: index * 0.1 }}
             >
               <Card className="glass-card border-0 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
-                <motion.div 
+                <motion.div
                   className="cursor-pointer"
                   onClick={() => toggleExpanded(index)}
                   whileHover={{ scale: 1.01 }}
@@ -222,25 +222,24 @@ const FAQSection = () => {
                             {faq.icon}
                           </div>
                         </div>
-                        
+
                         <h3 className="text-lg font-bold text-primary group-hover:text-accent transition-colors duration-300">
                           {faq.q}
                         </h3>
                       </div>
-                      
+
                       <motion.div
                         animate={{ rotate: expandedIndex === index ? 180 : 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className={`p-2 rounded-full transition-all duration-300 ${
-                          expandedIndex === index 
-                            ? 'bg-accent/10 text-accent' 
+                        className={`p-2 rounded-full transition-all duration-300 ${expandedIndex === index
+                            ? 'bg-accent/10 text-accent'
                             : 'bg-muted/50 text-muted-foreground hover:bg-accent/10 hover:text-accent'
-                        }`}
+                          }`}
                       >
                         <ChevronDown className="w-5 h-5" />
                       </motion.div>
                     </div>
-                    
+
                     <AnimatePresence>
                       {expandedIndex === index && (
                         <motion.div
@@ -251,7 +250,7 @@ const FAQSection = () => {
                           className="overflow-hidden"
                         >
                           <div className="pt-6 border-t border-border/40 mt-6">
-                            <motion.p 
+                            <motion.p
                               initial={{ y: -10, opacity: 0 }}
                               animate={{ y: 0, opacity: 1 }}
                               exit={{ y: -10, opacity: 0 }}
@@ -260,15 +259,15 @@ const FAQSection = () => {
                             >
                               {faq.a}
                             </motion.p>
-                            
+
                             <motion.div
                               initial={{ y: 10, opacity: 0 }}
                               animate={{ y: 0, opacity: 1 }}
                               exit={{ y: 10, opacity: 0 }}
                               transition={{ delay: 0.2, duration: 0.2 }}
                             >
-                              <Button 
-                                variant="ghost" 
+                              <Button
+                                variant="ghost"
                                 size="sm"
                                 onClick={(e) => {
                                   e.stopPropagation();
@@ -291,7 +290,7 @@ const FAQSection = () => {
           ))}
         </div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -312,13 +311,13 @@ const FAQSection = () => {
               Get Personal Consultation
             </Button>
             <Link to="/catalog">
-            <Button
-              variant="outline"
-              className="border-primary/30 text-primary hover:bg-primary/5 rounded-full px-6 py-3"
+              <Button
+                variant="outline"
+                className="border-primary/30 text-primary hover:bg-primary/5 rounded-full px-6 py-3"
               // onClick={() => openWhatsApp("I want to know more about your fragrance collection")}
-            >
-              View Collection
-            </Button>
+              >
+                View Collection
+              </Button>
             </Link>
           </div>
         </motion.div>
@@ -369,7 +368,7 @@ const OfferBanner = () => {
   // Auto-rotate banners
   useEffect(() => {
     if (banners.length <= 1) return;
-    
+
     const timer = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % banners.length);
     }, 8000);
@@ -485,7 +484,7 @@ const OfferBanner = () => {
               <X className="w-4 h-4" />
             </Button>
           </div>
-          
+
           {/* Bottom Row - Countdown and CTA */}
           <div className="flex items-center justify-between gap-3">
             {/* Mobile Countdown */}
@@ -541,9 +540,8 @@ const OfferBanner = () => {
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/75'
-                  }`}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/75'
+                    }`}
                   aria-label={`Go to banner ${index + 1}`}
                 />
               ))}
@@ -626,9 +624,8 @@ const OfferBanner = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentIndex(index)}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        index === currentIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/75'
-                      }`}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${index === currentIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/75'
+                        }`}
                       aria-label={`Go to banner ${index + 1}`}
                     />
                   ))}
@@ -721,7 +718,7 @@ const OfferBannerHero = () => {
   // Auto-rotate banners
   useEffect(() => {
     if (banners.length <= 1) return;
-    
+
     const timer = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % banners.length);
     }, 8000);
@@ -810,7 +807,7 @@ const OfferBannerHero = () => {
 
         {/* Premium Content Container */}
         <div className="relative z-10 text-white">
-          
+
           {/* Mobile Layout - Enhanced */}
           <div className="block lg:hidden p-6">
             <div className="space-y-4">
@@ -818,13 +815,13 @@ const OfferBannerHero = () => {
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
                   <motion.div
-                    animate={{ 
+                    animate={{
                       rotate: [0, 15, -15, 0],
                       scale: [1, 1.1, 1]
                     }}
-                    transition={{ 
-                      duration: 3, 
-                      repeat: Infinity, 
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
                       repeatDelay: 2,
                       ease: "easeInOut"
                     }}
@@ -833,7 +830,7 @@ const OfferBannerHero = () => {
                     <Gift className="w-6 h-6 text-accent" />
                   </motion.div>
                   <div className="flex-1 min-w-0">
-                    <motion.h3 
+                    <motion.h3
                       key={activeBanner.title}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -842,7 +839,7 @@ const OfferBannerHero = () => {
                       {activeBanner.title}
                     </motion.h3>
                     {activeBanner.subtitle && (
-                      <motion.p 
+                      <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.2 }}
@@ -853,7 +850,7 @@ const OfferBannerHero = () => {
                     )}
                   </div>
                 </div>
-                
+
                 <Button
                   variant="ghost"
                   size="sm"
@@ -866,63 +863,63 @@ const OfferBannerHero = () => {
               </div>
 
               {/* Content Row */}
-<div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-  {/* Mobile Countdown */}
-  {activeBanner.endDate && (
-    <div className="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20 w-full sm:w-auto">
-      <Clock className="w-4 h-4 text-accent flex-shrink-0" />
-      <span className="text-xs font-medium text-white/90">Ends in:</span>
-      <div className="flex items-center gap-1">
-        {[
-          { value: timeLeft.hours, label: 'H' },
-          { value: timeLeft.minutes, label: 'M' },
-          { value: timeLeft.seconds, label: 'S' }
-        ].map((item, index) => (
-          <div key={index} className="flex items-center">
-            {index > 0 && <span className="text-white/60 mx-1">:</span>}
-            <motion.div
-              key={item.value}
-              initial={{ y: -10, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              className="bg-white/25 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold min-w-[1.75rem] text-center border border-white/20"
-            >
-              {String(item.value).padStart(2, '0')}
-            </motion.div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                {/* Mobile Countdown */}
+                {activeBanner.endDate && (
+                  <div className="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20 w-full sm:w-auto">
+                    <Clock className="w-4 h-4 text-accent flex-shrink-0" />
+                    <span className="text-xs font-medium text-white/90">Ends in:</span>
+                    <div className="flex items-center gap-1">
+                      {[
+                        { value: timeLeft.hours, label: 'H' },
+                        { value: timeLeft.minutes, label: 'M' },
+                        { value: timeLeft.seconds, label: 'S' }
+                      ].map((item, index) => (
+                        <div key={index} className="flex items-center">
+                          {index > 0 && <span className="text-white/60 mx-1">:</span>}
+                          <motion.div
+                            key={item.value}
+                            initial={{ y: -10, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            className="bg-white/25 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold min-w-[1.75rem] text-center border border-white/20"
+                          >
+                            {String(item.value).padStart(2, '0')}
+                          </motion.div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-  {/* Mobile CTA */}
-  {(activeBanner.ctaLink || activeBanner.ctaText) && (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="flex-shrink-0 w-full sm:w-auto"
-    >
-      {activeBanner.ctaLink ? (
-        <a
-          href={activeBanner.ctaLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center w-full sm:w-auto bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
-        >
-          <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
-          {activeBanner.ctaText || "Shop Now"}
-        </a>
-      ) : (
-        <Button
-          onClick={() => openWhatsApp(activeBanner.ctaText || "I'm interested in your current offer")}
-          className="w-full sm:w-auto bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
-        >
-          <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
-          {activeBanner.ctaText || "Shop Now"}
-        </Button>
-      )}
-    </motion.div>
-  )}
-</div>
+                {/* Mobile CTA */}
+                {(activeBanner.ctaLink || activeBanner.ctaText) && (
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex-shrink-0 w-full sm:w-auto"
+                  >
+                    {activeBanner.ctaLink ? (
+                      <a
+                        href={activeBanner.ctaLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center w-full sm:w-auto bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
+                      >
+                        <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
+                        {activeBanner.ctaText || "Shop Now"}
+                      </a>
+                    ) : (
+                      <Button
+                        onClick={() => openWhatsApp(activeBanner.ctaText || "I'm interested in your current offer")}
+                        className="w-full sm:w-auto bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
+                      >
+                        <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
+                        {activeBanner.ctaText || "Shop Now"}
+                      </Button>
+                    )}
+                  </motion.div>
+                )}
+              </div>
 
 
               {/* Mobile Banner Dots */}
@@ -934,11 +931,10 @@ const OfferBannerHero = () => {
                       onClick={() => setCurrentIndex(index)}
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
-                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                        index === currentIndex 
-                          ? 'bg-accent shadow-lg shadow-accent/50 scale-125' 
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
+                          ? 'bg-accent shadow-lg shadow-accent/50 scale-125'
                           : 'bg-white/40 hover:bg-white/60'
-                      }`}
+                        }`}
                       aria-label={`Go to banner ${index + 1}`}
                     />
                   ))}
@@ -949,17 +945,17 @@ const OfferBannerHero = () => {
 
           {/* Desktop Layout - Premium */}
           <div className="hidden lg:flex items-center justify-between gap-8 p-8">
-            
+
             {/* Left Content */}
             <div className="flex items-center gap-6 flex-1 min-w-0">
               <motion.div
-                animate={{ 
+                animate={{
                   rotate: [0, 15, -15, 0],
                   scale: [1, 1.1, 1]
                 }}
-                transition={{ 
-                  duration: 3, 
-                  repeat: Infinity, 
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
                   repeatDelay: 2,
                   ease: "easeInOut"
                 }}
@@ -967,9 +963,9 @@ const OfferBannerHero = () => {
               >
                 <Gift className="w-8 h-8 text-accent" />
               </motion.div>
-              
+
               <div className="flex-1 min-w-0">
-                <motion.h3 
+                <motion.h3
                   key={activeBanner.title}
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -978,7 +974,7 @@ const OfferBannerHero = () => {
                   {activeBanner.title}
                 </motion.h3>
                 {activeBanner.subtitle && (
-                  <motion.p 
+                  <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}
@@ -992,7 +988,7 @@ const OfferBannerHero = () => {
 
             {/* Center - Premium Countdown */}
             {activeBanner.endDate && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex items-center gap-4 bg-black/30 backdrop-blur-md rounded-2xl px-6 py-4 border border-white/20 shadow-xl"
@@ -1001,7 +997,7 @@ const OfferBannerHero = () => {
                   <Clock className="w-6 h-6 text-accent" />
                   <span className="text-white/90 font-medium">Ends in:</span>
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   {[
                     { value: timeLeft.hours, label: 'Hours' },
@@ -1031,7 +1027,7 @@ const OfferBannerHero = () => {
 
             {/* Right - Actions */}
             <div className="flex items-center gap-4">
-              
+
               {/* Banner Navigation */}
               {banners.length > 1 && (
                 <div className="flex items-center gap-3 bg-black/30 backdrop-blur-md rounded-2xl px-4 py-2 border border-white/20">
@@ -1044,7 +1040,7 @@ const OfferBannerHero = () => {
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </Button>
-                  
+
                   <div className="flex gap-2">
                     {banners.map((_, index) => (
                       <motion.button
@@ -1052,16 +1048,15 @@ const OfferBannerHero = () => {
                         onClick={() => setCurrentIndex(index)}
                         whileHover={{ scale: 1.3 }}
                         whileTap={{ scale: 0.9 }}
-                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                          index === currentIndex 
-                            ? 'bg-accent shadow-lg shadow-accent/50' 
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
+                            ? 'bg-accent shadow-lg shadow-accent/50'
                             : 'bg-white/40 hover:bg-white/60'
-                        }`}
+                          }`}
                         aria-label={`Go to banner ${index + 1}`}
                       />
                     ))}
                   </div>
-                  
+
                   <Button
                     variant="ghost"
                     size="sm"
@@ -1229,7 +1224,7 @@ const NewsletterSection = () => {
   //             Get Exclusive Offers & Updates
   //           </h3>
   //         </div>
-          
+
   //         <p className="text-xl text-white/90 max-w-2xl mx-auto">
   //           Join 5,000+ fragrance lovers and get first access to new collections, special discounts, and personalized fragrance tips directly on WhatsApp!
   //         </p>
@@ -1357,7 +1352,7 @@ const QuickActionsBar = () => {
           <h3 className="text-2xl font-bold text-primary mb-2">Quick Help via WhatsApp</h3>
           <p className="text-muted-foreground">Get instant assistance with any of these options</p>
         </div>
-        
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {actions.map((action, index) => (
             <motion.button
@@ -1419,7 +1414,7 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
               ₹{price.toLocaleString()}
             </span>
           </div>
-          
+
           <motion.span
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -1428,7 +1423,7 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
           >
             ₹{discountedPrice.toLocaleString()}
           </motion.span>
-          
+
           {showBadge && discountPercent && (
             <motion.div
               initial={{ scale: 0, rotate: -10 }}
@@ -1630,10 +1625,10 @@ const Home = () => {
   return (
     <div className="scroll-smooth">
       {/* 🚀 NEW: Business Boosting Components */}
-          <OfferBanner />
+      <OfferBanner />
       {/* <LiveSocialProof /> */}
       <WhatsAppFloatingWidget />
-      
+
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -1654,7 +1649,7 @@ const Home = () => {
             <p className="text-xl md:text-2xl text-cream/90 mb-8 max-w-2xl mx-auto" style={{ "color": "black" }}>
               Discover the art of perfumery with ZOSHE's exclusive collection of handcrafted fragrances
             </p>
-            
+
             {/* Enhanced CTA buttons with WhatsApp integration */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/catalog">
@@ -1663,8 +1658,8 @@ const Home = () => {
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="glass-card text-cream border-cream/30 hover:bg-cream/10 text-lg px-8 py-4"
                 onClick={() => openWhatsApp("I'm interested in custom hampers. Please tell me more about your options.")}
               >
@@ -1707,7 +1702,7 @@ const Home = () => {
         </div>
       </section>
 
-      <OfferBannerHero/>
+      <OfferBannerHero />
 
 
       {/* 🚀 NEW: Trust Badges */}
@@ -1742,7 +1737,7 @@ const Home = () => {
                   <div className="text-sm text-muted-foreground">Happy Customers</div>
                 </div>
               </div>
-              
+
               {/* Enhanced CTA with WhatsApp */}
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/about">
@@ -1772,7 +1767,7 @@ const Home = () => {
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-primary rounded-2xl opacity-20"></div>
-              
+
               {/* Floating WhatsApp CTA on image */}
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
@@ -1804,7 +1799,7 @@ const Home = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
               Discover our most beloved scents, each carefully crafted to evoke emotion and create lasting memories.
             </p>
-            
+
             {/* WhatsApp help button */}
             <Button
               variant="outline"
@@ -1873,7 +1868,7 @@ const Home = () => {
                         size="md"
                         className="justify-start"
                       />
-                      
+
                       {/* Enhanced buttons with more options */}
                       <div className="flex gap-2">
                         <Button
@@ -1884,7 +1879,7 @@ const Home = () => {
                           <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
                           <span className="relative z-10">Enquire Now</span>
                         </Button>
-                        
+
                         {/* <Button
                           variant="outline"
                           size="sm"
@@ -1974,7 +1969,7 @@ const Home = () => {
                           </div>
                         )}
                       </div>
-                      
+
                       <div className="border-t border-border/40 pt-4">
                         <div className="flex flex-col gap-4">
                           <PriceDisplay
@@ -1983,17 +1978,17 @@ const Home = () => {
                             size="lg"
                             className="justify-start"
                           />
-                          
+
                           {/* Enhanced action buttons */}
                           <div className="flex flex-col sm:flex-row gap-3">
-                            <Button 
-                              className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105" 
+                            <Button
+                              className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105"
                               onClick={() => openWhatsApp(`I want to order ${quickViewPerfume.name}. Please provide me with ordering details.`)}
                             >
                               <MessageCircle className="w-4 h-4 mr-2" />
                               Order via WhatsApp
                             </Button>
-                            <Button 
+                            <Button
                               variant="outline"
                               className="border-green-500 text-green-600 hover:bg-green-50"
                               onClick={() => openWhatsApp(`Can I get a sample of ${quickViewPerfume.name} before purchasing?`)}
@@ -2001,8 +1996,8 @@ const Home = () => {
                               🧪 Request Sample
                             </Button>
                           </div>
-                          
-                          <Button 
+
+                          <Button
                             variant="ghost"
                             className="text-primary hover:bg-primary/5"
                             onClick={() => openWhatsApp(`I need help choosing between ${quickViewPerfume.name} and other similar fragrances`)}
@@ -2045,7 +2040,7 @@ const Home = () => {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
               Explore our premium customization services, crafted to make your fragrance truly unique.
             </p>
-            
+
             <Button
               variant="outline"
               className="border-green-500 text-green-600 hover:bg-green-50"
@@ -2078,7 +2073,7 @@ const Home = () => {
                         <Sparkles className="w-12 h-12 text-primary/50" />
                       </div>
                     )}
-                    
+
                     {/* Quick chat overlay */}
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <Button
@@ -2098,8 +2093,8 @@ const Home = () => {
                       {service.description}
                     </p>
 
-                    <PriceDisplay 
-                      price={service.price} 
+                    <PriceDisplay
+                      price={service.price}
                       discountedPrice={service.discountedPrice}
                       size="md"
                       className="justify-start"
@@ -2151,7 +2146,7 @@ const Home = () => {
             <p className="text-lg text-muted-foreground mb-6">
               Experience the luxury through the words of our satisfied customers.
             </p>
-            
+
             <Button
               variant="outline"
               className="border-green-500 text-green-600 hover:bg-green-50"
@@ -2177,7 +2172,7 @@ const Home = () => {
                     <span className="font-semibold text-primary">{testimonial.name}</span>
                     {testimonial.verified && <CheckCircle className="w-4 h-4 text-green-500" />}
                   </div>
-                  
+
                   {/* Hidden quick action for similar recommendations */}
                   <Button
                     variant="ghost"
@@ -2204,20 +2199,20 @@ const Home = () => {
           <p className="text-xl text-cream/90 mb-8 max-w-2xl mx-auto">
             Experience the art of luxury perfumery with our exclusive collection and custom fragrance services.
           </p>
-          
+
           {/* Enhanced CTA buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Button 
+            <Button
               className="luxury-button text-lg px-8 py-4"
               onClick={() => openWhatsApp("I'm ready to start my custom fragrance journey. Please guide me through the process.")}
             >
               <MessageCircle className="mr-2 w-5 h-5" />
               Start Custom Journey
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="glass-card text-cream border-cream/30 hover:bg-cream/10 text-lg px-8 py-4"
-              // onClick={() => openWhatsApp("I have questions about ZOSHE fragrances and services. Can we chat?")}
+            // onClick={() => openWhatsApp("I have questions about ZOSHE fragrances and services. Can we chat?")}
             >
               <Phone className="mr-2 w-5 h-5" />
               {/* Get Personal Consultation */}
@@ -2248,7 +2243,7 @@ const Home = () => {
         </div>
       </section>
 
-      <FAQSection/>
+      <FAQSection />
     </div>
   );
 };
