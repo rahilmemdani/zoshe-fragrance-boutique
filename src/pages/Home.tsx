@@ -1290,10 +1290,10 @@ const Home = () => {
                   <div className="text-3xl font-bold text-primary">5+</div>
                   <div className="text-sm text-muted-foreground">Years of Expertise</div>
                 </div>
-                <div className="text-center">
+                {/* <div className="text-center">
                   <div className="text-3xl font-bold text-primary">100+</div>
                   <div className="text-sm text-muted-foreground">Unique Fragrances</div>
-                </div>
+                </div> */}
                 <div className="text-center">
                   <div className="text-3xl font-bold text-primary">10K+</div>
                   <div className="text-sm text-muted-foreground">Happy Customers</div>
