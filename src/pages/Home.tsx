@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Star, ArrowRight, Sparkles, Heart, Users, MessageCircle, Eye, ChevronLeft, ChevronRight, Phone, Mail, Clock, Shield, Truck, Award, Gift, Percent, X, Bell, Headphones, CheckCircle, Search, ChevronDown, HelpCircle, Zap } from 'lucide-react';
+import { Star, ArrowRight, Sparkles, Heart, Users, MessageCircle, Eye, ChevronLeft, ChevronRight, Phone, Mail, Clock, Shield, Truck, Award, Gift, Percent, X, Bell, Headphones, CheckCircle, Search, ChevronDown, HelpCircle, Zap, ArrowDown, MessageCircleQuestion, BookOpenText } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
@@ -143,33 +143,31 @@ const WhatsAppFloatingWidget = () => {
 };
 
 
-const FAQSection = () => {
-  const [expandedIndex, setExpandedIndex] = useState(null);
 
-  const faqs = [
-    {
-      q: "How long do your fragrances last?",
-      a: "Our premium fragrances are crafted to last 6-8 hours with exceptional longevity. The duration depends on your skin type, application method, and the specific fragrance concentration.",
-      icon: <Clock className="w-5 h-5" />
-    },
-    {
-      q: "Do you offer samples?",
-      a: "Yes! We provide 2ml sample vials for ₹99 each so you can experience our fragrances before committing to a full bottle. Perfect for discovering your signature scent.",
-      icon: <Gift className="w-5 h-5" />
-    },
-    {
-      q: "What's your return policy?",
-      a: "We offer a 30-day satisfaction guarantee on all purchases. If you're not completely satisfied with your fragrance, contact us within 30 days for a full refund or exchange.",
-      icon: <Shield className="w-5 h-5" />
-    },
-    {
-      q: "How fast is delivery?",
-      a: "We ensure quick delivery across India - 2-3 days in major cities (Mumbai, Delhi, Bangalore, Pune) and 4-7 days nationwide. Free shipping on orders above ₹2,999.",
-      icon: <Truck className="w-5 h-5" />
-    }
+const FAQSection = () => {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [faqs, setFaqs] = useState<any[]>([]);
+
+  // Hardcoded icons map (based on index order)
+  const icons = [
+    <Clock className="w-5 h-5" />,
+    <Gift className="w-5 h-5" />,
+    <Shield className="w-5 h-5" />,
+    <Truck className="w-5 h-5" />,
   ];
 
-  const toggleExpanded = (index) => {
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      const data = await sanityClient.fetch(`*[_type == "faq"] | order(order asc){
+        question,
+        answer
+      }`);
+      setFaqs(data);
+    };
+    fetchFaqs();
+  }, []);
+
+  const toggleExpanded = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
@@ -199,6 +197,7 @@ const FAQSection = () => {
           </Button>
         </motion.div>
 
+        {/* FAQ Cards */}
         <div className="space-y-4">
           {faqs.map((faq, index) => (
             <motion.div
@@ -219,22 +218,24 @@ const FAQSection = () => {
                       <div className="flex items-center gap-4 flex-1">
                         <div className="bg-gradient-to-r from-primary to-accent p-3 rounded-full shadow-lg group-hover:scale-110 transition-transform duration-300">
                           <div className="text-white">
-                            {faq.icon}
+                            {/* {icons[index % icons.length]} */}
+                            <BookOpenText className="h-5 w-5 text-muted-foreground text-white" />
                           </div>
                         </div>
 
                         <h3 className="text-lg font-bold text-primary group-hover:text-accent transition-colors duration-300">
-                          {faq.q}
+                          {faq.question}
                         </h3>
                       </div>
 
                       <motion.div
                         animate={{ rotate: expandedIndex === index ? 180 : 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className={`p-2 rounded-full transition-all duration-300 ${expandedIndex === index
-                            ? 'bg-accent/10 text-accent'
-                            : 'bg-muted/50 text-muted-foreground hover:bg-accent/10 hover:text-accent'
-                          }`}
+                        className={`p-2 rounded-full transition-all duration-300 ${
+                          expandedIndex === index
+                            ? "bg-accent/10 text-accent"
+                            : "bg-muted/50 text-muted-foreground hover:bg-accent/10 hover:text-accent"
+                        }`}
                       >
                         <ChevronDown className="w-5 h-5" />
                       </motion.div>
@@ -257,7 +258,7 @@ const FAQSection = () => {
                               transition={{ delay: 0.1, duration: 0.2 }}
                               className="text-muted-foreground leading-relaxed mb-6"
                             >
-                              {faq.a}
+                              {faq.answer}
                             </motion.p>
 
                             <motion.div
@@ -271,7 +272,7 @@ const FAQSection = () => {
                                 size="sm"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  openWhatsApp(`I want to know more about: ${faq.q}`);
+                                  openWhatsApp(`I want to know more about: ${faq.question}`);
                                 }}
                                 className="text-green-600 hover:bg-green-50 rounded-full px-4 py-2 transition-all duration-300 hover:scale-105 group/btn"
                               >
@@ -289,42 +290,11 @@ const FAQSection = () => {
             </motion.div>
           ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mt-12 p-8 glass-card rounded-2xl"
-        >
-          <h3 className="text-2xl font-bold text-primary mb-4">
-            Still have questions?
-          </h3>
-          <p className="text-muted-foreground mb-6">
-            Our fragrance experts are here to help you find your perfect scent
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg rounded-full px-6 py-3"
-              onClick={() => openWhatsApp("I need personalized fragrance consultation")}
-            >
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Get Personal Consultation
-            </Button>
-            <Link to="/catalog">
-              <Button
-                variant="outline"
-                className="border-primary/30 text-primary hover:bg-primary/5 rounded-full px-6 py-3"
-              // onClick={() => openWhatsApp("I want to know more about your fragrance collection")}
-              >
-                View Collection
-              </Button>
-            </Link>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
 };
+
 
 interface Banner {
   title: string;
@@ -760,7 +730,7 @@ const OfferBannerHero = () => {
   const hasImage = activeBanner.imageUrl;
 
   return (
-    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 z-40">
+    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2">
       <motion.div
         initial={{ y: -30, opacity: 0, scale: 0.95 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
