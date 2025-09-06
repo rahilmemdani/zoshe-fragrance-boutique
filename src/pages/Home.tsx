@@ -231,11 +231,10 @@ const FAQSection = () => {
                       <motion.div
                         animate={{ rotate: expandedIndex === index ? 180 : 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className={`p-2 rounded-full transition-all duration-300 ${
-                          expandedIndex === index
+                        className={`p-2 rounded-full transition-all duration-300 ${expandedIndex === index
                             ? "bg-accent/10 text-accent"
                             : "bg-muted/50 text-muted-foreground hover:bg-accent/10 hover:text-accent"
-                        }`}
+                          }`}
                       >
                         <ChevronDown className="w-5 h-5" />
                       </motion.div>
@@ -902,8 +901,8 @@ const OfferBannerHero = () => {
                       whileHover={{ scale: 1.2 }}
                       whileTap={{ scale: 0.9 }}
                       className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
-                          ? 'bg-accent shadow-lg shadow-accent/50 scale-125'
-                          : 'bg-white/40 hover:bg-white/60'
+                        ? 'bg-accent shadow-lg shadow-accent/50 scale-125'
+                        : 'bg-white/40 hover:bg-white/60'
                         }`}
                       aria-label={`Go to banner ${index + 1}`}
                     />
@@ -1019,8 +1018,8 @@ const OfferBannerHero = () => {
                         whileHover={{ scale: 1.3 }}
                         whileTap={{ scale: 0.9 }}
                         className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
-                            ? 'bg-accent shadow-lg shadow-accent/50'
-                            : 'bg-white/40 hover:bg-white/60'
+                          ? 'bg-accent shadow-lg shadow-accent/50'
+                          : 'bg-white/40 hover:bg-white/60'
                           }`}
                         aria-label={`Go to banner ${index + 1}`}
                       />
