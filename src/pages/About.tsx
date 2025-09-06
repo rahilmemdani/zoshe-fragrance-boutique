@@ -1,6 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Award, Users, Globe, ChevronDown, Heart, Star, Crown, Target, Zap, Shield } from 'lucide-react';
+import { Sparkles, Award, Users, Globe, ChevronDown, Heart, Star, Crown, Target, Zap, Shield, Link } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import shahreenImage from "../assets/shahreen Mohd Imran.jpeg";
@@ -615,7 +615,8 @@ const About = () => {
                 <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
                   Join thousands of customers who have discovered their unique essence with ZOSHE. Let us craft a fragrance that tells your story.
                 </p>
-                {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link to="/catalog">
                   <Button 
                     size="lg"
                     className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-lg transition-all duration-300 hover:scale-105 rounded-full px-8"
@@ -623,15 +624,16 @@ const About = () => {
                     <Sparkles className="w-5 h-5 mr-2" />
                     Start Your Journey
                   </Button>
-                  <Button 
+                  </Link>
+                  {/* <Button 
                     variant="outline" 
                     size="lg"
                     className="border-primary text-primary hover:bg-primary/5 rounded-full px-8"
                   >
                     <Users className="w-5 h-5 mr-2" />
                     Meet Our Team
-                  </Button>
-                </div> */}
+                  </Button> */}
+                </div>
               </CardContent>
             </Card>
           </motion.div>
