@@ -1046,7 +1046,7 @@ const OfferBannerHero = () => {
                     </a>
                   ) : (
                     <Button
-                      onClick={() => openWhatsApp(activeBanner.ctaText || "I'm interested in your current offer")}
+                      onClick={() => openWhatsApp(activeBanner.title || "I'm interested in your current offer")}
                       className="bg-gradient-to-r from-white via-white to-white/95 text-primary font-bold text-lg px-8 py-4 rounded-2xl hover:shadow-2xl hover:shadow-white/25 transition-all duration-500 group relative overflow-hidden"
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
