@@ -104,7 +104,7 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
   );
 };
 
-// Enhanced Product Image Slider
+// Enhanced Product Image Slider with Responsive Fixes
 const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: Perfume; viewMode: string; onQuickViewClick: () => void; }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -140,10 +140,16 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative overflow-hidden group ${viewMode === 'list' ? 'w-48 flex-shrink-0' : ''}`}
+      className={`relative overflow-hidden group ${
+        viewMode === 'list' ? 'w-full md:w-48 flex-shrink-0' : ''
+      }`}
     >
       {/* Enhanced Image with Loading State */}
-      <div className={`relative ${viewMode === 'list' ? 'h-48' : 'h-64 sm:h-80'}`}>
+      <div className={`relative ${
+        viewMode === 'list' 
+          ? 'h-48 md:h-48' 
+          : 'h-64 sm:h-80'
+      }`}>
         {!imageLoaded && (
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center animate-pulse">
             <div className="text-4xl opacity-50">🌸</div>
@@ -223,11 +229,14 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
 
         {/* Out of Stock Overlay */}
         {perfume.isOutOfStock && (
-          <><div className="absolute inset-0 bg-black/60 rounded-2xl"></div><div className="absolute top-4 right-0 transform rotate-[10deg] origin-top-right z-30 pointer-events-none">
-            <div className="bg-red-600/90 text-white text-xs sm:text-sm font-bold px-4 py-1 shadow-lg rounded-tl-lg rounded-br-lg uppercase tracking-wider backdrop-blur-sm">
-              Out of Stock
+          <>
+            <div className="absolute inset-0 bg-black/60 rounded-2xl"></div>
+            <div className="absolute top-4 right-0 transform rotate-[10deg] origin-top-right z-30 pointer-events-none">
+              <div className="bg-red-600/90 text-white text-xs sm:text-sm font-bold px-4 py-1 shadow-lg rounded-tl-lg rounded-br-lg uppercase tracking-wider backdrop-blur-sm">
+                Out of Stock
+              </div>
             </div>
-          </div></>
+          </>
         )}
       </div>
     </div>
@@ -694,7 +703,7 @@ const Catalog = () => {
           </section>
         )}
 
-        {/* Enhanced Products Grid - Fixed Button Sizing & List Layout */}
+        {/* Enhanced Products Grid - Fully Responsive List & Grid Layout */}
         <section className="py-20 bg-background relative">
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary rounded-full blur-2xl"></div>
@@ -703,10 +712,11 @@ const Catalog = () => {
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             {filteredPerfumes.length > 0 ? (
-              <div className={`grid gap-4 sm:gap-6 ${viewMode === 'grid'
+              <div className={`grid gap-4 sm:gap-6 ${
+                viewMode === 'grid'
                   ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'
                   : 'grid-cols-1 max-w-4xl mx-auto'
-                }`}>
+              }`}>
                 {currentPerfumes.map((perfume) => (
                   <motion.div
                     key={perfume._id}
@@ -715,8 +725,11 @@ const Catalog = () => {
                     transition={{ duration: 0.5 }}
                   >
                     <Card
-                      className={`group glass-card overflow-hidden rounded-2xl border border-border/20 shadow-md hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 relative ${viewMode === 'list' ? 'flex flex-row' : 'flex flex-col'
-                        }`}
+                      className={`group glass-card overflow-hidden rounded-2xl border border-border/20 shadow-md hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 relative ${
+                        viewMode === 'list' 
+                          ? 'flex flex-col md:flex-row' // ✅ RESPONSIVE: vertical on mobile, horizontal on desktop
+                          : 'flex flex-col'
+                      }`}
                     >
                       <ProductImageSlider
                         perfume={perfume}
@@ -724,8 +737,11 @@ const Catalog = () => {
                         onQuickViewClick={() => setQuickViewPerfume(perfume)}
                       />
 
-                      <CardContent className={`p-4 sm:p-6 space-y-3 sm:space-y-4 relative ${viewMode === "list" ? "flex-1 flex flex-col justify-between" : "flex-1 flex flex-col"
-                        }`}>
+                      <CardContent className={`p-4 sm:p-6 space-y-3 sm:space-y-4 relative ${
+                        viewMode === "list" 
+                          ? "flex-1 flex flex-col justify-between min-w-0" 
+                          : "flex-1 flex flex-col"
+                      }`}>
                         <div className="flex-1 space-y-2 sm:space-y-3">
                           <div className="flex items-start justify-between">
                             <h3 className="text-base sm:text-lg font-semibold text-primary group-hover:text-primary/80 transition-colors leading-snug">
@@ -762,7 +778,7 @@ const Catalog = () => {
                           )}
                         </div>
 
-                        {/* Fixed Button Section with Consistent Sizing */}
+                        {/* Fully Responsive Button Section */}
                         <div className="flex flex-col gap-3 sm:gap-4 border-t border-border/40 pt-3 sm:pt-4 mt-auto">
                           <PriceDisplay
                             price={perfume.price}
@@ -771,17 +787,20 @@ const Catalog = () => {
                             className="justify-start"
                           />
 
-                          {/* Fixed Button Container with Same Height & Proper Alignment */}
-                          <div className={`flex gap-2 items-center ${viewMode === 'grid' ? 'flex-col' : 'flex-row'
-                            }`}>
-                            {/* Enquire Button - Fixed Size to Match Eye Icon */}
+                          {/* ✅ FULLY RESPONSIVE Button Container */}
+                          <div className={`flex gap-2 items-center ${
+                            viewMode === 'grid' 
+                              ? 'flex-col' 
+                              : 'flex-col sm:flex-row' // ✅ Stack on mobile, row on larger screens for list view
+                          }`}>
+                            {/* Enquire Button - Responsive Width and Height */}
                             <Button
-                              className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${viewMode === 'grid'
+                              className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${
+                                viewMode === 'grid'
                                   ? 'w-full h-10 text-xs'
-                                  : 'flex-1 h-10 text-sm'
-                                }`}
+                                  : 'w-full sm:flex-1 h-10 text-sm' // ✅ Full width on mobile, flex-1 on larger screens
+                              }`}
                               onClick={() => openWhatsApp(`I'm interested in ${perfume.name}. Can you tell me more about it?`)}
-                            // disabled={perfume.isOutOfStock}
                             >
                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                               <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
@@ -790,17 +809,18 @@ const Catalog = () => {
                               </span>
                             </Button>
 
-                            {/* Eye Button - Fixed Size Matching Enquire Button */}
+                            {/* Eye Button - Responsive Width and Height */}
                             <Button
                               variant="outline"
                               onClick={() => setQuickViewPerfume(perfume)}
-                              className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${viewMode === 'grid'
+                              className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${
+                                viewMode === 'grid'
                                   ? 'w-full h-10'
-                                  : 'w-10 h-10 flex-shrink-0'
-                                }`}
+                                  : 'w-full sm:w-auto sm:px-4 h-10' // ✅ Full width on mobile, auto width on larger screens
+                              }`}
                             >
                               <Eye className="w-4 h-4" />
-                              {viewMode === 'grid' && <span className="ml-2 text-xs">Quick View</span>}
+                              <span className="ml-2 text-xs sm:text-sm">Quick View</span>
                             </Button>
                           </div>
                         </div>
@@ -999,8 +1019,9 @@ const Catalog = () => {
                               <button
                                 key={index}
                                 onClick={() => setQuickViewImageIndex(index)}
-                                className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${quickViewImageIndex === index ? 'border-primary' : 'border-border'
-                                  }`}
+                                className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
+                                  quickViewImageIndex === index ? 'border-primary' : 'border-border'
+                                }`}
                               >
                                 <img
                                   src={urlFor(quickViewPerfume.images[index].asset).width(100).url()}
@@ -1062,7 +1083,6 @@ const Catalog = () => {
                           <Button
                             className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 py-3"
                             onClick={() => openWhatsApp(`I want to order ${quickViewPerfume.name}. Please provide me with ordering details and availability.`)}
-                          // disabled={quickViewPerfume.isOutOfStock}
                           >
                             <MessageCircle className="w-5 h-5 mr-2" />
                             {quickViewPerfume.isOutOfStock ? 'Out of Stock' : 'Order via WhatsApp'}
