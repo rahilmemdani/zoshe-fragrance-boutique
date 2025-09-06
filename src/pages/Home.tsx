@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Star, ArrowRight, Sparkles, Heart, Users, MessageCircle, Eye, ChevronLeft, ChevronRight, Phone, Mail, Clock, Shield, Truck, Award, Gift, Percent, X, Bell, Headphones, CheckCircle, Search, ChevronDown, HelpCircle } from 'lucide-react';
+import { Star, ArrowRight, Sparkles, Heart, Users, MessageCircle, Eye, ChevronLeft, ChevronRight, Phone, Mail, Clock, Shield, Truck, Award, Gift, Percent, X, Bell, Headphones, CheckCircle, Search, ChevronDown, HelpCircle, Zap } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
@@ -688,6 +688,444 @@ const OfferBanner = () => {
   );
 };
 
+const OfferBannerHero = () => {
+  const [banners, setBanners] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+  const [isVisible, setIsVisible] = useState(true);
+
+  // Fetch banners from Sanity
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const data = await sanityClient.fetch(`
+          *[_type == "banner" && isActive == true && now() >= startDate && now() <= endDate]{
+            title,
+            subtitle,
+            "imageUrl": image.asset->url,
+            ctaText,
+            ctaLink,
+            endDate
+          }
+        `);
+        if (data.length > 0) {
+          setBanners(data);
+        }
+      } catch (error) {
+        console.error('Error fetching banners:', error);
+      }
+    };
+    fetchBanners();
+  }, []);
+
+  // Auto-rotate banners
+  useEffect(() => {
+    if (banners.length <= 1) return;
+    
+    const timer = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % banners.length);
+    }, 8000);
+
+    return () => clearInterval(timer);
+  }, [banners.length]);
+
+  // Countdown timer
+  useEffect(() => {
+    if (!banners.length) return;
+    const activeBanner = banners[currentIndex];
+    if (!activeBanner?.endDate) return;
+
+    const updateCountdown = () => {
+      const end = new Date(activeBanner.endDate).getTime();
+      const now = Date.now();
+      const diff = Math.max(0, end - now);
+
+      if (diff <= 0) {
+        setIsVisible(false);
+        return;
+      }
+
+      setTimeLeft({
+        hours: Math.floor(diff / (1000 * 60 * 60)),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      });
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+    return () => clearInterval(interval);
+  }, [currentIndex, banners]);
+
+  if (!isVisible || banners.length === 0) return null;
+
+  const activeBanner = banners[currentIndex];
+  const hasImage = activeBanner.imageUrl;
+
+  return (
+    <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 z-40">
+      <motion.div
+        initial={{ y: -30, opacity: 0, scale: 0.95 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ y: -30, opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.6, ease: "easeOut", type: "spring", bounce: 0.2 }}
+        className="relative overflow-hidden rounded-2xl shadow-2xl hover:shadow-3xl transition-all duration-700 group"
+      >
+        {/* Enhanced Background with Beautiful Overlays */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`bg-${currentIndex}`}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 1, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            {hasImage ? (
+              <>
+                <img
+                  src={activeBanner.imageUrl}
+                  alt={activeBanner.title}
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                />
+                {/* Enhanced overlay gradients */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/80" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-accent/20" />
+              </>
+            ) : (
+              <>
+                <div className="w-full h-full bg-gradient-to-br from-primary via-accent to-primary" />
+                {/* Premium pattern overlay */}
+                <div className="absolute inset-0 opacity-20">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 animate-shimmer" />
+                </div>
+                {/* Floating decorative elements */}
+                <div className="absolute top-4 right-8 w-32 h-32 bg-white/10 rounded-full blur-3xl animate-pulse" />
+                <div className="absolute bottom-4 left-8 w-24 h-24 bg-white/5 rounded-full blur-2xl animate-pulse delay-1000" />
+              </>
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Premium Content Container */}
+        <div className="relative z-10 text-white">
+          
+          {/* Mobile Layout - Enhanced */}
+          <div className="block lg:hidden p-6">
+            <div className="space-y-4">
+              {/* Header Row */}
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <motion.div
+                    animate={{ 
+                      rotate: [0, 15, -15, 0],
+                      scale: [1, 1.1, 1]
+                    }}
+                    transition={{ 
+                      duration: 3, 
+                      repeat: Infinity, 
+                      repeatDelay: 2,
+                      ease: "easeInOut"
+                    }}
+                    className="bg-white/20 backdrop-blur-sm rounded-full p-2"
+                  >
+                    <Gift className="w-6 h-6 text-accent" />
+                  </motion.div>
+                  <div className="flex-1 min-w-0">
+                    <motion.h3 
+                      key={activeBanner.title}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="font-bold text-lg leading-tight bg-gradient-to-r from-white via-accent to-white bg-clip-text text-transparent"
+                    >
+                      {activeBanner.title}
+                    </motion.h3>
+                    {activeBanner.subtitle && (
+                      <motion.p 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.2 }}
+                        className="text-sm text-white/90 mt-1 line-clamp-2 leading-relaxed"
+                      >
+                        {activeBanner.subtitle}
+                      </motion.p>
+                    )}
+                  </div>
+                </div>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsVisible(false)}
+                  className="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-2 backdrop-blur-sm transition-all duration-300"
+                  aria-label="Close banner"
+                >
+                  <X className="w-5 h-5" />
+                </Button>
+              </div>
+
+              {/* Content Row */}
+              <div className="flex items-center justify-between gap-4">
+                {/* Mobile Countdown */}
+                {activeBanner.endDate && (
+                  <div className="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20">
+                    <Clock className="w-4 h-4 text-accent flex-shrink-0" />
+                    <span className="text-xs font-medium text-white/90">Ends in:</span>
+                    <div className="flex items-center gap-1">
+                      {[
+                        { value: timeLeft.hours, label: 'H' },
+                        { value: timeLeft.minutes, label: 'M' },
+                        { value: timeLeft.seconds, label: 'S' }
+                      ].map((item, index) => (
+                        <div key={index} className="flex items-center">
+                          {index > 0 && <span className="text-white/60 mx-1">:</span>}
+                          <motion.div
+                            key={item.value}
+                            initial={{ y: -10, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            className="bg-white/25 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold min-w-[1.75rem] text-center border border-white/20"
+                          >
+                            {String(item.value).padStart(2, '0')}
+                          </motion.div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Mobile CTA */}
+                {(activeBanner.ctaLink || activeBanner.ctaText) && (
+                  <motion.div
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex-shrink-0"
+                  >
+                    {activeBanner.ctaLink ? (
+                      <a
+                        href={activeBanner.ctaLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
+                      >
+                        <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
+                        {activeBanner.ctaText || "Shop Now"}
+                      </a>
+                    ) : (
+                      <Button
+                        onClick={() => openWhatsApp(activeBanner.ctaText || "I'm interested in your current offer")}
+                        className="bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
+                      >
+                        <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
+                        {activeBanner.ctaText || "Shop Now"}
+                      </Button>
+                    )}
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Mobile Banner Dots */}
+              {banners.length > 1 && (
+                <div className="flex justify-center items-center gap-3 pt-2">
+                  {banners.map((_, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => setCurrentIndex(index)}
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                      className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                        index === currentIndex 
+                          ? 'bg-accent shadow-lg shadow-accent/50 scale-125' 
+                          : 'bg-white/40 hover:bg-white/60'
+                      }`}
+                      aria-label={`Go to banner ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Desktop Layout - Premium */}
+          <div className="hidden lg:flex items-center justify-between gap-8 p-8">
+            
+            {/* Left Content */}
+            <div className="flex items-center gap-6 flex-1 min-w-0">
+              <motion.div
+                animate={{ 
+                  rotate: [0, 15, -15, 0],
+                  scale: [1, 1.1, 1]
+                }}
+                transition={{ 
+                  duration: 3, 
+                  repeat: Infinity, 
+                  repeatDelay: 2,
+                  ease: "easeInOut"
+                }}
+                className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 shadow-lg"
+              >
+                <Gift className="w-8 h-8 text-accent" />
+              </motion.div>
+              
+              <div className="flex-1 min-w-0">
+                <motion.h3 
+                  key={activeBanner.title}
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="font-bold text-2xl xl:text-3xl leading-tight bg-gradient-to-r from-white via-accent to-white bg-clip-text text-transparent mb-2"
+                >
+                  {activeBanner.title}
+                </motion.h3>
+                {activeBanner.subtitle && (
+                  <motion.p 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-white/90 text-lg max-w-2xl leading-relaxed"
+                  >
+                    {activeBanner.subtitle}
+                  </motion.p>
+                )}
+              </div>
+            </div>
+
+            {/* Center - Premium Countdown */}
+            {activeBanner.endDate && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center gap-4 bg-black/30 backdrop-blur-md rounded-2xl px-6 py-4 border border-white/20 shadow-xl"
+              >
+                <div className="flex items-center gap-2">
+                  <Clock className="w-6 h-6 text-accent" />
+                  <span className="text-white/90 font-medium">Ends in:</span>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  {[
+                    { value: timeLeft.hours, label: 'Hours' },
+                    { value: timeLeft.minutes, label: 'Minutes' },
+                    { value: timeLeft.seconds, label: 'Seconds' }
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center">
+                      {index > 0 && <span className="text-white/60 mx-2 text-xl">:</span>}
+                      <div className="text-center">
+                        <motion.div
+                          key={item.value}
+                          initial={{ y: -10, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          className="bg-gradient-to-b from-white/30 to-white/20 backdrop-blur-sm px-3 py-2 rounded-xl text-xl font-bold min-w-[3rem] text-center border border-white/20 shadow-lg"
+                        >
+                          {String(item.value).padStart(2, '0')}
+                        </motion.div>
+                        <div className="text-xs text-white/60 mt-1 font-medium">
+                          {item.label}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Right - Actions */}
+            <div className="flex items-center gap-4">
+              
+              {/* Banner Navigation */}
+              {banners.length > 1 && (
+                <div className="flex items-center gap-3 bg-black/30 backdrop-blur-md rounded-2xl px-4 py-2 border border-white/20">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setCurrentIndex(prev => (prev - 1 + banners.length) % banners.length)}
+                    className="text-white hover:bg-white/20 rounded-full p-2 transition-all duration-300"
+                    aria-label="Previous banner"
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </Button>
+                  
+                  <div className="flex gap-2">
+                    {banners.map((_, index) => (
+                      <motion.button
+                        key={index}
+                        onClick={() => setCurrentIndex(index)}
+                        whileHover={{ scale: 1.3 }}
+                        whileTap={{ scale: 0.9 }}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                          index === currentIndex 
+                            ? 'bg-accent shadow-lg shadow-accent/50' 
+                            : 'bg-white/40 hover:bg-white/60'
+                        }`}
+                        aria-label={`Go to banner ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                  
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setCurrentIndex(prev => (prev + 1) % banners.length)}
+                    className="text-white hover:bg-white/20 rounded-full p-2 transition-all duration-300"
+                    aria-label="Next banner"
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </Button>
+                </div>
+              )}
+
+              {/* Premium CTA */}
+              {(activeBanner.ctaLink || activeBanner.ctaText) && (
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="relative"
+                >
+                  {activeBanner.ctaLink ? (
+                    <a
+                      href={activeBanner.ctaLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center bg-gradient-to-r from-white via-white to-white/95 text-primary font-bold text-lg px-8 py-4 rounded-2xl hover:shadow-2xl hover:shadow-white/25 transition-all duration-500 group relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <Zap className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform relative z-10" />
+                      <span className="relative z-10">{activeBanner.ctaText || "Shop Now"}</span>
+                    </a>
+                  ) : (
+                    <Button
+                      onClick={() => openWhatsApp(activeBanner.ctaText || "I'm interested in your current offer")}
+                      className="bg-gradient-to-r from-white via-white to-white/95 text-primary font-bold text-lg px-8 py-4 rounded-2xl hover:shadow-2xl hover:shadow-white/25 transition-all duration-500 group relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <Zap className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform relative z-10" />
+                      <span className="relative z-10">{activeBanner.ctaText || "Shop Now"}</span>
+                    </Button>
+                  )}
+                </motion.div>
+              )}
+
+              {/* Enhanced Close Button */}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setIsVisible(false)}
+                className="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-3 backdrop-blur-sm transition-all duration-300 hover:scale-110"
+                aria-label="Close banner"
+              >
+                <X className="w-6 h-6" />
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Premium Hover Effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none" />
+      </motion.div>
+    </div>
+  );
+};
+
+
 const LiveSocialProof = () => {
   const [currentNotification, setCurrentNotification] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
@@ -1194,6 +1632,7 @@ const Home = () => {
           <OfferBanner />
       {/* <LiveSocialProof /> */}
       <WhatsAppFloatingWidget />
+      
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -1266,6 +1705,9 @@ const Home = () => {
           <Heart className="w-6 h-6 text-lavender" />
         </div>
       </section>
+
+      <OfferBannerHero/>
+
 
       {/* 🚀 NEW: Trust Badges */}
       {/* <TrustBadgesSection /> */}

@@ -69,7 +69,7 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left: Text Content */}
             <div className="space-y-6">
-              <h2 className="text-5xl sm:text-4xl lg:text-6xl font-bold text-primary">
+              <h2 className="sm:text-4xl lg:text-6xl font-bold text-primary">
                 The ZOSHE <span className="text-accent">Legacy</span>
               </h2>
               <div className="space-y-4 text-lg text-muted-foreground leading-relaxed">
