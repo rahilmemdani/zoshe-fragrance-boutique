@@ -112,7 +112,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
   const intervalRef = useRef<number | null>(null);
 
   const images = perfume.images || [];
-
   useEffect(() => {
     if (images.length > 1 && !isHovered) {
       intervalRef.current = window.setInterval(() => {
@@ -249,13 +248,15 @@ const AdvancedFilters = ({
   onClose,
   filters,
   onFiltersChange,
-  scentProfiles
+  scentProfiles,
+  maxPerfumePrice,
 }: {
   isOpen: boolean;
   onClose: () => void;
   filters: any;
   onFiltersChange: (filters: any) => void;
   scentProfiles: string[];
+  maxPerfumePrice: number
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -275,7 +276,7 @@ const AdvancedFilters = ({
               <Slider
                 value={[filters.minPrice, filters.maxPrice]}
                 onValueChange={(value) => onFiltersChange({ ...filters, minPrice: value[0], maxPrice: value[1] })}
-                max={10000}
+                max={maxPerfumePrice}
                 min={0}
                 step={100}
                 className="w-full"
@@ -344,7 +345,7 @@ const AdvancedFilters = ({
         <div className="flex gap-2 pt-4 border-t">
           <Button variant="outline" onClick={() => onFiltersChange({
             minPrice: 0,
-            maxPrice: 10000,
+            maxPrice: maxPerfumePrice,
             selectedScents: [],
             showPremiumOnly: false,
             inStockOnly: false,
@@ -372,15 +373,26 @@ const Catalog = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useState<Perfume[]>([]);
 
+  const maxPerfumePrice =
+  perfumes.length > 0 ? Math.max(...perfumes.map(p => p.price)) : 0;
+
+  
+
   // Advanced filters state
   const [filters, setFilters] = useState({
     minPrice: 0,
-    maxPrice: 10000,
+    maxPrice: maxPerfumePrice,
     selectedScents: [] as string[],
     showPremiumOnly: false,
     inStockOnly: false,
     onSaleOnly: false
   });
+
+  useEffect(() => {
+    if (perfumes.length > 0) {
+      setFilters(f => ({ ...f, maxPrice: maxPerfumePrice }));
+    }
+  }, [perfumes, maxPerfumePrice]);
 
   useEffect(() => {
     const fetchCatalogue = async () => {
@@ -391,6 +403,7 @@ const Catalog = () => {
           }`
         );
         setPerfumes(data);
+
       } catch (error) {
         console.error('Error fetching catalogue:', error);
       }
@@ -855,7 +868,7 @@ const Catalog = () => {
                         setSearchTerm('');
                         setFilters({
                           minPrice: 0,
-                          maxPrice: 10000,
+                          maxPrice: maxPerfumePrice,
                           selectedScents: [],
                           showPremiumOnly: false,
                           inStockOnly: false,
@@ -1120,6 +1133,7 @@ const Catalog = () => {
           filters={filters}
           onFiltersChange={setFilters}
           scentProfiles={allScentProfiles}
+          maxPerfumePrice={maxPerfumePrice}  
         />
       </div>
     </>

@@ -115,7 +115,7 @@ const About = () => {
             {[
               { icon: <Crown className="w-6 h-6" />, value: "2025", label: "Founded" },
               { icon: <Users className="w-6 h-6" />, value: "2", label: "Expert Founders" },
-              { icon: <Heart className="w-6 h-6" />, value: "1000+", label: "Happy Customers" }
+              { icon: <Heart className="w-6 h-6" />, value: "10K+", label: "Happy Customers" }
               // { icon: <Globe className="w-6 h-6" />, value: "Global", label: "Reach" }
             ].map((stat, idx) => (
               <motion.div
