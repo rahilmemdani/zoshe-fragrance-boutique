@@ -866,63 +866,64 @@ const OfferBannerHero = () => {
               </div>
 
               {/* Content Row */}
-              <div className="flex items-center justify-between gap-4">
-                {/* Mobile Countdown */}
-                {activeBanner.endDate && (
-                  <div className="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20">
-                    <Clock className="w-4 h-4 text-accent flex-shrink-0" />
-                    <span className="text-xs font-medium text-white/90">Ends in:</span>
-                    <div className="flex items-center gap-1">
-                      {[
-                        { value: timeLeft.hours, label: 'H' },
-                        { value: timeLeft.minutes, label: 'M' },
-                        { value: timeLeft.seconds, label: 'S' }
-                      ].map((item, index) => (
-                        <div key={index} className="flex items-center">
-                          {index > 0 && <span className="text-white/60 mx-1">:</span>}
-                          <motion.div
-                            key={item.value}
-                            initial={{ y: -10, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            className="bg-white/25 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold min-w-[1.75rem] text-center border border-white/20"
-                          >
-                            {String(item.value).padStart(2, '0')}
-                          </motion.div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+<div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+  {/* Mobile Countdown */}
+  {activeBanner.endDate && (
+    <div className="flex items-center gap-2 bg-black/30 backdrop-blur-sm rounded-xl px-4 py-3 border border-white/20 w-full sm:w-auto">
+      <Clock className="w-4 h-4 text-accent flex-shrink-0" />
+      <span className="text-xs font-medium text-white/90">Ends in:</span>
+      <div className="flex items-center gap-1">
+        {[
+          { value: timeLeft.hours, label: 'H' },
+          { value: timeLeft.minutes, label: 'M' },
+          { value: timeLeft.seconds, label: 'S' }
+        ].map((item, index) => (
+          <div key={index} className="flex items-center">
+            {index > 0 && <span className="text-white/60 mx-1">:</span>}
+            <motion.div
+              key={item.value}
+              initial={{ y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              className="bg-white/25 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold min-w-[1.75rem] text-center border border-white/20"
+            >
+              {String(item.value).padStart(2, '0')}
+            </motion.div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
 
-                {/* Mobile CTA */}
-                {(activeBanner.ctaLink || activeBanner.ctaText) && (
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex-shrink-0"
-                  >
-                    {activeBanner.ctaLink ? (
-                      <a
-                        href={activeBanner.ctaLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
-                      >
-                        <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
-                        {activeBanner.ctaText || "Shop Now"}
-                      </a>
-                    ) : (
-                      <Button
-                        onClick={() => openWhatsApp(activeBanner.ctaText || "I'm interested in your current offer")}
-                        className="bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
-                      >
-                        <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
-                        {activeBanner.ctaText || "Shop Now"}
-                      </Button>
-                    )}
-                  </motion.div>
-                )}
-              </div>
+  {/* Mobile CTA */}
+  {(activeBanner.ctaLink || activeBanner.ctaText) && (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="flex-shrink-0 w-full sm:w-auto"
+    >
+      {activeBanner.ctaLink ? (
+        <a
+          href={activeBanner.ctaLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center w-full sm:w-auto bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
+        >
+          <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
+          {activeBanner.ctaText || "Shop Now"}
+        </a>
+      ) : (
+        <Button
+          onClick={() => openWhatsApp(activeBanner.ctaText || "I'm interested in your current offer")}
+          className="w-full sm:w-auto bg-gradient-to-r from-white to-white/95 text-primary font-bold text-sm px-5 py-2.5 rounded-full hover:shadow-lg hover:shadow-white/25 transition-all duration-300 group"
+        >
+          <Sparkles className="w-4 h-4 mr-2 group-hover:rotate-12 transition-transform" />
+          {activeBanner.ctaText || "Shop Now"}
+        </Button>
+      )}
+    </motion.div>
+  )}
+</div>
+
 
               {/* Mobile Banner Dots */}
               {banners.length > 1 && (
