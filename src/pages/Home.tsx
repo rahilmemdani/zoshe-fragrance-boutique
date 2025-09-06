@@ -1969,13 +1969,13 @@ const Home = () => {
                               <MessageCircle className="w-4 h-4 mr-2" />
                               Order via WhatsApp
                             </Button>
-                            <Button
+                            {/* <Button
                               variant="outline"
                               className="border-green-500 text-green-600 hover:bg-green-50"
                               onClick={() => openWhatsApp(`Can I get a sample of ${quickViewPerfume.name} before purchasing?`)}
                             >
                               🧪 Request Sample
-                            </Button>
+                            </Button> */}
                           </div>
 
                           <Button

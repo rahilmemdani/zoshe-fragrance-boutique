@@ -1088,13 +1088,13 @@ const Catalog = () => {
                             {quickViewPerfume.isOutOfStock ? 'Out of Stock' : 'Order via WhatsApp'}
                           </Button>
 
-                          <Button
+                          {/* <Button
                             variant="outline"
                             onClick={() => openWhatsApp(`Can I get a sample of ${quickViewPerfume.name} before purchasing? Please let me know about sample availability and pricing.`)}
                             className="px-6 py-3"
                           >
                             Request Sample
-                          </Button>
+                          </Button> */}
                         </div>
 
                         <Button

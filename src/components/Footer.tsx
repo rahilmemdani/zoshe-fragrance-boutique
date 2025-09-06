@@ -30,7 +30,7 @@ const Footer = () => {
               <Link to="/about" className="block text-sm opacity-90 hover:opacity-100 transition-opacity">About Us</Link>
               <Link to="/catalog" className="block text-sm opacity-90 hover:opacity-100 transition-opacity">Our Perfumes</Link>
               <Link to="/customization" className="block text-sm opacity-90 hover:opacity-100 transition-opacity">Custom Services</Link>
-              <Link to="/reviews" className="block text-sm opacity-90 hover:opacity-100 transition-opacity">Reviews</Link>
+              <Link to="/contact" className="block text-sm opacity-90 hover:opacity-100 transition-opacity">Contact Us</Link>
             </div>
           </div>
 
