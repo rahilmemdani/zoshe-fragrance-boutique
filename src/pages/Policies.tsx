@@ -41,7 +41,7 @@ const Policies = () => {
       }
     }
 
-    fetchData(); // ✅ actually call it
+    fetchData(); 
   }, []);
 
   return (
@@ -64,24 +64,24 @@ const Policies = () => {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             {/* Tab Buttons */}
             <div className="glass-card p-2 mb-8">
-              <TabsList className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            <TabsList
+                    className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full h-full auto-rows-fr"
+                  >
                 {policies.map((policy) => {
                   const Icon = icons[policy.category];
                   return (
                     <TabsTrigger
                       key={policy.category}
                       value={policy.category}
-                      className="flex items-center gap-2 rounded-lg p-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                    className="flex items-center justify-center gap-2 rounded-lg p-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground w-full h-full"
                     >
                       {Icon && <Icon className="w-4 h-4" />}
-                      {policy.title}
+                    <span className=" sm:inline">{policy.title}</span>
                     </TabsTrigger>
-                  );
-                })}
+                  )})}
               </TabsList>
             </div>
 
-            {/* Tab Content */}
             {/* Tab Content */}
             {policies.map((policy) => {
               const Icon = icons[policy.category];
