@@ -1472,15 +1472,17 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
       )}
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-        <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
-          <Button
-            size="sm"
-            className="bg-cream/90 text-primary hover:bg-cream shadow-lg backdrop-blur-sm"
-            onClick={onQuickViewClick}
-          >
-            <Eye className="w-4 h-4 mr-1" />
-            Quick View
-          </Button>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+          <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+            <Button
+              size="sm"
+              className="bg-white/90 text-primary hover:bg-white shadow-lg backdrop-blur-sm rounded-full px-4"
+              onClick={onQuickViewClick}
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Quick View
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -1827,7 +1829,7 @@ const Home = () => {
                       />
 
                       {/* Enhanced buttons with more options */}
-                      <div className="flex gap-2">
+                      {/* <div className="flex gap-2">
                         <Button
                           className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl flex-1 group relative overflow-hidden"
                           onClick={() => openWhatsApp(`I'm interested in ${product.name}. Can you tell me more about it?`)}
@@ -1836,7 +1838,38 @@ const Home = () => {
                           <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
                           <span className="relative z-10">Enquire Now</span>
                         </Button>
-                      </div>
+                      </div> */}
+                                                <div className={`flex gap-2 items-center ${viewMode === 'grid' ? 'flex-col' : 'flex-row'
+                            }`}>
+                            {/* Enquire Button - Fixed Size to Match Eye Icon */}
+                            <Button
+                              className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${viewMode === 'grid'
+                                  ? 'w-full h-10 text-xs'
+                                  : 'flex-1 h-10 text-sm'
+                                }`}
+                              onClick={() => openWhatsApp(`I'm interested in ${product.name}. Can you tell me more about it?`)}
+                            // disabled={perfume.isOutOfStock}
+                            >
+                              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                              <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
+                              <span className="relative z-10">
+                                {product.isOutOfStock ? 'Out of Stock' : 'Enquire Now'}
+                              </span>
+                            </Button>
+
+                            {/* Eye Button - Fixed Size Matching Enquire Button */}
+                            <Button
+                              variant="outline"
+                              onClick={() => setQuickViewPerfume(product)}
+                              className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${viewMode === 'grid'
+                                  ? 'w-full h-10'
+                                  : 'w-10 h-10 flex-shrink-0'
+                                }`}
+                            >
+                              <Eye className="w-4 h-4" />
+                              {viewMode === 'grid' && <span className="ml-2 text-xs">Quick View</span>}
+                            </Button>
+                          </div>
                     </div>
                   </CardContent>
                 </Card>
