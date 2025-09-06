@@ -469,8 +469,8 @@ const Catalog = () => {
           return (b.discountedPrice || b.price) - (a.discountedPrice || a.price);
         case 'popularity':
           return (b.popularity || 0) - (a.popularity || 0);
-        case 'rating':
-          return (b.rating || 0) - (a.rating || 0);
+        // case 'rating':
+        //   return (b.rating || 0) - (a.rating || 0);
         case 'name':
         default:
           return a.name.localeCompare(b.name);
@@ -630,7 +630,7 @@ const Catalog = () => {
                     <SelectItem value="price-low">Price (Low to High)</SelectItem>
                     <SelectItem value="price-high">Price (High to Low)</SelectItem>
                     <SelectItem value="popularity">Popularity</SelectItem>
-                    <SelectItem value="rating">Rating</SelectItem>
+                    {/* <SelectItem value="rating">Rating</SelectItem> */}
                   </SelectContent>
                 </Select>
               </div>
