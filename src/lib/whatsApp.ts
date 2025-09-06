@@ -14,7 +14,7 @@ interface Perfume {
 // Helper function
 export const openWhatsApp = (perfumeName: string, quickViewPerfume?: Perfume) => {
     console.log("quickViewPerfume", quickViewPerfume);
-    const message = `Hi! I'm interested in the fragrance: ${perfumeName}. Could you share more details?`;
+    const message = `Hi! I'm interested in the ${perfumeName}. Could you share more details?`;
     const url = `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     window.open(url, "_blank");
   };
