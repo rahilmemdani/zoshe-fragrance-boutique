@@ -1070,7 +1070,7 @@ const OfferBannerHero = () => {
               )}
 
               {/* Enhanced Close Button */}
-              <Button
+              {/* <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsVisible(false)}
@@ -1078,7 +1078,7 @@ const OfferBannerHero = () => {
                 aria-label="Close banner"
               >
                 <X className="w-6 h-6" />
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
