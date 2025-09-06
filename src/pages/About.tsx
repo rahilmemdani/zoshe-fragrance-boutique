@@ -1,11 +1,12 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Award, Users, Globe, ChevronDown, Heart, Star, Crown, Target, Zap, Shield, Link } from 'lucide-react';
+import { Sparkles, Award, Users, Globe, ChevronDown, Heart, Star, Crown, Target, Zap, Shield } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import shahreenImage from "../assets/shahreen Mohd Imran.jpeg";
 import zoyaImage from "../assets/Zoya Image.jpeg";
 import aboutUs from "../assets/About Us.jpeg";
+import { Link } from 'react-router-dom';
 
 const About = () => {
   const values = [
@@ -616,7 +617,7 @@ const About = () => {
                   Join thousands of customers who have discovered their unique essence with ZOSHE. Let us craft a fragrance that tells your story.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link to="/catalog">
+                <Link to="/customization">
                   <Button 
                     size="lg"
                     className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-lg transition-all duration-300 hover:scale-105 rounded-full px-8"
