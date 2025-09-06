@@ -807,7 +807,7 @@ const OfferBannerHero = () => {
                     )}
                   </div>
                 </div>
-
+{/* 
                 <Button
                   variant="ghost"
                   size="sm"
@@ -816,7 +816,7 @@ const OfferBannerHero = () => {
                   aria-label="Close banner"
                 >
                   <X className="w-5 h-5" />
-                </Button>
+                </Button> */}
               </div>
 
               {/* Content Row */}
