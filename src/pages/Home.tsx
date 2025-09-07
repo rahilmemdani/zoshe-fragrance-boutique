@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
 import heroPerfume from '@/assets/hero-perfume.jpeg';
-import perfumeCollection from '@/assets/perfume-collection.jpg';
+import perfumeCollection from '@/assets/perfume-collection.jpeg';
 import { useEffect, useRef, useState } from 'react';
 import { createClient } from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
