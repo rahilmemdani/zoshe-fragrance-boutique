@@ -134,17 +134,17 @@ const Customization = () => {
             </span>
           </motion.h1>
 
-          <motion.p
+          {/* <motion.p
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
             className="text-xl md:text-2xl opacity-90 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
             Tailored luxury hampers, designed to make every occasion truly unforgettable with personalized touches and premium selections.
-          </motion.p>
+          </motion.p> */}
 
           {/* Enhanced Stats */}
-          <motion.div
+          {/* <motion.div
             initial="hidden"
             animate="show"
             variants={{
@@ -171,7 +171,7 @@ const Customization = () => {
                 <div className="text-cream/80 text-sm">{stat.label}</div>
               </motion.div>
             ))}
-          </motion.div>
+          </motion.div> */}
 
           {/* Scroll Down Indicator */}
           <motion.div

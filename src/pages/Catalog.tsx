@@ -525,17 +525,17 @@ const Catalog = () => {
               </span>
             </motion.h1>
 
-            <motion.p
+            {/* <motion.p
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
               className="text-xl md:text-2xl opacity-90 mb-12 max-w-3xl mx-auto leading-relaxed"
             >
               Explore our carefully curated selection of luxury fragrances, each crafted to tell your unique story through the art of scent.
-            </motion.p>
+            </motion.p> */}
 
             {/* Enhanced Stats */}
-            <motion.div
+            {/* <motion.div
               initial="hidden"
               animate="show"
               variants={{
@@ -562,7 +562,7 @@ const Catalog = () => {
                   <div className="text-cream/80 text-sm">{stat.label}</div>
                 </motion.div>
               ))}
-            </motion.div>
+            </motion.div> */}
 
             <motion.div
               initial={{ opacity: 0, y: -10 }}
