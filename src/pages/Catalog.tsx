@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Search, Star, Eye, Sparkles, Filter, Grid, List, MessageCircle, ChevronLeft, ChevronRight, X, SlidersHorizontal, ArrowUpDown, Clock, Award, Users } from 'lucide-react';
+import { Search, Star, Eye, Sparkles, Filter, Grid, List, MessageCircle, ChevronLeft, ChevronRight, X, SlidersHorizontal, ArrowUpDown, Clock, Award, Users, Heart, Gift, Mail, Phone } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
@@ -12,11 +12,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { sanityClient } from "../lib/sanityClient";
 import { openWhatsApp } from "../lib/whatsApp";
+import { useToast } from '@/hooks/use-toast';
 import imageUrlBuilder from '@sanity/image-url';
 
 const builder = imageUrlBuilder(sanityClient);
 function urlFor(source: any) {
   return builder.image(source);
+}
+
+// TypeScript declarations for GTM
+declare global {
+  interface Window {
+    dataLayer: any[];
+  }
 }
 
 interface Perfume {
@@ -35,6 +43,27 @@ interface Perfume {
   reviewCount?: number;
   popularity?: number;
 }
+
+// Enhanced GTM Tracking Function
+const trackEvent = (eventName: string, eventData: any = {}) => {
+  // GTM DataLayer (primary method)
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    window.dataLayer.push({
+      event: eventName,
+      event_category: 'ecommerce',
+      event_label: eventData.label || '',
+      value: eventData.value || 0,
+      currency: 'INR',
+      timestamp: new Date().toISOString(),
+      ...eventData
+    });
+  }
+
+  // Development logging
+  if (process.env.NODE_ENV === 'development') {
+    console.log('📊 GTM Event:', eventName, eventData);
+  }
+};
 
 // Enhanced Price Display Component
 interface PriceDisplayProps {
@@ -104,14 +133,259 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
   );
 };
 
-// Enhanced Product Image Slider with Responsive Fixes
-const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: Perfume; viewMode: string; onQuickViewClick: () => void; }) => {
+// Lead Capture Popup Component
+const LeadCapturePopup = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    interests: [] as string[]
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.email) {
+      toast({
+        title: "Please fill required fields",
+        description: "Name and email are required to continue.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Track lead capture event via GTM
+      trackEvent('lead_captured', {
+        method: 'popup',
+        user_name: formData.name,
+        user_email: formData.email,
+        has_phone: !!formData.phone,
+        interests_count: formData.interests.length,
+        lead_source: 'catalog_popup'
+      });
+
+      // Store in localStorage for now (integrate with your backend later)
+      const leads = JSON.parse(localStorage.getItem('fragrance_leads') || '[]');
+      leads.push({
+        ...formData,
+        timestamp: new Date().toISOString(),
+        source: 'catalog_popup'
+      });
+      localStorage.setItem('fragrance_leads', JSON.stringify(leads));
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      toast({
+        title: "Welcome to ZOSHE! ✨",
+        description: "We'll send you exclusive fragrance tips and early access to new collections.",
+      });
+
+      // Send welcome WhatsApp message
+      const welcomeMessage = `Hi ${formData.name}! 🌸 Welcome to ZOSHE family! We're excited to help you discover your perfect fragrance. Our experts will reach out to you soon with personalized recommendations.`;
+      setTimeout(() => {
+        window.open(`https://wa.me/917977233704?text=${encodeURIComponent(welcomeMessage)}`, '_blank');
+      }, 2000);
+
+      onClose();
+      setFormData({ name: '', email: '', phone: '', interests: [] });
+
+    } catch (error) {
+      toast({
+        title: "Something went wrong",
+        description: "Please try again or contact us directly on WhatsApp.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const interestOptions = [
+    'Floral Fragrances',
+    'Woody Scents',
+    'Fresh & Citrus',
+    'Oriental & Spicy',
+    'Unisex Perfumes',
+    'Premium Collections'
+  ];
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-md border-0 shadow-2xl">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="text-center p-6 glass-card backdrop-blur-xl"
+        >
+          <div className="mb-6">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center"
+            >
+              <Sparkles className="w-8 h-8 text-white" />
+            </motion.div>
+            
+            <h3 className="text-2xl font-bold text-primary mb-2">
+              Discover Your Signature Scent
+            </h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Join 10,000+ fragrance lovers and get personalized recommendations, exclusive offers, and early access to new collections.
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              placeholder="Your Name *"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              className="glass-card border-0 bg-white/50 backdrop-blur-sm"
+              required
+            />
+            
+            <Input
+              type="email"
+              placeholder="Email Address *"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              className="glass-card border-0 bg-white/50 backdrop-blur-sm"
+              required
+            />
+            
+            <Input
+              type="tel"
+              placeholder="WhatsApp Number (Optional)"
+              value={formData.phone}
+              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              className="glass-card border-0 bg-white/50 backdrop-blur-sm"
+            />
+
+            <div className="text-left">
+              <label className="text-sm font-medium text-primary mb-2 block">
+                Your Fragrance Interests (Optional)
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {interestOptions.map((interest) => (
+                  <div key={interest} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={interest}
+                      checked={formData.interests.includes(interest)}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          setFormData({ 
+                            ...formData, 
+                            interests: [...formData.interests, interest] 
+                          });
+                        } else {
+                          setFormData({ 
+                            ...formData, 
+                            interests: formData.interests.filter(i => i !== interest) 
+                          });
+                        }
+                      }}
+                    />
+                    <label htmlFor={interest} className="text-xs">{interest}</label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <Button 
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-lg transition-all duration-300 hover:scale-105 py-3"
+            >
+              {isSubmitting ? (
+                <div className="flex items-center gap-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                  Joining...
+                </div>
+              ) : (
+                <>
+                  <Gift className="w-4 h-4 mr-2" />
+                  Get My Recommendations
+                </>
+              )}
+            </Button>
+          </form>
+
+          <div className="mt-4 space-y-2">
+            <p className="text-xs text-muted-foreground">
+              🔒 We respect your privacy. Unsubscribe anytime.
+            </p>
+            <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1">
+                <Mail className="w-3 h-3" />
+                No Spam
+              </span>
+              <span className="flex items-center gap-1">
+                <Heart className="w-3 h-3" />
+                Exclusive Offers
+              </span>
+              <span className="flex items-center gap-1">
+                <Award className="w-3 h-3" />
+                Expert Tips
+              </span>
+            </div>
+          </div>
+        </motion.div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+// Wishlist Component
+const WishlistButton = ({ perfume, isInWishlist, onToggle }: { perfume: Perfume; isInWishlist: boolean; onToggle: () => void }) => {
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      className="absolute top-4 right-4 z-20 bg-white/80 hover:bg-white/90 rounded-full w-8 h-8"
+      onClick={(e) => {
+        e.stopPropagation();
+        onToggle();
+        trackEvent('wishlist_toggle', {
+          product_id: perfume._id,
+          product_name: perfume.name,
+          product_price: perfume.discountedPrice || perfume.price,
+          action: isInWishlist ? 'remove' : 'add'
+        });
+      }}
+    >
+      <Heart className={`w-4 h-4 transition-colors ${isInWishlist ? 'fill-red-500 text-red-500' : 'text-gray-500'}`} />
+    </Button>
+  );
+};
+
+// Enhanced Product Image Slider
+const ProductImageSlider = ({ 
+  perfume, 
+  viewMode, 
+  onQuickViewClick, 
+  wishlist, 
+  onWishlistToggle 
+}: { 
+  perfume: Perfume; 
+  viewMode: string; 
+  onQuickViewClick: () => void;
+  wishlist: string[];
+  onWishlistToggle: (perfumeId: string) => void;
+}) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const intervalRef = useRef<number | null>(null);
 
   const images = perfume.images || [];
+  const isInWishlist = wishlist.includes(perfume._id);
+
   useEffect(() => {
     if (images.length > 1 && !isHovered) {
       intervalRef.current = window.setInterval(() => {
@@ -143,7 +417,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
         viewMode === 'list' ? 'w-full md:w-48 flex-shrink-0' : ''
       }`}
     >
-      {/* Enhanced Image with Loading State */}
       <div className={`relative ${
         viewMode === 'list' 
           ? 'h-48 md:h-48' 
@@ -169,7 +442,12 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
           </div>
         )}
 
-        {/* Enhanced Navigation Controls */}
+        <WishlistButton
+          perfume={perfume}
+          isInWishlist={isInWishlist}
+          onToggle={() => onWishlistToggle(perfume._id)}
+        />
+
         {images.length > 1 && (
           <>
             <div className={`absolute top-1/2 left-2 right-2 flex justify-between -translate-y-1/2 transition-opacity duration-300 z-20 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
@@ -196,7 +474,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
           </>
         )}
 
-        {/* Enhanced Overlay with More Actions */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
           <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
             <Button
@@ -210,7 +487,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
           </div>
         </div>
 
-        {/* Enhanced Badges */}
         <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
           {perfume?.isPremium && (
             <Badge className="bg-gradient-to-r from-primary to-accent text-white shadow-lg backdrop-blur-sm">
@@ -226,7 +502,6 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
           )}
         </div>
 
-        {/* Out of Stock Overlay */}
         {perfume.isOutOfStock && (
           <>
             <div className="absolute inset-0 bg-black/60 rounded-2xl"></div>
@@ -269,7 +544,6 @@ const AdvancedFilters = ({
         </DialogHeader>
 
         <div className="space-y-6 py-4">
-          {/* Price Range */}
           <div className="space-y-3">
             <h4 className="font-semibold text-primary">Price Range</h4>
             <div className="px-3">
@@ -288,7 +562,6 @@ const AdvancedFilters = ({
             </div>
           </div>
 
-          {/* Scent Profiles */}
           <div className="space-y-3">
             <h4 className="font-semibold text-primary">Scent Profiles</h4>
             <div className="grid grid-cols-2 gap-2">
@@ -310,7 +583,6 @@ const AdvancedFilters = ({
             </div>
           </div>
 
-          {/* Product Type */}
           <div className="space-y-3">
             <h4 className="font-semibold text-primary">Product Type</h4>
             <div className="space-y-2">
@@ -367,16 +639,20 @@ const Catalog = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [quickViewPerfume, setQuickViewPerfume] = useState<Perfume | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const perfumesPerPage = 10;
+  const perfumesPerPage = 12;
   const [quickViewImageIndex, setQuickViewImageIndex] = useState(0);
   const [sortBy, setSortBy] = useState('name');
   const [showFilters, setShowFilters] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useState<Perfume[]>([]);
-
-  const maxPerfumePrice =
-  perfumes.length > 0 ? Math.max(...perfumes.map(p => p.price)) : 0;
-
+  const [wishlist, setWishlist] = useState<string[]>([]);
   
+  // Lead Capture Popup State
+  const [showLeadPopup, setShowLeadPopup] = useState(false);
+  const [hasShownPopup, setHasShownPopup] = useState(false);
+  const [pageLoadTime] = useState(Date.now());
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const maxPerfumePrice = perfumes.length > 0 ? Math.max(...perfumes.map(p => p.price)) : 0;
 
   // Advanced filters state
   const [filters, setFilters] = useState({
@@ -387,6 +663,64 @@ const Catalog = () => {
     inStockOnly: false,
     onSaleOnly: false
   });
+
+  // Initialize wishlist from localStorage
+  useEffect(() => {
+    const savedWishlist = localStorage.getItem('fragrance_wishlist');
+    if (savedWishlist) {
+      setWishlist(JSON.parse(savedWishlist));
+    }
+
+    // Check if user has seen popup before
+    const hasSeenPopup = localStorage.getItem('zoshe_popup_shown');
+    setHasShownPopup(!!hasSeenPopup);
+  }, []);
+
+  // Scroll tracking for popup trigger
+  useEffect(() => {
+    const handleScroll = () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      setScrollProgress(scrolled);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Lead popup trigger logic
+  useEffect(() => {
+    if (hasShownPopup || showLeadPopup) return;
+
+    const timeOnSite = Date.now() - pageLoadTime;
+    
+    // Show popup after 45 seconds OR when user scrolls 60% down the page
+    const shouldShowPopup = (timeOnSite > 45000) || (scrollProgress > 60);
+    
+    if (shouldShowPopup) {
+      setShowLeadPopup(true);
+      setHasShownPopup(true);
+      localStorage.setItem('zoshe_popup_shown', 'true');
+      
+      // Track popup shown event
+      trackEvent('popup_shown', {
+        trigger: timeOnSite > 45000 ? 'time' : 'scroll',
+        time_on_site: Math.round(timeOnSite / 1000),
+        scroll_progress: Math.round(scrollProgress)
+      });
+    }
+  }, [pageLoadTime, scrollProgress, hasShownPopup, showLeadPopup]);
+
+  // Wishlist management
+  const toggleWishlist = (perfumeId: string) => {
+    const newWishlist = wishlist.includes(perfumeId)
+      ? wishlist.filter(id => id !== perfumeId)
+      : [...wishlist, perfumeId];
+    
+    setWishlist(newWishlist);
+    localStorage.setItem('fragrance_wishlist', JSON.stringify(newWishlist));
+  };
 
   useEffect(() => {
     if (perfumes.length > 0) {
@@ -404,12 +738,19 @@ const Catalog = () => {
         );
         setPerfumes(data);
 
+        // Track catalog loaded event via GTM
+        trackEvent('catalog_loaded', {
+          product_count: data.length,
+          load_time: Date.now() - pageLoadTime,
+          page_title: 'Catalog Page'
+        });
+
       } catch (error) {
         console.error('Error fetching catalogue:', error);
       }
     };
     fetchCatalogue();
-  }, []);
+  }, [pageLoadTime]);
 
   useEffect(() => {
     if (quickViewPerfume) {
@@ -418,6 +759,14 @@ const Catalog = () => {
       setRecentlyViewed(prev => {
         const filtered = prev.filter(p => p._id !== quickViewPerfume._id);
         return [quickViewPerfume, ...filtered].slice(0, 4);
+      });
+
+      // Track quick view event via GTM
+      trackEvent('product_quick_view', {
+        product_id: quickViewPerfume._id,
+        product_name: quickViewPerfume.name,
+        product_price: quickViewPerfume.discountedPrice || quickViewPerfume.price,
+        product_category: 'fragrance'
       });
     }
   }, [quickViewPerfume]);
@@ -469,8 +818,6 @@ const Catalog = () => {
           return (b.discountedPrice || b.price) - (a.discountedPrice || a.price);
         case 'popularity':
           return (b.popularity || 0) - (a.popularity || 0);
-        // case 'rating':
-        //   return (b.rating || 0) - (a.rating || 0);
         case 'name':
         default:
           return a.name.localeCompare(b.name);
@@ -491,6 +838,18 @@ const Catalog = () => {
     (filters.onSaleOnly ? 1 : 0) +
     ((filters.minPrice > 0 || filters.maxPrice < 10000) ? 1 : 0);
 
+  // Enhanced WhatsApp function with GTM tracking
+  const handleWhatsAppClick = (message: string, perfume?: Perfume) => {
+    trackEvent('whatsapp_click', {
+      product_id: perfume?._id,
+      product_name: perfume?.name,
+      product_price: perfume ? (perfume.discountedPrice || perfume.price) : null,
+      message_type: perfume ? 'product_inquiry' : 'general_inquiry',
+      contact_method: 'whatsapp'
+    });
+    openWhatsApp(message);
+  };
+
   return (
     <>
       {/* Add custom CSS for horizontal scrolling */}
@@ -507,6 +866,12 @@ const Catalog = () => {
       `}</style>
 
       <div className="pt-8">
+        {/* Lead Capture Popup */}
+        <LeadCapturePopup 
+          isOpen={showLeadPopup} 
+          onClose={() => setShowLeadPopup(false)} 
+        />
+
         {/* Enhanced Hero Section */}
         <section className="relative overflow-hidden py-32 hero-gradient text-cream">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-accent/20 via-transparent to-transparent"></div>
@@ -525,44 +890,6 @@ const Catalog = () => {
               </span>
             </motion.h1>
 
-            {/* <motion.p
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="text-xl md:text-2xl opacity-90 mb-12 max-w-3xl mx-auto leading-relaxed"
-            >
-              Explore our carefully curated selection of luxury fragrances, each crafted to tell your unique story through the art of scent.
-            </motion.p> */}
-
-            {/* Enhanced Stats */}
-            {/* <motion.div
-              initial="hidden"
-              animate="show"
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                show: { opacity: 1, y: 0, transition: { staggerChildren: 0.2 } }
-              }}
-              className="flex flex-col sm:flex-row justify-center gap-12 mt-12"
-            >
-              {[
-                { icon: <Sparkles className="w-6 h-6" />, value: `${perfumes.length}+`, label: "Premium Fragrances" },
-                { icon: <Award className="w-6 h-6" />, value: "100%", label: "Authentic Products" },
-                { icon: <Users className="w-6 h-6" />, value: "10K+", label: "Happy Customers" },
-                { icon: <MessageCircle className="w-6 h-6" />, value: "24/7", label: "WhatsApp Support" }
-              ].map((stat, idx) => (
-                <motion.div
-                  key={idx}
-                  variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
-                  className="text-center group"
-                >
-                  <div className="flex justify-center mb-2 text-accent group-hover:scale-110 transition-transform">
-                    {stat.icon}
-                  </div>
-                  <div className="text-3xl font-bold text-accent mb-1">{stat.value}</div>
-                  <div className="text-cream/80 text-sm">{stat.label}</div>
-                </motion.div>
-              ))}
-            </motion.div> */}
 
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -585,7 +912,15 @@ const Catalog = () => {
                 <Input
                   placeholder="Search your perfect fragrance..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    if (e.target.value) {
+                      trackEvent('search', {
+                        search_term: e.target.value,
+                        results_count: filteredPerfumes.length
+                      });
+                    }
+                  }}
                   className="pl-12 pr-12 py-3 text-lg glass-card border-0 shadow-md focus:shadow-lg transition-all duration-300 rounded-full"
                 />
                 {searchTerm && (
@@ -607,7 +942,10 @@ const Catalog = () => {
                 {/* Advanced Filters Button */}
                 <Button
                   variant="outline"
-                  onClick={() => setShowFilters(true)}
+                  onClick={() => {
+                    setShowFilters(true);
+                    trackEvent('filters_opened');
+                  }}
                   className="relative"
                 >
                   <SlidersHorizontal className="w-4 h-4 mr-2" />
@@ -620,7 +958,10 @@ const Catalog = () => {
                 </Button>
 
                 {/* Sort Dropdown */}
-                <Select value={sortBy} onValueChange={setSortBy}>
+                <Select value={sortBy} onValueChange={(value) => {
+                  setSortBy(value);
+                  trackEvent('sort_changed', { sort_type: value });
+                }}>
                   <SelectTrigger className="w-48">
                     <ArrowUpDown className="w-4 h-4 mr-2" />
                     <SelectValue placeholder="Sort by" />
@@ -630,7 +971,6 @@ const Catalog = () => {
                     <SelectItem value="price-low">Price (Low to High)</SelectItem>
                     <SelectItem value="price-high">Price (High to Low)</SelectItem>
                     <SelectItem value="popularity">Popularity</SelectItem>
-                    {/* <SelectItem value="rating">Rating</SelectItem> */}
                   </SelectContent>
                 </Select>
               </div>
@@ -644,7 +984,10 @@ const Catalog = () => {
                   <Button
                     variant={viewMode === 'grid' ? 'default' : 'outline'}
                     size="sm"
-                    onClick={() => setViewMode('grid')}
+                    onClick={() => {
+                      setViewMode('grid');
+                      trackEvent('view_mode_changed', { view_mode: 'grid' });
+                    }}
                     className="px-3"
                   >
                     <Grid className="w-4 h-4" />
@@ -652,7 +995,10 @@ const Catalog = () => {
                   <Button
                     variant={viewMode === 'list' ? 'default' : 'outline'}
                     size="sm"
-                    onClick={() => setViewMode('list')}
+                    onClick={() => {
+                      setViewMode('list');
+                      trackEvent('view_mode_changed', { view_mode: 'list' });
+                    }}
                     className="px-3"
                   >
                     <List className="w-4 h-4" />
@@ -683,7 +1029,40 @@ const Catalog = () => {
           </div>
         </section>
 
-        {/* Fixed Recently Viewed Section with Horizontal Scroll */}
+        {/* Wishlist Section */}
+        {wishlist.length > 0 && (
+          <section className="py-8 bg-muted/10">
+            <div className="max-w-7xl mx-auto px-6">
+              <h3 className="text-xl font-bold text-primary mb-4 flex items-center gap-2">
+                <Heart className="w-5 h-5" />
+                Your Wishlist ({wishlist.length})
+              </h3>
+              <div className="scroll-container flex gap-4 pb-4">
+                {perfumes.filter(p => wishlist.includes(p._id)).map(perfume => (
+                  <Card
+                    key={perfume._id}
+                    className="flex-shrink-0 w-48 cursor-pointer hover:shadow-lg transition-shadow"
+                    onClick={() => setQuickViewPerfume(perfume)}
+                  >
+                    <div className="relative h-32 overflow-hidden rounded-t-lg">
+                      <img
+                        src={urlFor(perfume.images[0].asset).width(200).url()}
+                        alt={perfume.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <CardContent className="p-3">
+                      <h4 className="font-semibold text-sm truncate">{perfume.name}</h4>
+                      <PriceDisplay price={perfume.price} discountedPrice={perfume.discountedPrice} size="sm" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Recently Viewed Section */}
         {recentlyViewed.length > 0 && (
           <section className="py-8 bg-muted/10">
             <div className="max-w-7xl mx-auto px-6">
@@ -716,7 +1095,7 @@ const Catalog = () => {
           </section>
         )}
 
-        {/* Enhanced Products Grid - Fully Responsive List & Grid Layout */}
+        {/* Enhanced Products Grid */}
         <section className="py-20 bg-background relative">
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary rounded-full blur-2xl"></div>
@@ -740,7 +1119,7 @@ const Catalog = () => {
                     <Card
                       className={`group glass-card overflow-hidden rounded-2xl border border-border/20 shadow-md hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 relative ${
                         viewMode === 'list' 
-                          ? 'flex flex-col md:flex-row' // ✅ RESPONSIVE: vertical on mobile, horizontal on desktop
+                          ? 'flex flex-col md:flex-row'
                           : 'flex flex-col'
                       }`}
                     >
@@ -748,6 +1127,8 @@ const Catalog = () => {
                         perfume={perfume}
                         viewMode={viewMode}
                         onQuickViewClick={() => setQuickViewPerfume(perfume)}
+                        wishlist={wishlist}
+                        onWishlistToggle={toggleWishlist}
                       />
 
                       <CardContent className={`p-4 sm:p-6 space-y-3 sm:space-y-4 relative ${
@@ -800,20 +1181,18 @@ const Catalog = () => {
                             className="justify-start"
                           />
 
-                          {/* ✅ FULLY RESPONSIVE Button Container */}
                           <div className={`flex gap-2 items-center ${
                             viewMode === 'grid' 
                               ? 'flex-col' 
-                              : 'flex-col sm:flex-row' // ✅ Stack on mobile, row on larger screens for list view
+                              : 'flex-col sm:flex-row'
                           }`}>
-                            {/* Enquire Button - Responsive Width and Height */}
                             <Button
                               className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${
                                 viewMode === 'grid'
                                   ? 'w-full h-10 text-xs'
-                                  : 'w-full sm:flex-1 h-10 text-sm' // ✅ Full width on mobile, flex-1 on larger screens
+                                  : 'w-full sm:flex-1 h-10 text-sm'
                               }`}
-                              onClick={() => openWhatsApp(`I'm interested in ${perfume.name}. Can you tell me more about it?`)}
+                              onClick={() => handleWhatsAppClick(`I'm interested in ${perfume.name}. Can you tell me more about it?`, perfume)}
                             >
                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
                               <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
@@ -822,14 +1201,13 @@ const Catalog = () => {
                               </span>
                             </Button>
 
-                            {/* Eye Button - Responsive Width and Height */}
                             <Button
                               variant="outline"
                               onClick={() => setQuickViewPerfume(perfume)}
                               className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${
                                 viewMode === 'grid'
                                   ? 'w-full h-10'
-                                  : 'w-full sm:w-auto sm:px-4 h-10' // ✅ Full width on mobile, auto width on larger screens
+                                  : 'w-full sm:w-auto sm:px-4 h-10'
                               }`}
                             >
                               <Eye className="w-4 h-4" />
@@ -881,7 +1259,7 @@ const Catalog = () => {
                     </Button>
                     <Button
                       variant="outline"
-                      onClick={() => openWhatsApp("I'm looking for a specific fragrance but can't find it on your website. Can you help me?")}
+                      onClick={() => handleWhatsAppClick("I'm looking for a specific fragrance but can't find it on your website. Can you help me?")}
                     >
                       <MessageCircle className="w-4 h-4 mr-2" />
                       Get Help Finding Products
@@ -1095,25 +1473,17 @@ const Catalog = () => {
                         <div className="flex flex-col sm:flex-row gap-3">
                           <Button
                             className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 py-3"
-                            onClick={() => openWhatsApp(`I want to order ${quickViewPerfume.name}. Please provide me with ordering details and availability.`)}
+                            onClick={() => handleWhatsAppClick(`I want to order ${quickViewPerfume.name}. Please provide me with ordering details and availability.`, quickViewPerfume)}
                           >
                             <MessageCircle className="w-5 h-5 mr-2" />
                             {quickViewPerfume.isOutOfStock ? 'Out of Stock' : 'Order via WhatsApp'}
                           </Button>
-
-                          {/* <Button
-                            variant="outline"
-                            onClick={() => openWhatsApp(`Can I get a sample of ${quickViewPerfume.name} before purchasing? Please let me know about sample availability and pricing.`)}
-                            className="px-6 py-3"
-                          >
-                            Request Sample
-                          </Button> */}
                         </div>
 
                         <Button
                           variant="ghost"
                           className="text-primary hover:bg-primary/5"
-                          onClick={() => openWhatsApp(`I need help choosing between ${quickViewPerfume.name} and other similar fragrances. Can you provide recommendations based on my preferences?`)}
+                          onClick={() => handleWhatsAppClick(`I need help choosing between ${quickViewPerfume.name} and other similar fragrances. Can you provide recommendations based on my preferences?`, quickViewPerfume)}
                         >
                           💡 Need Help Deciding? Chat with Expert
                         </Button>
