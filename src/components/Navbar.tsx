@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Instagram, Mail, Phone } from 'lucide-react';
+import { Menu, X, Instagram, Mail, Phone, Facebook } from 'lucide-react';
 import Zoshe_Logo from "../assets/Zoshe_Logo.png";
 
 const Navbar = () => {
@@ -136,7 +136,6 @@ const Navbar = () => {
                   <span className="text-sm opacity-90">+91 79772 33704</span>
                 </a>
 
-                {/* Instagram Icon aligned with email & phone */}
                 <a
                   href="https://www.instagram.com/zoshe.perfume?igsh=MWdwd3ozdmFraG82bw%3D%3D&utm_source=qr"
                   target="_blank"
@@ -144,6 +143,15 @@ const Navbar = () => {
                   className="flex items-center gap-2 hover:text-accent transition-all"
                 >
                   <Instagram className="w-5 h-5 text-gray-600 hover:text-purple-600" />
+                  <span className="text-sm opacity-90">@zoshe.perfume</span>
+                </a>
+                <a
+                  href="https://www.facebook.com/share/1FCQw1q7s8/?mibextid=wwXIfr"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:text-accent transition-all"
+                >
+                  <Facebook className="w-5 h-5 text-gray-600 hover:text-purple-600" />
                   <span className="text-sm opacity-90">@zoshe.perfume</span>
                 </a>
               </div>

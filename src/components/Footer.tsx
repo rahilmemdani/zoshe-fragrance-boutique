@@ -20,7 +20,15 @@ const Footer = () => {
               >
                 <Instagram className="w-5 h-5 hover:text-accent cursor-pointer transition-colors" />
               </a>
+              <a
+                href="https://www.facebook.com/share/1FCQw1q7s8/?mibextid=wwXIfr"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Facebook className="w-5 h-5 hover:text-accent cursor-pointer transition-colors" />
+              </a>
             </div>
+            
           </div>
 
           {/* Quick Links */}

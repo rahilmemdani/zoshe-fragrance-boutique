@@ -20,6 +20,7 @@ import {
   Award,
   Users,
   Shield,
+  Facebook,
 } from 'lucide-react';
 
 const Contact = () => {
@@ -352,6 +353,29 @@ const Contact = () => {
                     <Button asChild variant="outline" size="sm" className="rounded-full hover:bg-primary/5 transition-colors">
                       <a
                         href="https://www.instagram.com/zoshe.perfume?igsh=MWdwd3ozdmFraG82bw%3D%3D&utm_source=qr"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        📸 Follow & DM
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="glass-card hover:scale-105 hover:shadow-xl transition-all duration-500 border border-border/20 backdrop-blur-sm group">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-gradient-to-br from-primary/20 to-accent/20 rounded-xl group-hover:scale-110 transition-transform">
+                    <Facebook className="w-6 h-6 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-semibold text-primary mb-2">Facebook</h3>
+                    <p className="text-muted-foreground mb-3">@zoshe.perfume</p>
+                    <Button asChild variant="outline" size="sm" className="rounded-full hover:bg-primary/5 transition-colors">
+                      <a
+                        href="https://www.facebook.com/share/1FCQw1q7s8/?mibextid=wwXIfr"
                         target="_blank"
                         rel="noopener noreferrer"
                       >

@@ -40,7 +40,7 @@ const About = () => {
   const teamMembers = [
     {
       name: "Zoya Amirali Gilani",
-      role: "Social Media Marketing Specialist & Co-Founder",
+      role: "Creative Brand & Marketing Specialist",
       quote: "Creating connections through scent, building brands through passion.",
       image: zoyaImage,
       gradient: "from-accent to-primary",
@@ -269,7 +269,7 @@ const About = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              Meet Our <span className="text-accent">Visionaries</span>
+              Meet Our <span className="text-accent">Founders</span>
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-primary to-accent rounded-full mx-auto mb-6"></div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
