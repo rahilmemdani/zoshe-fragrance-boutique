@@ -49,7 +49,7 @@ const About = () => {
     },
     {
       name: "Shahreen Mohd Imran",
-      role: "Master Perfumer & Co-Founder",
+      role: "Multi-credentialed Professional",
       quote: "Every fragrance tells a story. My mission is to help you discover yours.",
       image: shahreenImage,
       gradient: "from-primary to-accent",
