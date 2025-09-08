@@ -134,212 +134,209 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
 };
 
 // Lead Capture Popup Component
-const LeadCapturePopup = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    interests: [] as string[]
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
+// const LeadCapturePopup = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+//   const [formData, setFormData] = useState({
+//     name: '',
+//     email: '',
+//     phone: '',
+//     interests: [] as string[]
+//   });
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
     
-    if (!formData.name || !formData.email) {
-      toast({
-        title: "Please fill required fields",
-        description: "Name and email are required to continue.",
-        variant: "destructive"
-      });
-      return;
-    }
+//     if (!formData.name || !formData.email) {
+//       toast({
+//         title: "Please fill required fields",
+//         description: "Name and email are required to continue.",
+//         variant: "destructive"
+//       });
+//       return;
+//     }
+  
+//     setIsSubmitting(true);
+  
+//     try {
+//       // Track lead capture event via GTM
+//       trackEvent('lead_captured', {
+//         method: 'popup',
+//         user_name: formData.name,
+//         user_email: formData.email,
+//         has_phone: !!formData.phone,
+//         interests_count: formData.interests.length,
+//         lead_source: 'catalog_popup'
+//       });
+  
+//       // Save to Sanity (this will trigger the WhatsApp function automatically)
+//       const leadDoc = await sanityClient.create({
+//         _type: 'lead',
+//         name: formData.name,
+//         email: formData.email,
+//         phone: formData.phone || '',
+//         interests: formData.interests,
+//         source: 'catalog_popup',
+//         timestamp: new Date().toISOString()
+//       });
+  
+//       console.log('✅ Lead created:', leadDoc._id);
+  
+//       toast({
+//         title: "Welcome to ZOSHE! ✨",
+//         description: "You'll receive a personalized WhatsApp message shortly!",
+//       });
+  
+//       onClose();
+//       setFormData({ name: '', email: '', phone: '', interests: [] });
+  
+//     } catch (error) {
+//       console.error('❌ Error creating lead:', error);
+//       toast({
+//         title: "Something went wrong",
+//         description: "Please try again or contact us directly on WhatsApp.",
+//         variant: "destructive"
+//       });
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+  
 
-    setIsSubmitting(true);
+//   const interestOptions = [
+//     'Floral Fragrances',
+//     'Woody Scents',
+//     'Fresh & Citrus',
+//     'Oriental & Spicy',
+//     'Unisex Perfumes',
+//     'Premium Collections'
+//   ];
 
-    try {
-      // Track lead capture event via GTM
-      trackEvent('lead_captured', {
-        method: 'popup',
-        user_name: formData.name,
-        user_email: formData.email,
-        has_phone: !!formData.phone,
-        interests_count: formData.interests.length,
-        lead_source: 'catalog_popup'
-      });
-
-      // Store in localStorage for now (integrate with your backend later)
-      const leads = JSON.parse(localStorage.getItem('fragrance_leads') || '[]');
-      leads.push({
-        ...formData,
-        timestamp: new Date().toISOString(),
-        source: 'catalog_popup'
-      });
-      localStorage.setItem('fragrance_leads', JSON.stringify(leads));
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      toast({
-        title: "Welcome to ZOSHE! ✨",
-        description: "We'll send you exclusive fragrance tips and early access to new collections.",
-      });
-
-      // Send welcome WhatsApp message
-      const welcomeMessage = `Hi ${formData.name}! 🌸 Welcome to ZOSHE family! We're excited to help you discover your perfect fragrance. Our experts will reach out to you soon with personalized recommendations.`;
-      setTimeout(() => {
-        window.open(`https://wa.me/917977233704?text=${encodeURIComponent(welcomeMessage)}`, '_blank');
-      }, 2000);
-
-      onClose();
-      setFormData({ name: '', email: '', phone: '', interests: [] });
-
-    } catch (error) {
-      toast({
-        title: "Something went wrong",
-        description: "Please try again or contact us directly on WhatsApp.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const interestOptions = [
-    'Floral Fragrances',
-    'Woody Scents',
-    'Fresh & Citrus',
-    'Oriental & Spicy',
-    'Unisex Perfumes',
-    'Premium Collections'
-  ];
-
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md border-0 shadow-2xl">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-          className="text-center p-6 glass-card backdrop-blur-xl"
-        >
-          <div className="mb-6">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center"
-            >
-              <Sparkles className="w-8 h-8 text-white" />
-            </motion.div>
+//   return (
+//     <Dialog open={isOpen} onOpenChange={onClose}>
+//       <DialogContent className="max-w-md border-0 shadow-2xl">
+//         <motion.div 
+//           initial={{ opacity: 0, scale: 0.9 }}
+//           animate={{ opacity: 1, scale: 1 }}
+//           transition={{ duration: 0.3 }}
+//           className="text-center p-6 glass-card backdrop-blur-xl"
+//         >
+//           <div className="mb-6">
+//             <motion.div
+//               animate={{ rotate: 360 }}
+//               transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+//               className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-primary to-accent rounded-full flex items-center justify-center"
+//             >
+//               <Sparkles className="w-8 h-8 text-white" />
+//             </motion.div>
             
-            <h3 className="text-2xl font-bold text-primary mb-2">
-              Discover Your Signature Scent
-            </h3>
-            <p className="text-muted-foreground leading-relaxed">
-              Join 10,000+ fragrance lovers and get personalized recommendations, exclusive offers, and early access to new collections.
-            </p>
-          </div>
+//             <h3 className="text-2xl font-bold text-primary mb-2">
+//               Discover Your Signature Scent
+//             </h3>
+//             <p className="text-muted-foreground leading-relaxed">
+//               Join 10,000+ fragrance lovers and get personalized recommendations, exclusive offers, and early access to new collections.
+//             </p>
+//           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-              placeholder="Your Name *"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="glass-card border-0 bg-white/50 backdrop-blur-sm"
-              required
-            />
+//           <form onSubmit={handleSubmit} className="space-y-4">
+//             <Input
+//               placeholder="Your Name *"
+//               value={formData.name}
+//               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+//               className="glass-card border-0 bg-white/50 backdrop-blur-sm"
+//               required
+//             />
             
-            <Input
-              type="email"
-              placeholder="Email Address *"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="glass-card border-0 bg-white/50 backdrop-blur-sm"
-              required
-            />
+//             <Input
+//               type="email"
+//               placeholder="Email Address *"
+//               value={formData.email}
+//               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+//               className="glass-card border-0 bg-white/50 backdrop-blur-sm"
+//               required
+//             />
             
-            <Input
-              type="tel"
-              placeholder="WhatsApp Number (Optional)"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="glass-card border-0 bg-white/50 backdrop-blur-sm"
-            />
+//             <Input
+//               type="tel"
+//               placeholder="WhatsApp Number (Optional)"
+//               value={formData.phone}
+//               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+//               className="glass-card border-0 bg-white/50 backdrop-blur-sm"
+//             />
 
-            <div className="text-left">
-              <label className="text-sm font-medium text-primary mb-2 block">
-                Your Fragrance Interests (Optional)
-              </label>
-              <div className="grid grid-cols-2 gap-2">
-                {interestOptions.map((interest) => (
-                  <div key={interest} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={interest}
-                      checked={formData.interests.includes(interest)}
-                      onCheckedChange={(checked) => {
-                        if (checked) {
-                          setFormData({ 
-                            ...formData, 
-                            interests: [...formData.interests, interest] 
-                          });
-                        } else {
-                          setFormData({ 
-                            ...formData, 
-                            interests: formData.interests.filter(i => i !== interest) 
-                          });
-                        }
-                      }}
-                    />
-                    <label htmlFor={interest} className="text-xs">{interest}</label>
-                  </div>
-                ))}
-              </div>
-            </div>
+//             <div className="text-left">
+//               <label className="text-sm font-medium text-primary mb-2 block">
+//                 Your Fragrance Interests (Optional)
+//               </label>
+//               <div className="grid grid-cols-2 gap-2">
+//                 {interestOptions.map((interest) => (
+//                   <div key={interest} className="flex items-center space-x-2">
+//                     <Checkbox
+//                       id={interest}
+//                       checked={formData.interests.includes(interest)}
+//                       onCheckedChange={(checked) => {
+//                         if (checked) {
+//                           setFormData({ 
+//                             ...formData, 
+//                             interests: [...formData.interests, interest] 
+//                           });
+//                         } else {
+//                           setFormData({ 
+//                             ...formData, 
+//                             interests: formData.interests.filter(i => i !== interest) 
+//                           });
+//                         }
+//                       }}
+//                     />
+//                     <label htmlFor={interest} className="text-xs">{interest}</label>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
 
-            <Button 
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-lg transition-all duration-300 hover:scale-105 py-3"
-            >
-              {isSubmitting ? (
-                <div className="flex items-center gap-2">
-                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                  Joining...
-                </div>
-              ) : (
-                <>
-                  <Gift className="w-4 h-4 mr-2" />
-                  Get My Recommendations
-                </>
-              )}
-            </Button>
-          </form>
+//             <Button 
+//               type="submit"
+//               disabled={isSubmitting}
+//               className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-lg transition-all duration-300 hover:scale-105 py-3"
+//             >
+//               {isSubmitting ? (
+//                 <div className="flex items-center gap-2">
+//                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+//                   Joining...
+//                 </div>
+//               ) : (
+//                 <>
+//                   <Gift className="w-4 h-4 mr-2" />
+//                   Get My Recommendations
+//                 </>
+//               )}
+//             </Button>
+//           </form>
 
-          <div className="mt-4 space-y-2">
-            <p className="text-xs text-muted-foreground">
-              🔒 We respect your privacy. Unsubscribe anytime.
-            </p>
-            <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <Mail className="w-3 h-3" />
-                No Spam
-              </span>
-              <span className="flex items-center gap-1">
-                <Heart className="w-3 h-3" />
-                Exclusive Offers
-              </span>
-              <span className="flex items-center gap-1">
-                <Award className="w-3 h-3" />
-                Expert Tips
-              </span>
-            </div>
-          </div>
-        </motion.div>
-      </DialogContent>
-    </Dialog>
-  );
-};
+//           <div className="mt-4 space-y-2">
+//             <p className="text-xs text-muted-foreground">
+//               🔒 We respect your privacy. Unsubscribe anytime.
+//             </p>
+//             <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+//               <span className="flex items-center gap-1">
+//                 <Mail className="w-3 h-3" />
+//                 No Spam
+//               </span>
+//               <span className="flex items-center gap-1">
+//                 <Heart className="w-3 h-3" />
+//                 Exclusive Offers
+//               </span>
+//               <span className="flex items-center gap-1">
+//                 <Award className="w-3 h-3" />
+//                 Expert Tips
+//               </span>
+//             </div>
+//           </div>
+//         </motion.div>
+//       </DialogContent>
+//     </Dialog>
+//   );
+// };
 
 // Wishlist Component
 const WishlistButton = ({ perfume, isInWishlist, onToggle }: { perfume: Perfume; isInWishlist: boolean; onToggle: () => void }) => {
@@ -867,10 +864,10 @@ const Catalog = () => {
 
       <div className="pt-8">
         {/* Lead Capture Popup */}
-        <LeadCapturePopup 
+        {/* <LeadCapturePopup 
           isOpen={showLeadPopup} 
           onClose={() => setShowLeadPopup(false)} 
-        />
+        /> */}
 
         {/* Enhanced Hero Section */}
         <section className="relative overflow-hidden py-32 hero-gradient text-cream">
