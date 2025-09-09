@@ -92,14 +92,15 @@ const PhoneCaptureModal = () => {
 I'm interested in discovering my perfect fragrance match.`;
 
         // Prepare WhatsApp URL
-        const whatsappUrl = `https://wa.me/917977233704?text=${encodeURIComponent(message)}`;
+        const whatsappUrl = `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, "_blank");
 
         // Redirect after showing success message
         setTimeout(() => {
           // Try different methods for mobile compatibility
           if (window.innerWidth <= 768) {
             try {
-              window.location.href = whatsappUrl;
+              window.open(whatsappUrl, "_blank");
             } catch (error) {
               window.open(whatsappUrl, '_blank');
             }
