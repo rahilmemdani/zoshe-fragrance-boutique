@@ -1814,7 +1814,7 @@ const Home = () => {
       {/*Business Boosting Components */}
       <OfferBanner />
       {/* <LiveSocialProof /> */}
-      <WhatsAppFloatingWidget />
+      {/* <WhatsAppFloatingWidget /> */}
 
       <PhoneCaptureModal />
 
