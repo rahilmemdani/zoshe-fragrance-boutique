@@ -53,6 +53,7 @@ const PhoneCaptureModal = () => {
   useEffect(() => {
     // Check if already shown in this session
     const hasShownPopup = sessionStorage.getItem('zoshe-popup-shown');
+    console.log("hasShownPopup", hasShownPopup, "hasShown", hasShown);
     if (hasShownPopup || hasShown) return;
 
     const timer = setTimeout(() => {
@@ -83,7 +84,7 @@ const PhoneCaptureModal = () => {
         setIsSubmitted(true);
         
         // Prepare WhatsApp message
-        const message = `🌟 New Lead from ZOSHE Website!
+        const message = `New Lead from ZOSHE Website!
 
 📱 Phone: +91${phone}
 💎 Interest: Personalized fragrance recommendations
