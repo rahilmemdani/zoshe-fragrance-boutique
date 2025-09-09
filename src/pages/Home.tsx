@@ -38,6 +38,10 @@ interface Perfume {
   isOutOfStock?: string;
 }
 
+// top of the file where you use gtag
+declare const gtag: (...args: any[]) => void;
+
+
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // 🚀 BUSINESS BOOSTING COMPONENTS
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -230,8 +234,8 @@ const FAQSection = () => {
                         animate={{ rotate: expandedIndex === index ? 180 : 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                         className={`p-2 rounded-full transition-all duration-300 ${expandedIndex === index
-                            ? "bg-accent/10 text-accent"
-                            : "bg-muted/50 text-muted-foreground hover:bg-accent/10 hover:text-accent"
+                          ? "bg-accent/10 text-accent"
+                          : "bg-muted/50 text-muted-foreground hover:bg-accent/10 hover:text-accent"
                           }`}
                       >
                         <ChevronDown className="w-5 h-5" />
@@ -807,7 +811,7 @@ const OfferBannerHero = () => {
                     )}
                   </div>
                 </div>
-{/* 
+                {/* 
                 <Button
                   variant="ghost"
                   size="sm"
@@ -1075,6 +1079,166 @@ const OfferBannerHero = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 rounded-2xl pointer-events-none" />
       </motion.div>
     </div>
+  );
+};
+
+// Phone Capture Form Component
+const PhoneCaptureForm = () => {
+  const [phone, setPhone] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (phone.length >= 10) {
+      setIsSubmitting(true);
+
+      // Simulate form submission delay
+      setTimeout(() => {
+        setIsSubmitted(true);
+        gtag('event', 'lead_form_submit', {
+          method: 'phone_capture',
+          phone: phone
+        });
+        
+        // Send to WhatsApp with the captured phone number
+        const message = `Interest: Personalized fragrance recommendations🎁 Please send me exclusive offers and fragrance consultations!`;
+
+        setTimeout(() => {
+          openWhatsApp(message);
+          setIsSubmitting(false);
+          // Reset form after 3 seconds
+          setTimeout(() => {
+            setIsSubmitted(false);
+            setPhone('');
+          }, 3000);
+        }, 1500);
+      }, 1000);
+    }
+  };
+
+  if (isSubmitted) {
+    return (
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        className="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 max-w-md mx-auto"
+      >
+        <div className="text-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2, type: "spring", bounce: 0.5 }}
+            className="w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4"
+          >
+            <CheckCircle className="w-8 h-8 text-white" />
+          </motion.div>
+          <h4 className="text-xl font-bold text-primary mb-2">Welcome to ZOSHE VIP!</h4>
+          <p className="text-sm text-muted-foreground mb-3">
+            Your fragrance journey begins now. Redirecting to WhatsApp for instant personalized service...
+          </p>
+          <div className="flex items-center justify-center gap-2 text-xs text-green-600">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span>Connecting you with our fragrance expert</span>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ y: 20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.8, duration: 0.6 }}
+      className="bg-white/95 backdrop-blur-md rounded-2xl p-6 shadow-2xl border border-white/20 max-w-md mx-auto"
+    >
+      {/* Header */}
+      <div className="text-center mb-4">
+        <div className="flex items-center justify-center gap-2 mb-2">
+          <motion.div
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+            className="bg-gradient-to-r from-primary to-accent p-2 rounded-full"
+          >
+            <Sparkles className="w-5 h-5 text-white" />
+          </motion.div>
+          <h3 className="text-lg font-bold text-primary">Get Your Perfect Match</h3>
+        </div>
+        <p className="text-sm text-muted-foreground">
+           Get personalized recommendations • Exclusive VIP offers
+        </p>
+      </div>
+
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="relative">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 text-muted-foreground">
+            <Phone className="w-4 h-4" />
+            <span className="text-sm">+91</span>
+          </div>
+          <Input
+            type="tel"
+            placeholder="Your WhatsApp Number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+            className="w-full pl-20 pr-4 py-3 rounded-xl border-2 border-primary/20 focus:border-primary/40 bg-white/90 text-primary placeholder:text-muted-foreground/60 transition-all duration-300"
+            required
+          />
+          {phone.length >= 10 && (
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="absolute right-3 top-1/2 -translate-y-1/2"
+            >
+              <CheckCircle className="w-5 h-5 text-green-500" />
+            </motion.div>
+          )}
+        </div>
+
+        <Button
+          type="submit"
+          disabled={phone.length < 10 || isSubmitting}
+          className="w-full bg-gradient-to-r from-primary via-accent to-primary hover:from-primary/90 hover:via-accent/90 hover:to-primary/90 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+
+          {isSubmitting ? (
+            <div className="flex items-center justify-center gap-2">
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              <span>Connecting...</span>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-2 relative z-10">
+              <MessageCircle className="w-5 h-5" />
+              <span>Get My Fragrance Match</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          )}
+        </Button>
+
+        {/* Trust Indicators */}
+        <div className="flex items-center justify-center gap-4 pt-2 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1">
+            <Shield className="w-3 h-3 text-green-500" />
+            <span>Secure</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <MessageCircle className="w-3 h-3 text-green-500" />
+            <span>Instant Response</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Gift className="w-3 h-3 text-purple-500" />
+            <span>VIP Offers</span>
+          </div>
+        </div>
+
+        {/* Privacy Note */}
+        <p className="text-xs text-center text-muted-foreground/80 leading-relaxed">
+          We'll send you a WhatsApp message with personalized recommendations. No spam, unsubscribe anytime.
+        </p>
+      </form>
+    </motion.div>
   );
 };
 
@@ -1472,7 +1636,7 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
       )}
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
           <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
             <Button
               size="sm"
@@ -1589,7 +1753,7 @@ const Home = () => {
       <WhatsAppFloatingWidget />
 
 
-      {/* Hero Section */}
+      {/* Enhanced Hero Section with Phone Capture */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -1600,55 +1764,43 @@ const Home = () => {
           }}
         ></div>
 
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <div className="fade-in-up">
-            <h1 className="text-5xl md:text-7xl font-bold text-cream mb-6">
-              Luxury <span className="text-accent">Redefined</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-cream/90 mb-8 max-w-2xl mx-auto" style={{ "color": "black" }}>
-              Discover the art of perfumery with ZOSHE's exclusive collection of handcrafted fragrances
-            </p>
+        <div className="relative z-10 max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-            {/* Enhanced CTA buttons with WhatsApp integration */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/catalog">
-                <Button className="luxury-button text-lg px-8 py-4">
-                  Explore Collection
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-              <Button
-                variant="outline"
-                className="glass-card text-cream border-cream/30 hover:bg-cream/10 text-lg px-8 py-4"
-                onClick={() => openWhatsApp("I'm interested in custom hampers. Please tell me more about your options.")}
-              >
-                <MessageCircle className="mr-2 w-5 h-5" />
-                Chat for Custom Hampers
-              </Button>
-            </div>
+            {/* Left Side - Main Content */}
+            <div className="text-center lg:text-left">
+              <div className="fade-in-up">
+                <h1 className="text-5xl md:text-7xl font-bold text-cream mb-6">
+                  Luxury <span className="text-accent">Redefined</span>
+                </h1>
+                <p className="text-xl md:text-2xl text-cream/90 mb-8 max-w-2xl" style={{ "color": "black" }}>
+                  Discover the art of perfumery with ZOSHE's exclusive collection of handcrafted fragrances
+                </p>
 
-            {/* Quick stats with WhatsApp CTA */}
-            {/* <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
-              className="mt-12 bg-black/20 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto"
-            >
-              <div className="grid grid-cols-3 gap-4 text-center text-white">
-                <div>
-                  <div className="text-2xl font-bold">10K+</div>
-                  <div className="text-sm opacity-90">Happy Customers</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold">100+</div>
-                  <div className="text-sm opacity-90">Unique Fragrances</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold">24/7</div>
-                  <div className="text-sm opacity-90">WhatsApp Support</div>
+                {/* CTA buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
+                  <Link to="/catalog">
+                    <Button className="luxury-button text-lg px-8 py-4">
+                      Explore Collection
+                      <ArrowRight className="ml-2 w-5 h-5" />
+                    </Button>
+                  </Link>
+                  <Button
+                    variant="outline"
+                    className="glass-card text-cream border-cream/30 hover:bg-cream/10 text-lg px-8 py-4"
+                    onClick={() => openWhatsApp("I'm interested in custom hampers. Please tell me more about your options.")}
+                  >
+                    <MessageCircle className="mr-2 w-5 h-5" />
+                    Chat for Custom Hampers
+                  </Button>
                 </div>
               </div>
-            </motion.div> */}
+            </div>
+
+            {/* Right Side - Phone Capture Form */}
+            <div className="flex items-center justify-center">
+              <PhoneCaptureForm />
+            </div>
           </div>
         </div>
 
@@ -1839,37 +1991,37 @@ const Home = () => {
                           <span className="relative z-10">Enquire Now</span>
                         </Button>
                       </div> */}
-                                                <div className={`flex gap-2 items-center ${viewMode === 'grid' ? 'flex-col' : 'flex-row'
-                            }`}>
-                            {/* Enquire Button - Fixed Size to Match Eye Icon */}
-                            <Button
-                              className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${viewMode === 'grid'
-                                  ? 'w-full h-10 text-xs'
-                                  : 'flex-1 h-10 text-sm'
-                                }`}
-                              onClick={() => openWhatsApp(`I'm interested in ${product.name}. Can you tell me more about it?`)}
-                            // disabled={perfume.isOutOfStock}
-                            >
-                              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                              <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
-                              <span className="relative z-10">
-                                {product.isOutOfStock ? 'Out of Stock' : 'Enquire Now'}
-                              </span>
-                            </Button>
+                      <div className={`flex gap-2 items-center ${viewMode === 'grid' ? 'flex-col' : 'flex-row'
+                        }`}>
+                        {/* Enquire Button - Fixed Size to Match Eye Icon */}
+                        <Button
+                          className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${viewMode === 'grid'
+                            ? 'w-full h-10 text-xs'
+                            : 'flex-1 h-10 text-sm'
+                            }`}
+                          onClick={() => openWhatsApp(`I'm interested in ${product.name}. Can you tell me more about it?`)}
+                        // disabled={perfume.isOutOfStock}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                          <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
+                          <span className="relative z-10">
+                            {product.isOutOfStock ? 'Out of Stock' : 'Enquire Now'}
+                          </span>
+                        </Button>
 
-                            {/* Eye Button - Fixed Size Matching Enquire Button */}
-                            <Button
-                              variant="outline"
-                              onClick={() => setQuickViewPerfume(product)}
-                              className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${viewMode === 'grid'
-                                  ? 'w-full h-10'
-                                  : 'w-10 h-10 flex-shrink-0'
-                                }`}
-                            >
-                              <Eye className="w-4 h-4" />
-                              {viewMode === 'grid' && <span className="ml-2 text-xs">Quick View</span>}
-                            </Button>
-                          </div>
+                        {/* Eye Button - Fixed Size Matching Enquire Button */}
+                        <Button
+                          variant="outline"
+                          onClick={() => setQuickViewPerfume(product)}
+                          className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${viewMode === 'grid'
+                            ? 'w-full h-10'
+                            : 'w-10 h-10 flex-shrink-0'
+                            }`}
+                        >
+                          <Eye className="w-4 h-4" />
+                          {viewMode === 'grid' && <span className="ml-2 text-xs">Quick View</span>}
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
