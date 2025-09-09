@@ -1100,12 +1100,34 @@ const PhoneCaptureForm = () => {
           method: 'phone_capture',
           phone: phone
         });
-        
-        // Send to WhatsApp with the captured phone number
-        const message = `Interest: Personalized fragrance recommendations🎁 Please send me exclusive offers and fragrance consultations!`;
+
+        // FIXED: Properly formatted message with phone number included
+        const message = `🌟 New Lead from ZOSHE Website!
+
+📱 Phone: +91${phone}
+💎 Interest: Personalized fragrance recommendations
+🎁 Request: Please send me exclusive offers and fragrance consultations!
+
+I'm interested in discovering my perfect fragrance match.`;
 
         setTimeout(() => {
-          openWhatsApp(message);
+          // FIXED: Use direct WhatsApp link for better mobile compatibility
+          const whatsappUrl = `https://wa.me/917977233704?text=${encodeURIComponent(message)}`;
+
+          // FIXED: Try multiple methods for mobile compatibility
+          if (window.innerWidth <= 768) {
+            // Mobile device - try direct link first
+            try {
+              window.location.href = whatsappUrl;
+            } catch (error) {
+              // Fallback - open in new window
+              window.open(whatsappUrl, '_blank');
+            }
+          } else {
+            // Desktop - open in new tab
+            window.open(whatsappUrl, '_blank');
+          }
+
           setIsSubmitting(false);
           // Reset form after 3 seconds
           setTimeout(() => {
@@ -1135,7 +1157,7 @@ const PhoneCaptureForm = () => {
           </motion.div>
           <h4 className="text-xl font-bold text-primary mb-2">Welcome to ZOSHE VIP!</h4>
           <p className="text-sm text-muted-foreground mb-3">
-            Your fragrance journey begins now. Redirecting to WhatsApp for instant personalized service...
+            Your fragrance journey begins now. Opening WhatsApp for instant personalized service...
           </p>
           <div className="flex items-center justify-center gap-2 text-xs text-green-600">
             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -1166,7 +1188,7 @@ const PhoneCaptureForm = () => {
           <h3 className="text-lg font-bold text-primary">Get Your Perfect Match</h3>
         </div>
         <p className="text-sm text-muted-foreground">
-           Get personalized recommendations • Exclusive VIP offers
+          Get personalized recommendations • Exclusive VIP offers
         </p>
       </div>
 
@@ -1241,6 +1263,7 @@ const PhoneCaptureForm = () => {
     </motion.div>
   );
 };
+
 
 
 const LiveSocialProof = () => {
