@@ -1106,7 +1106,7 @@ const Catalog = () => {
                   ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'
                   : 'grid-cols-1 max-w-4xl mx-auto'
               }`}>
-                {currentPerfumes.map((perfume) => (
+                {currentPerfumes?.filter(perfume=> perfume?.isActive).map((perfume) => (
                   <motion.div
                     key={perfume._id}
                     initial={{ opacity: 0, y: 20 }}
