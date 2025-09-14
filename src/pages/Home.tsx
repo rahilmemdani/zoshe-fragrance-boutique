@@ -1840,45 +1840,47 @@ const Home = () => {
             </p>
 
             {/* Enhanced CTA buttons with WhatsApp integration */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/catalog">
-                <Button className="luxury-button text-lg px-8 py-4">
-                  Explore Collection
-                  <ArrowRight className="ml-2 w-5 h-5" />
+            <div className="flex flex-col sm:flex-row gap-5 sm:gap-7 justify-center items-center w-full px-4 sm:px-0">
+              {/* Explore Collection */}
+              <Link to="/catalog" className="w-full sm:w-auto">
+                <Button className="relative w-full sm:w-auto text-base sm:text-lg font-semibold tracking-wide px-6 sm:px-8 py-3 sm:py-4 rounded-2xl luxury-button shadow-md hover:shadow-xl transition-all duration-500 hover:scale-105">
+                  <span className="flex items-center justify-center">
+                    Explore Collection
+                    <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
                 </Button>
               </Link>
-              {/* <Button
-                variant="outline"
-                className="glass-card text-cream border-cream/30 hover:bg-cream/10 text-lg px-8 py-4"
-                onClick={() => openWhatsApp("I'm interested in custom hampers. Please tell me more about your options.")}
-              >
-                <MessageCircle className="mr-2 w-5 h-5" />
-                Chat for Custom Hampers
-              </Button> */}
+
+              {/* Custom Hampers (WhatsApp) */}
               <Button
                 variant="outline"
-                className="group relative overflow-hidden bg-white/10 backdrop-blur-xl text-cream border border-white/20 hover:border-accent/50 text-lg px-10 py-5 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-700 hover:scale-105 hover:-translate-y-1"
-                onClick={() => openWhatsApp("I'm interested in custom hampers. Please tell me more about your options.")}
+                className="group relative w-full sm:w-auto overflow-hidden bg-white/10 backdrop-blur-2xl text-cream border border-white/20 hover:border-accent/50 text-base sm:text-lg px-6 sm:px-10 py-3 sm:py-5 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-700 hover:scale-105 hover:-translate-y-1"
+                onClick={() =>
+                  openWhatsApp(
+                    "I'm interested in custom hampers. Please tell me more about your options."
+                  )
+                }
               >
                 {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-primary/10 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/25 via-primary/15 to-accent/25 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
 
-                {/* Floating background elements */}
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-accent/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                {/* Glow accents */}
+                <div className="absolute -top-2 -right-2 w-10 h-10 bg-accent/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute -bottom-2 -left-2 w-8 h-8 bg-primary/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-                <div className="flex items-center relative z-10">
-                  <div className="mr-3 p-2 bg-white/10 rounded-full group-hover:bg-accent/20 transition-colors duration-300">
+                {/* Button Content */}
+                <div className="flex items-center justify-center relative z-10">
+                  <div className="mr-3 p-2 bg-white/10 rounded-full group-hover:bg-accent/30 transition-colors duration-300">
                     <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
                   </div>
-                  <span className="font-semibold tracking-wide">Chat for Custom Hampers</span>
+                  <span className="font-semibold tracking-wide whitespace-nowrap">
+                    Chat for Custom Hampers
+                  </span>
                   <ArrowRight className="ml-3 w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                 </div>
               </Button>
-
-
-
             </div>
+
 
             {/* Quick stats with WhatsApp CTA */}
             {/* <motion.div 
