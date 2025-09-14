@@ -69,7 +69,7 @@ const PhoneCaptureModal = () => {
     e.preventDefault();
     if (phone.length >= 10) {
       setIsSubmitting(true);
-      
+
       // Trigger Google Analytics event
       if (typeof gtag !== 'undefined') {
         gtag('event', 'lead_form_submit', {
@@ -82,7 +82,7 @@ const PhoneCaptureModal = () => {
 
       setTimeout(() => {
         setIsSubmitted(true);
-        
+
         // Prepare WhatsApp message
         const message = `New Lead from ZOSHE Website!
 
@@ -108,7 +108,7 @@ I'm interested in discovering my perfect fragrance match.`;
           } else {
             window.open(whatsappUrl, '_blank');
           }
-          
+
           setIsSubmitting(false);
           // Reset form after redirect
           setTimeout(() => {
@@ -458,8 +458,8 @@ const FAQSection = () => {
                         animate={{ rotate: expandedIndex === index ? 180 : 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                         className={`p-2 rounded-full transition-all duration-300 ${expandedIndex === index
-                            ? "bg-accent/10 text-accent"
-                            : "bg-muted/50 text-muted-foreground hover:bg-accent/10 hover:text-accent"
+                          ? "bg-accent/10 text-accent"
+                          : "bg-muted/50 text-muted-foreground hover:bg-accent/10 hover:text-accent"
                           }`}
                       >
                         <ChevronDown className="w-5 h-5" />
@@ -1035,7 +1035,7 @@ const OfferBannerHero = () => {
                     )}
                   </div>
                 </div>
-{/* 
+                {/* 
                 <Button
                   variant="ghost"
                   size="sm"
@@ -1700,7 +1700,7 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
       )}
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
           <div className="absolute bottom-4 left-4 right-4 flex justify-between items-end">
             <Button
               size="sm"
@@ -1847,14 +1847,37 @@ const Home = () => {
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
-              <Button
+              {/* <Button
                 variant="outline"
                 className="glass-card text-cream border-cream/30 hover:bg-cream/10 text-lg px-8 py-4"
                 onClick={() => openWhatsApp("I'm interested in custom hampers. Please tell me more about your options.")}
               >
                 <MessageCircle className="mr-2 w-5 h-5" />
                 Chat for Custom Hampers
+              </Button> */}
+              <Button
+                variant="outline"
+                className="group relative overflow-hidden bg-white/10 backdrop-blur-xl text-cream border border-white/20 hover:border-accent/50 text-lg px-10 py-5 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-700 hover:scale-105 hover:-translate-y-1"
+                onClick={() => openWhatsApp("I'm interested in custom hampers. Please tell me more about your options.")}
+              >
+                {/* Gradient overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-accent/20 via-primary/10 to-accent/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+
+                {/* Floating background elements */}
+                <div className="absolute -top-2 -right-2 w-8 h-8 bg-accent/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute -bottom-2 -left-2 w-6 h-6 bg-primary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+                <div className="flex items-center relative z-10">
+                  <div className="mr-3 p-2 bg-white/10 rounded-full group-hover:bg-accent/20 transition-colors duration-300">
+                    <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <span className="font-semibold tracking-wide">Chat for Custom Hampers</span>
+                  <ArrowRight className="ml-3 w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
+                </div>
               </Button>
+
+
+
             </div>
 
             {/* Quick stats with WhatsApp CTA */}
@@ -2069,37 +2092,37 @@ const Home = () => {
                           <span className="relative z-10">Enquire Now</span>
                         </Button>
                       </div> */}
-                                                <div className={`flex gap-2 items-center ${viewMode === 'grid' ? 'flex-col' : 'flex-row'
-                            }`}>
-                            {/* Enquire Button - Fixed Size to Match Eye Icon */}
-                            <Button
-                              className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${viewMode === 'grid'
-                                  ? 'w-full h-10 text-xs'
-                                  : 'flex-1 h-10 text-sm'
-                                }`}
-                              onClick={() => openWhatsApp(`I'm interested in ${product.name}. Can you tell me more about it?`)}
-                            // disabled={perfume.isOutOfStock}
-                            >
-                              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                              <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
-                              <span className="relative z-10">
-                                {product.isOutOfStock ? 'Out of Stock' : 'Enquire Now'}
-                              </span>
-                            </Button>
+                      <div className={`flex gap-2 items-center ${viewMode === 'grid' ? 'flex-col' : 'flex-row'
+                        }`}>
+                        {/* Enquire Button - Fixed Size to Match Eye Icon */}
+                        <Button
+                          className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${viewMode === 'grid'
+                            ? 'w-full h-10 text-xs'
+                            : 'flex-1 h-10 text-sm'
+                            }`}
+                          onClick={() => openWhatsApp(`I'm interested in ${product.name}. Can you tell me more about it?`)}
+                        // disabled={perfume.isOutOfStock}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                          <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
+                          <span className="relative z-10">
+                            {product.isOutOfStock ? 'Out of Stock' : 'Enquire Now'}
+                          </span>
+                        </Button>
 
-                            {/* Eye Button - Fixed Size Matching Enquire Button */}
-                            <Button
-                              variant="outline"
-                              onClick={() => setQuickViewPerfume(product)}
-                              className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${viewMode === 'grid'
-                                  ? 'w-full h-10'
-                                  : 'w-10 h-10 flex-shrink-0'
-                                }`}
-                            >
-                              <Eye className="w-4 h-4" />
-                              {viewMode === 'grid' && <span className="ml-2 text-xs">Quick View</span>}
-                            </Button>
-                          </div>
+                        {/* Eye Button - Fixed Size Matching Enquire Button */}
+                        <Button
+                          variant="outline"
+                          onClick={() => setQuickViewPerfume(product)}
+                          className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${viewMode === 'grid'
+                            ? 'w-full h-10'
+                            : 'w-10 h-10 flex-shrink-0'
+                            }`}
+                        >
+                          <Eye className="w-4 h-4" />
+                          {viewMode === 'grid' && <span className="ml-2 text-xs">Quick View</span>}
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
