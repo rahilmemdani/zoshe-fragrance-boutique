@@ -146,7 +146,7 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
 
 //   const handleSubmit = async (e: React.FormEvent) => {
 //     e.preventDefault();
-    
+
 //     if (!formData.name || !formData.email) {
 //       toast({
 //         title: "Please fill required fields",
@@ -155,9 +155,9 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
 //       });
 //       return;
 //     }
-  
+
 //     setIsSubmitting(true);
-  
+
 //     try {
 //       // Track lead capture event via GTM
 //       trackEvent('lead_captured', {
@@ -168,7 +168,7 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
 //         interests_count: formData.interests.length,
 //         lead_source: 'catalog_popup'
 //       });
-  
+
 //       // Save to Sanity (this will trigger the WhatsApp function automatically)
 //       const leadDoc = await sanityClient.create({
 //         _type: 'lead',
@@ -179,17 +179,17 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
 //         source: 'catalog_popup',
 //         timestamp: new Date().toISOString()
 //       });
-  
+
 //       console.log('✅ Lead created:', leadDoc._id);
-  
+
 //       toast({
 //         title: "Welcome to ZOSHE! ✨",
 //         description: "You'll receive a personalized WhatsApp message shortly!",
 //       });
-  
+
 //       onClose();
 //       setFormData({ name: '', email: '', phone: '', interests: [] });
-  
+
 //     } catch (error) {
 //       console.error('❌ Error creating lead:', error);
 //       toast({
@@ -201,7 +201,7 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
 //       setIsSubmitting(false);
 //     }
 //   };
-  
+
 
 //   const interestOptions = [
 //     'Floral Fragrances',
@@ -229,7 +229,7 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
 //             >
 //               <Sparkles className="w-8 h-8 text-white" />
 //             </motion.div>
-            
+
 //             <h3 className="text-2xl font-bold text-primary mb-2">
 //               Discover Your Signature Scent
 //             </h3>
@@ -246,7 +246,7 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
 //               className="glass-card border-0 bg-white/50 backdrop-blur-sm"
 //               required
 //             />
-            
+
 //             <Input
 //               type="email"
 //               placeholder="Email Address *"
@@ -255,7 +255,7 @@ const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, c
 //               className="glass-card border-0 bg-white/50 backdrop-blur-sm"
 //               required
 //             />
-            
+
 //             <Input
 //               type="tel"
 //               placeholder="WhatsApp Number (Optional)"
@@ -362,15 +362,15 @@ const WishlistButton = ({ perfume, isInWishlist, onToggle }: { perfume: Perfume;
 };
 
 // Enhanced Product Image Slider
-const ProductImageSlider = ({ 
-  perfume, 
-  viewMode, 
-  onQuickViewClick, 
-  wishlist, 
-  onWishlistToggle 
-}: { 
-  perfume: Perfume; 
-  viewMode: string; 
+const ProductImageSlider = ({
+  perfume,
+  viewMode,
+  onQuickViewClick,
+  wishlist,
+  onWishlistToggle
+}: {
+  perfume: Perfume;
+  viewMode: string;
   onQuickViewClick: () => void;
   wishlist: string[];
   onWishlistToggle: (perfumeId: string) => void;
@@ -410,15 +410,13 @@ const ProductImageSlider = ({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`relative overflow-hidden group ${
-        viewMode === 'list' ? 'w-full md:w-48 flex-shrink-0' : ''
-      }`}
+      className={`relative overflow-hidden group ${viewMode === 'list' ? 'w-full md:w-48 flex-shrink-0' : ''
+        }`}
     >
-      <div className={`relative ${
-        viewMode === 'list' 
-          ? 'h-48 md:h-48' 
+      <div className={`relative ${viewMode === 'list'
+          ? 'h-48 md:h-48'
           : 'h-64 sm:h-80'
-      }`}>
+        }`}>
         {!imageLoaded && (
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center animate-pulse">
             <div className="text-4xl opacity-50">🌸</div>
@@ -642,7 +640,7 @@ const Catalog = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useState<Perfume[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
-  
+
   // Lead Capture Popup State
   const [showLeadPopup, setShowLeadPopup] = useState(false);
   const [hasShownPopup, setHasShownPopup] = useState(false);
@@ -691,15 +689,15 @@ const Catalog = () => {
     if (hasShownPopup || showLeadPopup) return;
 
     const timeOnSite = Date.now() - pageLoadTime;
-    
+
     // Show popup after 45 seconds OR when user scrolls 60% down the page
     const shouldShowPopup = (timeOnSite > 45000) || (scrollProgress > 60);
-    
+
     if (shouldShowPopup) {
       setShowLeadPopup(true);
       setHasShownPopup(true);
       localStorage.setItem('zoshe_popup_shown', 'true');
-      
+
       // Track popup shown event
       trackEvent('popup_shown', {
         trigger: timeOnSite > 45000 ? 'time' : 'scroll',
@@ -714,7 +712,7 @@ const Catalog = () => {
     const newWishlist = wishlist.includes(perfumeId)
       ? wishlist.filter(id => id !== perfumeId)
       : [...wishlist, perfumeId];
-    
+
     setWishlist(newWishlist);
     localStorage.setItem('fragrance_wishlist', JSON.stringify(newWishlist));
   };
@@ -808,6 +806,10 @@ const Catalog = () => {
       return true;
     })
     .sort((a, b) => {
+      // First priority: Stock availability (in-stock items first)
+      if (a.isOutOfStock && !b.isOutOfStock) return 1; // a is out of stock, b is in stock => a after b
+      if (!a.isOutOfStock && b.isOutOfStock) return -1; // a is in stock, b is out of stock => a before b
+
       switch (sortBy) {
         case 'price-low':
           return (a.discountedPrice || a.price) - (b.discountedPrice || b.price);
@@ -1101,12 +1103,11 @@ const Catalog = () => {
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             {filteredPerfumes.length > 0 ? (
-              <div className={`grid gap-4 sm:gap-6 ${
-                viewMode === 'grid'
+              <div className={`grid gap-4 sm:gap-6 ${viewMode === 'grid'
                   ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'
                   : 'grid-cols-1 max-w-4xl mx-auto'
-              }`}>
-                {currentPerfumes?.filter(perfume=> perfume?.isActive).map((perfume) => (
+                }`}>
+                {currentPerfumes?.filter(perfume => perfume?.isActive).map((perfume) => (
                   <motion.div
                     key={perfume._id}
                     initial={{ opacity: 0, y: 20 }}
@@ -1114,11 +1115,10 @@ const Catalog = () => {
                     transition={{ duration: 0.5 }}
                   >
                     <Card
-                      className={`group glass-card overflow-hidden rounded-2xl border border-border/20 shadow-md hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 relative ${
-                        viewMode === 'list' 
+                      className={`group glass-card overflow-hidden rounded-2xl border border-border/20 shadow-md hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 relative ${viewMode === 'list'
                           ? 'flex flex-col md:flex-row'
                           : 'flex flex-col'
-                      }`}
+                        }`}
                     >
                       <ProductImageSlider
                         perfume={perfume}
@@ -1128,11 +1128,10 @@ const Catalog = () => {
                         onWishlistToggle={toggleWishlist}
                       />
 
-                      <CardContent className={`p-4 sm:p-6 space-y-3 sm:space-y-4 relative ${
-                        viewMode === "list" 
-                          ? "flex-1 flex flex-col justify-between min-w-0" 
+                      <CardContent className={`p-4 sm:p-6 space-y-3 sm:space-y-4 relative ${viewMode === "list"
+                          ? "flex-1 flex flex-col justify-between min-w-0"
                           : "flex-1 flex flex-col"
-                      }`}>
+                        }`}>
                         <div className="flex-1 space-y-2 sm:space-y-3">
                           <div className="flex items-start justify-between">
                             <h3 className="text-base sm:text-lg font-semibold text-primary group-hover:text-primary/80 transition-colors leading-snug">
@@ -1178,17 +1177,15 @@ const Catalog = () => {
                             className="justify-start"
                           />
 
-                          <div className={`flex gap-2 items-center ${
-                            viewMode === 'grid' 
-                              ? 'flex-col' 
+                          <div className={`flex gap-2 items-center ${viewMode === 'grid'
+                              ? 'flex-col'
                               : 'flex-col sm:flex-row'
-                          }`}>
+                            }`}>
                             <Button
-                              className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${
-                                viewMode === 'grid'
+                              className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${viewMode === 'grid'
                                   ? 'w-full h-10 text-xs'
                                   : 'w-full sm:flex-1 h-10 text-sm'
-                              }`}
+                                }`}
                               onClick={() => handleWhatsAppClick(`I'm interested in ${perfume.name}. Can you tell me more about it?`, perfume)}
                             >
                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
@@ -1201,11 +1198,10 @@ const Catalog = () => {
                             <Button
                               variant="outline"
                               onClick={() => setQuickViewPerfume(perfume)}
-                              className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${
-                                viewMode === 'grid'
+                              className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${viewMode === 'grid'
                                   ? 'w-full h-10'
                                   : 'w-full sm:w-auto sm:px-4 h-10'
-                              }`}
+                                }`}
                             >
                               <Eye className="w-4 h-4" />
                               <span className="ml-2 text-xs sm:text-sm">Quick View</span>
@@ -1407,9 +1403,8 @@ const Catalog = () => {
                               <button
                                 key={index}
                                 onClick={() => setQuickViewImageIndex(index)}
-                                className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                                  quickViewImageIndex === index ? 'border-primary' : 'border-border'
-                                }`}
+                                className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${quickViewImageIndex === index ? 'border-primary' : 'border-border'
+                                  }`}
                               >
                                 <img
                                   src={urlFor(quickViewPerfume.images[index].asset).width(100).url()}
@@ -1500,7 +1495,7 @@ const Catalog = () => {
           filters={filters}
           onFiltersChange={setFilters}
           scentProfiles={allScentProfiles}
-          maxPerfumePrice={maxPerfumePrice}  
+          maxPerfumePrice={maxPerfumePrice}
         />
       </div>
     </>
