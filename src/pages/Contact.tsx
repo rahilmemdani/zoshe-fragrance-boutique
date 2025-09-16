@@ -22,6 +22,7 @@ import {
   Shield,
   Facebook,
 } from 'lucide-react';
+import { Helmet } from 'react-helmet';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -86,6 +87,12 @@ const Contact = () => {
 
   return (
     <div className="pt-8">
+      {/* React Helmet for SEO */}
+      <Helmet>
+        <title>Contact Us | Zoshe Perfume</title>
+        <meta name="description" content="Get in touch with Zoshe Perfume. Fill out our contact form, reach us on WhatsApp, or follow us on social media." />
+        <meta name="keywords" content="Contact Zoshe, Perfume Contact, WhatsApp, Email, Instagram, Facebook" />
+      </Helmet>
       {/* Enhanced Hero Section */}
       <section className="relative overflow-hidden py-32 hero-gradient text-cream">
         {/* Animated Background Elements */}
@@ -113,34 +120,34 @@ const Contact = () => {
             Let's create something unforgettable together. We're here to help you find your perfect fragrance experience.
           </motion.p>
 
-{/* Enhanced Stats - Responsive Single Line */}
-<motion.div
-  initial="hidden"
-  animate="show"
-  variants={{
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { staggerChildren: 0.15 } }
-  }}
-  className="flex flex-wrap justify-center gap-6 sm:gap-12 mt-12"
->
-  {[
-    { icon: <MessageCircle className="w-6 h-6" />, value: "24/7", label: "Customer Support" },
-    { icon: <Star className="w-6 h-6" />, value: "5K+", label: "Happy Customers" },
-    { icon: <Shield className="w-6 h-6" />, value: "100%", label: "Secure & Private" }
-  ].map((stat, idx) => (
-    <motion.div
-      key={idx}
-      variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
-      className="flex flex-col items-center min-w-[90px] sm:min-w-[120px] group"
-    >
-      <div className="flex justify-center mb-1 text-accent group-hover:scale-110 transition-transform">
-        {stat.icon}
-      </div>
-      <div className="text-2xl sm:text-3xl font-bold text-accent">{stat.value}</div>
-      <div className="text-cream/80 text-xs sm:text-sm text-center">{stat.label}</div>
-    </motion.div>
-  ))}
-</motion.div>
+          {/* Enhanced Stats - Responsive Single Line */}
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              show: { opacity: 1, y: 0, transition: { staggerChildren: 0.15 } }
+            }}
+            className="flex flex-wrap justify-center gap-6 sm:gap-12 mt-12"
+          >
+            {[
+              { icon: <MessageCircle className="w-6 h-6" />, value: "24/7", label: "Customer Support" },
+              { icon: <Star className="w-6 h-6" />, value: "5K+", label: "Happy Customers" },
+              { icon: <Shield className="w-6 h-6" />, value: "100%", label: "Secure & Private" }
+            ].map((stat, idx) => (
+              <motion.div
+                key={idx}
+                variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
+                className="flex flex-col items-center min-w-[90px] sm:min-w-[120px] group"
+              >
+                <div className="flex justify-center mb-1 text-accent group-hover:scale-110 transition-transform">
+                  {stat.icon}
+                </div>
+                <div className="text-2xl sm:text-3xl font-bold text-accent">{stat.value}</div>
+                <div className="text-cream/80 text-xs sm:text-sm text-center">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
 
 
           {/* Scroll Indicator */}
@@ -428,7 +435,7 @@ const Contact = () => {
                 Our fragrance experts are standing by to help you find your perfect scent. Get personalized recommendations and instant support.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
+                <Button
                   size="lg"
                   className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 rounded-full px-8"
                   onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=Hi! I need immediate assistance with fragrance selection.`, "_blank")}
@@ -436,8 +443,8 @@ const Contact = () => {
                   <MessageCircle className="w-5 h-5 mr-2" />
                   Chat Now on WhatsApp
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   size="lg"
                   className="border-primary text-primary hover:bg-primary/5 rounded-full px-8"
                   onClick={() => window.open("tel:+917977233704")}

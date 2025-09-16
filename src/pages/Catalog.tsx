@@ -14,6 +14,7 @@ import { sanityClient } from "../lib/sanityClient";
 import { openWhatsApp } from "../lib/whatsApp";
 import { useToast } from '@/hooks/use-toast';
 import imageUrlBuilder from '@sanity/image-url';
+import { Helmet } from "react-helmet";
 
 const builder = imageUrlBuilder(sanityClient);
 function urlFor(source: any) {
@@ -851,6 +852,21 @@ const Catalog = () => {
 
   return (
     <>
+    {/* SEO for Catalog Page */}
+    <Helmet>
+        <title>Catalog | Zoshe Luxury Perfumes & Custom Scents</title>
+        <meta
+          name="description"
+          content="Explore Zoshe's exclusive perfume catalog. Browse our premium fragrances, custom scents, and luxury perfume collections."
+        />
+        <link rel="canonical" href="https://www.zoshe.in/catalog" />
+        {/* Open Graph */}
+        <meta property="og:title" content="Catalog | Zoshe Luxury Perfumes & Custom Scents" />
+        <meta property="og:description" content="Explore Zoshe's premium fragrances and custom scent collections." />
+        <meta property="og:url" content="https://www.zoshe.in/catalog" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://www.zoshe.in/assets/zoshe-catalog-og.jpg" />
+      </Helmet>
       {/* Add custom CSS for horizontal scrolling */}
       <style>{`
         .scroll-container {

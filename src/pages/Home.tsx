@@ -15,9 +15,11 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
+  DialogTitle
 } from '@/components/ui/dialog';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Helmet } from "react-helmet";
+
 
 const builder = imageUrlBuilder(sanityClient);
 function urlFor(source: any) {
@@ -1810,6 +1812,15 @@ const Home = () => {
   ];
 
   return (
+    <>
+    <Helmet>
+    <title>Home | Luxury Perfumes & Custom Scents</title>
+    <meta
+      name="description"
+      content="Learn more about Zoshe, our story, and our dedication to creating luxury fragrances."
+    />
+    <link rel="canonical" href="https://www.zoshe.in/about" />
+  </Helmet>
     <div className="scroll-smooth">
       {/*Business Boosting Components */}
       <OfferBanner />
@@ -2481,6 +2492,7 @@ const Home = () => {
 
       <FAQSection />
     </div>
+    </>
   );
 };
 

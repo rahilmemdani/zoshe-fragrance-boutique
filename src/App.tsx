@@ -30,31 +30,6 @@ const useGtmPageView = () => {
   }, [location]);
 };
 
-// const App = () => (
-//   <QueryClientProvider client={queryClient}>
-//     <TooltipProvider>
-//       <Toaster />
-//       <Sonner />
-//       <BrowserRouter>
-//         <Layout>
-//         <ScrollToTop />
-//           <Routes>
-//             <Route path="/" element={<Home />} />
-//             <Route path="/about" element={<About />} />
-//             <Route path="/catalog" element={<Catalog />} />
-//             <Route path="/customization" element={<Customization />} />
-//             {/* <Route path="/reviews" element={<Reviews />} /> */}
-//             <Route path="/contact" element={<Contact />} />
-//             <Route path="/policies" element={<Policies />} />
-//             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-//             <Route path="*" element={<NotFound />} />
-//           </Routes>
-//         </Layout>
-//       </BrowserRouter>
-//     </TooltipProvider>
-//   </QueryClientProvider>
-// );
-
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
