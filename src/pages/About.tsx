@@ -102,35 +102,35 @@ const About = () => {
             Embracing the essence of every individual through dedicated craftsmanship and passionate innovation.
           </motion.p>
 
-          {/* Enhanced Stats */}
+          {/* Enhanced Stats - Responsive Single Line */}
           <motion.div
             initial="hidden"
             animate="show"
             variants={{
               hidden: { opacity: 0, y: 30 },
-              show: { opacity: 1, y: 0, transition: { staggerChildren: 0.2 } }
+              show: { opacity: 1, y: 0, transition: { staggerChildren: 0.15 } }
             }}
-            className="flex flex-col sm:flex-row justify-center gap-12 mt-12"
+            className="flex flex-wrap justify-center gap-8 sm:gap-12 mt-12"
           >
             {[
               { icon: <Crown className="w-6 h-6" />, value: "2025", label: "Founded" },
               { icon: <Users className="w-6 h-6" />, value: "2", label: "Expert Founders" },
               { icon: <Heart className="w-6 h-6" />, value: "10K+", label: "Happy Customers" }
-              // { icon: <Globe className="w-6 h-6" />, value: "Global", label: "Reach" }
             ].map((stat, idx) => (
               <motion.div
                 key={idx}
                 variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
-                className="text-center group"
+                className="flex flex-col items-center min-w-[90px] sm:min-w-[120px] group"
               >
-                <div className="flex justify-center mb-2 text-accent group-hover:scale-110 transition-transform">
+                <div className="flex justify-center mb-1 text-accent group-hover:scale-110 transition-transform">
                   {stat.icon}
                 </div>
-                <div className="text-3xl font-bold text-accent mb-1">{stat.value}</div>
-                <div className="text-cream/80 text-sm">{stat.label}</div>
+                <div className="text-2xl sm:text-3xl font-bold text-accent">{stat.value}</div>
+                <div className="text-cream/80 text-xs sm:text-sm text-center">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
+
 
           {/* Scroll Indicator */}
           <motion.div
@@ -168,7 +168,7 @@ const About = () => {
                 </h2>
                 <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent rounded-full mb-8"></div>
               </div>
-              
+
               <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
@@ -181,7 +181,7 @@ const About = () => {
                   specialist came together to form a brand named after them.
                   At ZOSHE, we believe your fragrance should be as unique as you are.
                 </motion.p>
-                
+
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -194,7 +194,7 @@ const About = () => {
                   our perfumes are tailored to capture individuality and leave a
                   lasting impression.
                 </motion.p>
-                
+
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -405,7 +405,7 @@ const About = () => {
                 <Card className="glass-card hover:shadow-2xl transition-all duration-500 text-center h-full backdrop-blur-xl border border-border/20 overflow-hidden relative">
                   {/* Background gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${value.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                  
+
                   <CardContent className="p-8 relative z-10">
                     {/* Enhanced Icon */}
                     <div className="relative mb-6">
@@ -457,24 +457,24 @@ const About = () => {
           {/* Enhanced Process Steps */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
-              { 
-                step: "01", 
-                title: "Inspiration", 
-                desc: "Our creative foundation is inspired by the vision of providing customers with a surreal experience through our customized products.", 
+              {
+                step: "01",
+                title: "Inspiration",
+                desc: "Our creative foundation is inspired by the vision of providing customers with a surreal experience through our customized products.",
                 icon: Sparkles,
                 gradient: "from-purple-500 to-pink-500"
               },
-              { 
-                step: "02", 
-                title: "Composition", 
-                desc: "Our master professionals carefully select and blend premium ingredients with custom-tailored ideas to create the perfect harmony.", 
+              {
+                step: "02",
+                title: "Composition",
+                desc: "Our master professionals carefully select and blend premium ingredients with custom-tailored ideas to create the perfect harmony.",
                 icon: Target,
                 gradient: "from-blue-500 to-cyan-500"
               },
-              { 
-                step: "03", 
-                title: "Perfection", 
-                desc: "We find finesse in CRUELTY FREE - LUXURIOUS OILS - AFFORDABLE WEAR - GENDER NEUTRAL - MINIMAL CHEMICALS.", 
+              {
+                step: "03",
+                title: "Perfection",
+                desc: "We find finesse in CRUELTY FREE - LUXURIOUS OILS - AFFORDABLE WEAR - GENDER NEUTRAL - MINIMAL CHEMICALS.",
                 icon: Crown,
                 gradient: "from-amber-500 to-orange-500"
               }
@@ -491,7 +491,7 @@ const About = () => {
                 <div className="glass-card p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col items-center text-center h-full backdrop-blur-xl border border-border/20 relative overflow-hidden">
                   {/* Background gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                  
+
                   <div className="relative z-10">
                     {/* Enhanced Step Number */}
                     <div className="relative mb-6">
@@ -551,7 +551,7 @@ const About = () => {
           <div className="relative flex flex-col items-center">
             {/* Enhanced Central Line */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-full bg-gradient-to-b from-primary via-accent to-primary opacity-30"></div>
-            
+
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -563,12 +563,12 @@ const About = () => {
               <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-full shadow-xl mb-8 relative">
                 <div className="absolute -inset-2 bg-gradient-to-r from-primary to-accent rounded-full opacity-30 blur-sm animate-pulse"></div>
               </div>
-              
+
               {/* Enhanced Card */}
               <div className="glass-card p-8 text-center max-w-2xl hover:shadow-2xl transition-all duration-500 rounded-2xl backdrop-blur-xl border border-border/20 group relative overflow-hidden">
                 {/* Background gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 group-hover:from-primary/10 group-hover:to-accent/10 transition-all duration-500"></div>
-                
+
                 <div className="relative z-10">
                   <div className="flex items-center justify-center gap-3 mb-4">
                     <Crown className="w-6 h-6 text-accent" />
@@ -580,7 +580,7 @@ const About = () => {
                   <p className="text-muted-foreground leading-relaxed">
                     Zoya and Shahreen founded the company with a vision to create the best products for our clients' tailored necessities. A spiritual journey to the Kingdom of Saudi Arabia soon turned into friendship and led to the formation of ZOSHE, where two young individuals combined their best abilities and aspire to conquer great lengths together.
                   </p>
-                  
+
                   {/* Decorative element */}
                   <div className="flex justify-center mt-6 space-x-2">
                     <div className="w-2 h-2 bg-gradient-to-r from-primary to-accent rounded-full animate-pulse"></div>
@@ -617,14 +617,14 @@ const About = () => {
                   Join thousands of customers who have discovered their unique essence with ZOSHE. Let us craft a fragrance that tells your story.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link to="/customization">
-                  <Button 
-                    size="lg"
-                    className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-lg transition-all duration-300 hover:scale-105 rounded-full px-8"
-                  >
-                    <Sparkles className="w-5 h-5 mr-2" />
-                    Start Your Journey
-                  </Button>
+                  <Link to="/customization">
+                    <Button
+                      size="lg"
+                      className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white shadow-lg transition-all duration-300 hover:scale-105 rounded-full px-8"
+                    >
+                      <Sparkles className="w-5 h-5 mr-2" />
+                      Start Your Journey
+                    </Button>
                   </Link>
                   {/* <Button 
                     variant="outline" 

@@ -121,24 +121,24 @@ const Policies = () => {
               hidden: { opacity: 0, y: 30 },
               show: { opacity: 1, y: 0, transition: { staggerChildren: 0.2 } }
             }}
-            className="flex flex-col sm:flex-row justify-center gap-12 mt-12"
+            className="flex flex-wrap justify-center gap-6 sm:gap-12 mt-12"
           >
             {[
               { icon: <Shield className="w-6 h-6" />, value: "100%", label: "Secure Shopping" },
               { icon: <Truck className="w-6 h-6" />, value: "Free", label: "Shipping Available" },
               { icon: <RotateCcw className="w-6 h-6" />, value: "Easy", label: "Returns Policy" },
-              { icon: <Award className="w-6 h-6" />, value: "24/7", label: "Customer Support" }
+              // { icon: <Award className="w-6 h-6" />, value: "24/7", label: "Customer Support" }
             ].map((stat, idx) => (
               <motion.div
                 key={idx}
                 variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
-                className="text-center group"
+                className="flex flex-col items-center min-w-[90px] sm:min-w-[120px] group"
               >
                 <div className="flex justify-center mb-2 text-accent group-hover:scale-110 transition-transform">
                   {stat.icon}
                 </div>
-                <div className="text-3xl font-bold text-accent mb-1">{stat.value}</div>
-                <div className="text-cream/80 text-sm">{stat.label}</div>
+                <div className="text-2xl sm:text-3xl font-bold text-accent">{stat.value}</div>
+                <div className="text-cream/80 text-xs sm:text-sm text-center">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>

@@ -113,35 +113,35 @@ const Contact = () => {
             Let's create something unforgettable together. We're here to help you find your perfect fragrance experience.
           </motion.p>
 
-          {/* Enhanced Stats */}
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              show: { opacity: 1, y: 0, transition: { staggerChildren: 0.2 } }
-            }}
-            className="flex flex-col sm:flex-row justify-center gap-12 mt-12"
-          >
-            {[
-              { icon: <MessageCircle className="w-6 h-6" />, value: "24/7", label: "Customer Support" },
-              { icon: <Star className="w-6 h-6" />, value: "5K+", label: "Happy Customers" },
-              { icon: <Shield className="w-6 h-6" />, value: "100%", label: "Secure & Private" }
-              // { icon: <Heart className="w-6 h-6" />, value: "<1hr", label: "Response Time" }
-            ].map((stat, idx) => (
-              <motion.div
-                key={idx}
-                variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
-                className="text-center group"
-              >
-                <div className="flex justify-center mb-2 text-accent group-hover:scale-110 transition-transform">
-                  {stat.icon}
-                </div>
-                <div className="text-3xl font-bold text-accent mb-1">{stat.value}</div>
-                <div className="text-cream/80 text-sm">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
+{/* Enhanced Stats - Responsive Single Line */}
+<motion.div
+  initial="hidden"
+  animate="show"
+  variants={{
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { staggerChildren: 0.15 } }
+  }}
+  className="flex flex-wrap justify-center gap-6 sm:gap-12 mt-12"
+>
+  {[
+    { icon: <MessageCircle className="w-6 h-6" />, value: "24/7", label: "Customer Support" },
+    { icon: <Star className="w-6 h-6" />, value: "5K+", label: "Happy Customers" },
+    { icon: <Shield className="w-6 h-6" />, value: "100%", label: "Secure & Private" }
+  ].map((stat, idx) => (
+    <motion.div
+      key={idx}
+      variants={{ hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0 } }}
+      className="flex flex-col items-center min-w-[90px] sm:min-w-[120px] group"
+    >
+      <div className="flex justify-center mb-1 text-accent group-hover:scale-110 transition-transform">
+        {stat.icon}
+      </div>
+      <div className="text-2xl sm:text-3xl font-bold text-accent">{stat.value}</div>
+      <div className="text-cream/80 text-xs sm:text-sm text-center">{stat.label}</div>
+    </motion.div>
+  ))}
+</motion.div>
+
 
           {/* Scroll Indicator */}
           <motion.div

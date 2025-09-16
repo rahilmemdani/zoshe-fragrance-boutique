@@ -414,8 +414,8 @@ const ProductImageSlider = ({
         }`}
     >
       <div className={`relative ${viewMode === 'list'
-          ? 'h-48 md:h-48'
-          : 'h-64 sm:h-80'
+        ? 'h-48 md:h-48'
+        : 'h-64 sm:h-80'
         }`}>
         {!imageLoaded && (
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center animate-pulse">
@@ -872,16 +872,17 @@ const Catalog = () => {
         /> */}
 
         {/* Enhanced Hero Section */}
-        <section className="relative overflow-hidden py-32 hero-gradient text-cream">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-accent/20 via-transparent to-transparent"></div>
-          <div className="absolute top-20 left-10 w-40 h-40 bg-accent/40 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-60 h-60 bg-primary/30 rounded-full blur-3xl animate-pulse delay-700"></div>
-          <div className="relative z-10 max-w-6xl mx-auto text-center px-6">
+        <section className="relative overflow-hidden py-24 md:py-32 hero-gradient text-cream">
+          {/* Soft radial background */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-accent/15 via-transparent to-transparent"></div>
+
+          <div className="relative z-10 max-w-4xl mx-auto text-center px-6">
+            {/* Hero text */}
             <motion.h1
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-5xl md:text-7xl font-bold mb-8 leading-tight"
+              className="text-4xl md:text-6xl font-bold leading-tight mb-4 md:mb-6"
             >
               Discover Our
               <span className="block bg-gradient-to-r from-accent via-primary to-accent text-transparent bg-clip-text">
@@ -889,17 +890,28 @@ const Catalog = () => {
               </span>
             </motion.h1>
 
-
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
+            {/* Optional premium tagline */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2, repeat: Infinity, repeatType: "reverse", duration: 1.2 }}
-              className="mt-16 flex justify-center"
+              transition={{ delay: 0.4, duration: 0.7 }}
+              className="text-sm md:text-base text-cream/80 mb-12"
             >
-              <ChevronDown className="w-8 h-8 opacity-70" />
+              Timeless designs, crafted to inspire.
+            </motion.p>
+
+            {/* Down arrow for navigation cue */}
+            <motion.div
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1, repeat: Infinity, repeatType: "reverse", duration: 1 }}
+              className="flex justify-center"
+            >
+              <ChevronDown className="w-6 md:w-8 h-6 md:h-8 opacity-70" />
             </motion.div>
           </div>
         </section>
+
 
         {/* Enhanced Search & Filter Section */}
         <section className="py-8 sm:py-12 bg-muted/20 border-b border-border/50">
@@ -1104,8 +1116,8 @@ const Catalog = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             {filteredPerfumes.length > 0 ? (
               <div className={`grid gap-4 sm:gap-6 ${viewMode === 'grid'
-                  ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'
-                  : 'grid-cols-1 max-w-4xl mx-auto'
+                ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'
+                : 'grid-cols-1 max-w-4xl mx-auto'
                 }`}>
                 {currentPerfumes?.filter(perfume => perfume?.isActive).map((perfume) => (
                   <motion.div
@@ -1116,8 +1128,8 @@ const Catalog = () => {
                   >
                     <Card
                       className={`group glass-card overflow-hidden rounded-2xl border border-border/20 shadow-md hover:shadow-2xl hover:scale-[1.02] transition-all duration-500 relative ${viewMode === 'list'
-                          ? 'flex flex-col md:flex-row'
-                          : 'flex flex-col'
+                        ? 'flex flex-col md:flex-row'
+                        : 'flex flex-col'
                         }`}
                     >
                       <ProductImageSlider
@@ -1129,8 +1141,8 @@ const Catalog = () => {
                       />
 
                       <CardContent className={`p-4 sm:p-6 space-y-3 sm:space-y-4 relative ${viewMode === "list"
-                          ? "flex-1 flex flex-col justify-between min-w-0"
-                          : "flex-1 flex flex-col"
+                        ? "flex-1 flex flex-col justify-between min-w-0"
+                        : "flex-1 flex flex-col"
                         }`}>
                         <div className="flex-1 space-y-2 sm:space-y-3">
                           <div className="flex items-start justify-between">
@@ -1178,13 +1190,13 @@ const Catalog = () => {
                           />
 
                           <div className={`flex gap-2 items-center ${viewMode === 'grid'
-                              ? 'flex-col'
-                              : 'flex-col sm:flex-row'
+                            ? 'flex-col'
+                            : 'flex-col sm:flex-row'
                             }`}>
                             <Button
                               className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${viewMode === 'grid'
-                                  ? 'w-full h-10 text-xs'
-                                  : 'w-full sm:flex-1 h-10 text-sm'
+                                ? 'w-full h-10 text-xs'
+                                : 'w-full sm:flex-1 h-10 text-sm'
                                 }`}
                               onClick={() => handleWhatsAppClick(`I'm interested in ${perfume.name}. Can you tell me more about it?`, perfume)}
                             >
@@ -1199,8 +1211,8 @@ const Catalog = () => {
                               variant="outline"
                               onClick={() => setQuickViewPerfume(perfume)}
                               className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${viewMode === 'grid'
-                                  ? 'w-full h-10'
-                                  : 'w-full sm:w-auto sm:px-4 h-10'
+                                ? 'w-full h-10'
+                                : 'w-full sm:w-auto sm:px-4 h-10'
                                 }`}
                             >
                               <Eye className="w-4 h-4" />
