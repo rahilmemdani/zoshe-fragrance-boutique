@@ -665,6 +665,14 @@ const Catalog = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
+  useEffect(() => {
+    // When currentPage changes, scroll to searchFilter
+    const el = document.getElementById("searchFilter");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [currentPage]);
+
   // Initialize wishlist from localStorage
   useEffect(() => {
     const savedWishlist = localStorage.getItem('fragrance_wishlist');

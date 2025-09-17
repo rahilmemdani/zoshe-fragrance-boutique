@@ -13,6 +13,13 @@ const Customization = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (services.length > 0) {
+      document.getElementById("searchFilter")?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [services]);
+  
+
+  useEffect(() => {
     const fetchServices = async () => {
       try {
         const data = await sanityClient.fetch(
