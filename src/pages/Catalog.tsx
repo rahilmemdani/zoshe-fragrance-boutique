@@ -928,14 +928,15 @@ const Catalog = () => {
               transition={{ delay: 1, repeat: Infinity, repeatType: "reverse", duration: 1 }}
               className="flex justify-center"
             >
+              <a href="#searchFilter">
               <ChevronDown className="w-6 md:w-8 h-6 md:h-8 opacity-70" />
+              </a>
             </motion.div>
           </div>
         </section>
-
-
+        
         {/* Enhanced Search & Filter Section */}
-        <section className="py-8 sm:py-12 bg-muted/20 border-b border-border/50">
+        <section id="searchFilter" className="py-8 sm:py-12 bg-muted/20 border-b border-border/50 scroll-smooth">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             {/* Main Search Bar */}
             <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 items-center justify-between mb-6">

@@ -157,13 +157,15 @@ const Policies = () => {
               transition={{ delay: 1.2, repeat: Infinity, repeatType: "reverse", duration: 1.2 }}
               className="mt-16 flex justify-center"
             >
+              <a href="#searchFilter">
               <ChevronDown className="w-8 h-8 opacity-70" />
+              </a>
             </motion.div>
           </div>
         </section>
 
         {/* Enhanced Policies Section */}
-        <section className="py-20 bg-background relative overflow-hidden">
+        <section id="searchFilter" className="py-20 bg-background relative overflow-hidden">
           {/* Background Elements */}
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-20 left-10 w-40 h-40 bg-primary rounded-full blur-3xl animate-pulse"></div>

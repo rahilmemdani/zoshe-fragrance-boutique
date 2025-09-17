@@ -171,14 +171,16 @@ const Customization = () => {
               transition={{ delay: 1, repeat: Infinity, repeatType: "reverse", duration: 1 }}
               className="flex justify-center"
             >
+              <a href="#searchFilter">
               <ChevronDown className="w-6 md:w-8 h-6 md:h-8 text-cream/70" />
+              </a>
             </motion.div>
           </div>
         </section>
 
 
         {/* Enhanced Services Section */}
-        <section className="py-20 bg-background relative overflow-hidden">
+        <section id="searchFilter" className="py-20 bg-background relative overflow-hidden">
           {/* Floating background accents */}
           <div className="absolute inset-0 opacity-5">
             <div className="absolute top-20 left-10 w-40 h-40 bg-accent blur-3xl rounded-full animate-pulse" />
