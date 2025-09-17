@@ -660,7 +660,7 @@ const Catalog = () => {
     onSaleOnly: false
   });
 
-// Scroll to top
+  // Scroll to top
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
@@ -857,8 +857,8 @@ const Catalog = () => {
 
   return (
     <>
-    {/* SEO for Catalog Page */}
-    <Helmet>
+      {/* SEO for Catalog Page */}
+      <Helmet>
         <title>Catalog | Zoshe Luxury Perfumes & Custom Scents</title>
         <meta
           name="description"
@@ -893,7 +893,45 @@ const Catalog = () => {
         /> */}
 
         {/* Enhanced Hero Section */}
+        <section className="relative overflow-hidden py-24 md:py-32 hero-gradient text-cream">
+          {/* Soft radial background */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-accent/15 via-transparent to-transparent"></div>
 
+          <div className="relative z-10 max-w-4xl mx-auto text-center px-6">
+            {/* Hero text */}
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-6xl font-bold leading-tight mb-4 md:mb-6"
+            >
+              Discover Our
+              <span className="block bg-gradient-to-r from-accent via-primary to-accent text-transparent bg-clip-text">
+                Signature Collection
+              </span>
+            </motion.h1>
+
+            {/* Optional premium tagline */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.7 }}
+              className="text-sm md:text-base text-cream/80 mb-12"
+            >
+              Timeless designs, crafted to inspire.
+            </motion.p>
+
+            {/* Down arrow for navigation cue */}
+            <motion.div
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1, repeat: Infinity, repeatType: "reverse", duration: 1 }}
+              className="flex justify-center"
+            >
+              <ChevronDown className="w-6 md:w-8 h-6 md:h-8 opacity-70" />
+            </motion.div>
+          </div>
+        </section>
 
 
         {/* Enhanced Search & Filter Section */}
