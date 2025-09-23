@@ -1676,11 +1676,15 @@ const ProductImageSlider = ({ perfume, viewMode, onQuickViewClick }: { perfume: 
     >
       {images.length > 0 ? (
         <img
-          src={urlFor(images[currentImageIndex].asset).width(600).url()}
+          src={
+            images?.[currentImageIndex]?.asset &&
+            urlFor(images[currentImageIndex].asset).width(600).url()
+          }
           alt={`${perfume.name} - Image ${currentImageIndex + 1}`}
           loading="lazy"
           className={`w-full object-cover group-hover:scale-105 transition-transform duration-700 ${viewMode === 'list' ? 'h-48' : 'h-64 sm:h-72'}`}
         />
+
       ) : (
         <div className={`bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center ${viewMode === 'list' ? 'h-48' : 'h-64 sm:h-72'}`}>
           <div className="text-6xl opacity-50">🌸</div>
@@ -1813,88 +1817,88 @@ const Home = () => {
 
   return (
     <>
-    <Helmet>
-    <title>Home | Luxury Perfumes & Custom Scents</title>
-    <meta
-      name="description"
-      content="Learn more about Zoshe, our story, and our dedication to creating luxury fragrances."
-    />
-    <link rel="canonical" href="https://www.zoshe.in/about" />
-  </Helmet>
-    <div className="scroll-smooth">
-      {/*Business Boosting Components */}
-      <OfferBanner />
-      {/* <LiveSocialProof /> */}
-      {/* <WhatsAppFloatingWidget /> */}
+      <Helmet>
+        <title>Home | Luxury Perfumes & Custom Scents</title>
+        <meta
+          name="description"
+          content="Learn more about Zoshe, our story, and our dedication to creating luxury fragrances."
+        />
+        <link rel="canonical" href="https://www.zoshe.in/about" />
+      </Helmet>
+      <div className="scroll-smooth">
+        {/*Business Boosting Components */}
+        <OfferBanner />
+        {/* <LiveSocialProof /> */}
+        {/* <WhatsAppFloatingWidget /> */}
 
-      <PhoneCaptureModal />
+        <PhoneCaptureModal />
 
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url(${heroPerfume})`,
-            backgroundBlendMode: "lighten",
-            backgroundColor: "rgba(255,255,255,0.10)"
-          }}
-        ></div>
+        {/* Hero Section */}
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+          <div
+            className="absolute inset-0 bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${heroPerfume})`,
+              backgroundBlendMode: "lighten",
+              backgroundColor: "rgba(255,255,255,0.10)"
+            }}
+          ></div>
 
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-          <div className="fade-in-up">
-            <h1 className="text-5xl md:text-7xl font-bold text-cream mb-6">
-              Luxury <span className="text-accent">Redefined</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-cream/90 mb-8 max-w-2xl mx-auto" style={{ "color": "black" }}>
-              Discover the art of perfumery with ZOSHE's exclusive collection of handcrafted fragrances
-            </p>
+          <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
+            <div className="fade-in-up">
+              <h1 className="text-5xl md:text-7xl font-bold text-cream mb-6">
+                Luxury <span className="text-accent">Redefined</span>
+              </h1>
+              <p className="text-xl md:text-2xl text-cream/90 mb-8 max-w-2xl mx-auto" style={{ "color": "black" }}>
+                Discover the art of perfumery with ZOSHE's exclusive collection of handcrafted fragrances
+              </p>
 
-            {/* Enhanced CTA buttons with WhatsApp integration */}
-            <div className="flex flex-col sm:flex-row gap-5 sm:gap-7 justify-center items-center w-full px-4 sm:px-0">
-              {/* Explore Collection */}
-              <Link to="/catalog" className="w-full sm:w-auto">
-                <Button className="relative w-full sm:w-auto text-base sm:text-lg font-semibold tracking-wide px-6 sm:px-8 py-3 sm:py-4 rounded-2xl luxury-button shadow-md hover:shadow-xl transition-all duration-500 hover:scale-105">
-                  <span className="flex items-center justify-center">
-                    Explore Collection
-                    <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </Button>
-              </Link>
+              {/* Enhanced CTA buttons with WhatsApp integration */}
+              <div className="flex flex-col sm:flex-row gap-5 sm:gap-7 justify-center items-center w-full px-4 sm:px-0">
+                {/* Explore Collection */}
+                <Link to="/catalog" className="w-full sm:w-auto">
+                  <Button className="relative w-full sm:w-auto text-base sm:text-lg font-semibold tracking-wide px-6 sm:px-8 py-3 sm:py-4 rounded-2xl luxury-button shadow-md hover:shadow-xl transition-all duration-500 hover:scale-105">
+                    <span className="flex items-center justify-center">
+                      Explore Collection
+                      <ArrowRight className="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+                  </Button>
+                </Link>
 
-              {/* Custom Hampers (WhatsApp) */}
-              <Button
-                variant="outline"
-                className="group relative w-full sm:w-auto overflow-hidden bg-white/10 backdrop-blur-2xl text-cream border border-white/20 hover:border-accent/50 text-base sm:text-lg px-6 sm:px-10 py-3 sm:py-5 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-700 hover:scale-105 hover:-translate-y-1"
-                onClick={() =>
-                  openWhatsApp(
-                    "I'm interested in custom hampers. Please tell me more about your options."
-                  )
-                }
-              >
-                {/* Gradient overlay on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/25 via-primary/15 to-accent/25 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+                {/* Custom Hampers (WhatsApp) */}
+                <Button
+                  variant="outline"
+                  className="group relative w-full sm:w-auto overflow-hidden bg-white/10 backdrop-blur-2xl text-cream border border-white/20 hover:border-accent/50 text-base sm:text-lg px-6 sm:px-10 py-3 sm:py-5 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-700 hover:scale-105 hover:-translate-y-1"
+                  onClick={() =>
+                    openWhatsApp(
+                      "I'm interested in custom hampers. Please tell me more about your options."
+                    )
+                  }
+                >
+                  {/* Gradient overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-accent/25 via-primary/15 to-accent/25 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
 
-                {/* Glow accents */}
-                <div className="absolute -top-2 -right-2 w-10 h-10 bg-accent/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute -bottom-2 -left-2 w-8 h-8 bg-primary/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  {/* Glow accents */}
+                  <div className="absolute -top-2 -right-2 w-10 h-10 bg-accent/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute -bottom-2 -left-2 w-8 h-8 bg-primary/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-                {/* Button Content */}
-                <div className="flex items-center justify-center relative z-10">
-                  <div className="mr-3 p-2 bg-white/10 rounded-full group-hover:bg-accent/30 transition-colors duration-300">
-                    <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                  {/* Button Content */}
+                  <div className="flex items-center justify-center relative z-10">
+                    <div className="mr-3 p-2 bg-white/10 rounded-full group-hover:bg-accent/30 transition-colors duration-300">
+                      <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                    </div>
+                    <span className="font-semibold tracking-wide whitespace-nowrap">
+                      Chat for Custom Hampers
+                    </span>
+                    <ArrowRight className="ml-3 w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
                   </div>
-                  <span className="font-semibold tracking-wide whitespace-nowrap">
-                    Chat for Custom Hampers
-                  </span>
-                  <ArrowRight className="ml-3 w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300" />
-                </div>
-              </Button>
-            </div>
+                </Button>
+              </div>
 
 
-            {/* Quick stats with WhatsApp CTA */}
-            {/* <motion.div 
+              {/* Quick stats with WhatsApp CTA */}
+              {/* <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
@@ -1915,187 +1919,187 @@ const Home = () => {
                 </div>
               </div>
             </motion.div> */}
+            </div>
           </div>
-        </div>
 
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-10 perfume-float opacity-30">
-          <Sparkles className="w-8 h-8 text-accent" />
-        </div>
-        <div className="absolute bottom-32 right-16 perfume-float opacity-40" style={{ animationDelay: '2s' }}>
-          <Heart className="w-6 h-6 text-lavender" />
-        </div>
-      </section>
+          {/* Floating Elements */}
+          <div className="absolute top-20 left-10 perfume-float opacity-30">
+            <Sparkles className="w-8 h-8 text-accent" />
+          </div>
+          <div className="absolute bottom-32 right-16 perfume-float opacity-40" style={{ animationDelay: '2s' }}>
+            <Heart className="w-6 h-6 text-lavender" />
+          </div>
+        </section>
 
-      <OfferBannerHero />
+        <OfferBannerHero />
 
 
-      {/* 🚀 NEW: Trust Badges */}
-      {/* <TrustBadgesSection /> */}
+        {/* 🚀 NEW: Trust Badges */}
+        {/* <TrustBadgesSection /> */}
 
-      {/* 🚀 NEW: Quick Actions Bar */}
-      {/* <QuickActionsBar /> */}
+        {/* 🚀 NEW: Quick Actions Bar */}
+        {/* <QuickActionsBar /> */}
 
-      {/* Brand Story */}
-      <section className="py-20 px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl font-bold text-primary">
-                Crafted with <span className="text-accent">Passion</span>
-              </h2>
-              <p className="text-lg sm:text-md text-muted-foreground leading-relaxed">
-                ZOSHE crafts its finest products with artistry and emotion, combining high-quality materials in a unique way.
-                Each creation carries its own personality, offering a personal choice for everyone.
-              </p>
-              <div className="grid grid-cols-3 gap-6" style={{ marginBottom: "20px" }}>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">5+</div>
-                  <div className="text-sm text-muted-foreground">Years of Expertise</div>
-                </div>
-                {/* <div className="text-center">
+        {/* Brand Story */}
+        <section className="py-20 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <h2 className="text-4xl md:text-5xl font-bold text-primary">
+                  Crafted with <span className="text-accent">Passion</span>
+                </h2>
+                <p className="text-lg sm:text-md text-muted-foreground leading-relaxed">
+                  ZOSHE crafts its finest products with artistry and emotion, combining high-quality materials in a unique way.
+                  Each creation carries its own personality, offering a personal choice for everyone.
+                </p>
+                <div className="grid grid-cols-3 gap-6" style={{ marginBottom: "20px" }}>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-primary">5+</div>
+                    <div className="text-sm text-muted-foreground">Years of Expertise</div>
+                  </div>
+                  {/* <div className="text-center">
                   <div className="text-3xl font-bold text-primary">100+</div>
                   <div className="text-sm text-muted-foreground">Unique Fragrances</div>
                 </div> */}
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-primary">10K+</div>
-                  <div className="text-sm text-muted-foreground">Happy Customers</div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-primary">10K+</div>
+                    <div className="text-sm text-muted-foreground">Happy Customers</div>
+                  </div>
                 </div>
-              </div>
 
-              {/* Enhanced CTA with WhatsApp */}
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/about">
+                {/* Enhanced CTA with WhatsApp */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Link to="/about">
+                    <Button
+                      variant="outline"
+                      className="rounded-full px-6 py-3 border-transparent text-white bg-gradient-to-r from-primary to-accent transition-all duration-300 ease-in-out group hover:border-transparent hover:text-white hover:bg-white hover:shadow-lg hover:shadow-accent/30"
+                    >
+                      Learn Our Story
+                      <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </Button>
+                  </Link>
                   <Button
                     variant="outline"
-                    className="rounded-full px-6 py-3 border-transparent text-white bg-gradient-to-r from-primary to-accent transition-all duration-300 ease-in-out group hover:border-transparent hover:text-white hover:bg-white hover:shadow-lg hover:shadow-accent/30"
+                    className="rounded-full px-6 py-3 border-green-500 text-green-600 hover:bg-green-500 hover:text-white"
+                    onClick={() => openWhatsApp("Tell me more about ZOSHE's story and craftsmanship")}
                   >
-                    Learn Our Story
-                    <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    <MessageCircle className="mr-2 w-4 h-4" />
+                    Chat with Expert
                   </Button>
-                </Link>
-                <Button
-                  variant="outline"
-                  className="rounded-full px-6 py-3 border-green-500 text-green-600 hover:bg-green-500 hover:text-white"
-                  onClick={() => openWhatsApp("Tell me more about ZOSHE's story and craftsmanship")}
+                </div>
+              </div>
+              <div className="relative">
+                <img
+                  src={perfumeCollection}
+                  alt="ZOSHE Perfume Collection"
+                  className="rounded-2xl shadow-lg"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-primary rounded-2xl opacity-20"></div>
+
+                {/* Floating WhatsApp CTA on image */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  className="absolute top-4 right-4"
                 >
-                  <MessageCircle className="mr-2 w-4 h-4" />
-                  Chat with Expert
-                </Button>
+                  <Button
+                    size="sm"
+                    className="bg-green-500 hover:bg-green-600 text-white rounded-full"
+                    onClick={() => openWhatsApp("I'd like to know more about your fragrance collection")}
+                  >
+                    <MessageCircle className="w-4 h-4 mr-1" />
+                    Ask About Collection
+                  </Button>
+                </motion.div>
               </div>
             </div>
-            <div className="relative">
-              <img
-                src={perfumeCollection}
-                alt="ZOSHE Perfume Collection"
-                className="rounded-2xl shadow-lg"
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-primary rounded-2xl opacity-20"></div>
+          </div>
+        </section>
 
-              {/* Floating WhatsApp CTA on image */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="absolute top-4 right-4"
+        {/* Featured Products (Enhanced with WhatsApp integration) */}
+        <section className="py-20 bg-muted/30">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+                Featured <span className="text-accent">Fragrances</span>
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+                Discover our most beloved scents, each carefully crafted to evoke emotion and create lasting memories.
+              </p>
+
+              {/* WhatsApp help button */}
+              <Button
+                variant="outline"
+                className="border-green-500 text-green-600 hover:bg-green-50"
+                onClick={() => openWhatsApp("Help me choose the perfect fragrance from your featured collection")}
               >
-                <Button
-                  size="sm"
-                  className="bg-green-500 hover:bg-green-600 text-white rounded-full"
-                  onClick={() => openWhatsApp("I'd like to know more about your fragrance collection")}
-                >
-                  <MessageCircle className="w-4 h-4 mr-1" />
-                  Ask About Collection
-                </Button>
-              </motion.div>
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Need Help Choosing? Chat Now
+              </Button>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Featured Products (Enhanced with WhatsApp integration) */}
-      <section className="py-20 bg-muted/30">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              Featured <span className="text-accent">Fragrances</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-              Discover our most beloved scents, each carefully crafted to evoke emotion and create lasting memories.
-            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {perfumes.filter((product) =>
+                product.isPremium && product.isActive)
+                .slice(0, 3)
+                .map((product) => (
+                  <Card
+                    key={product._id}
+                    className="relative glass-card rounded-2xl overflow-hidden group hover:shadow-2xl hover:scale-[1.02] transition-all duration-500"
+                  >
+                    <ProductImageSlider
+                      perfume={product}
+                      viewMode={viewMode}
+                      onQuickViewClick={() => setQuickViewPerfume(product)}
+                    />
 
-            {/* WhatsApp help button */}
-            <Button
-              variant="outline"
-              className="border-green-500 text-green-600 hover:bg-green-50"
-              onClick={() => openWhatsApp("Help me choose the perfect fragrance from your featured collection")}
-            >
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Need Help Choosing? Chat Now
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {perfumes.filter((product) =>
-              product.isPremium && product.isActive)
-              .slice(0, 3)
-              .map((product) => (
-                <Card
-                  key={product._id}
-                  className="relative glass-card rounded-2xl overflow-hidden group hover:shadow-2xl hover:scale-[1.02] transition-all duration-500"
-                >
-                  <ProductImageSlider
-                    perfume={product}
-                    viewMode={viewMode}
-                    onQuickViewClick={() => setQuickViewPerfume(product)}
-                  />
-
-                  {product.isOutOfStock && (
-                    <><div className="absolute inset-0 bg-black/40 rounded-2xl"></div><div className="absolute top-4 right-0 transform rotate-[10deg] origin-top-right z-30 pointer-events-none">
-                      <div className="bg-red-600/90 text-white text-xs sm:text-sm font-bold px-4 py-1 shadow-lg rounded-tl-lg rounded-br-lg uppercase tracking-wider backdrop-blur-sm">
-                        Out of Stock
-                      </div>
-                    </div></>
-                  )}
-
-                  <CardContent className="p-6 flex flex-col gap-4">
-                    <h3 className="text-xl font-bold text-primary group-hover:text-accent transition-colors">
-                      {product.name}
-                    </h3>
-
-                    <p className="text-sm text-muted-foreground line-clamp-3">
-                      {product.description
-                        ?.map((block) => block.children.map((child) => child.text).join(""))
-                        .join(" ") ||
-                        "Exquisite fragrance crafted with premium ingredients for a luxurious scent experience."}
-                    </p>
-
-                    {product.scentProfile?.length > 0 && (
-                      <div className="flex flex-wrap gap-2">
-                        {product.scentProfile.map((note, idx) => (
-                          <Badge
-                            key={idx}
-                            variant="outline"
-                            className="text-xs px-3 py-1 rounded-full border-primary/20 text-primary/70 hover:border-accent/40 transition cursor-pointer"
-                            onClick={() => openWhatsApp(`Tell me more about fragrances with ${note} notes`)}
-                          >
-                            {note}
-                          </Badge>
-                        ))}
-                      </div>
+                    {product.isOutOfStock && (
+                      <><div className="absolute inset-0 bg-black/40 rounded-2xl"></div><div className="absolute top-4 right-0 transform rotate-[10deg] origin-top-right z-30 pointer-events-none">
+                        <div className="bg-red-600/90 text-white text-xs sm:text-sm font-bold px-4 py-1 shadow-lg rounded-tl-lg rounded-br-lg uppercase tracking-wider backdrop-blur-sm">
+                          Out of Stock
+                        </div>
+                      </div></>
                     )}
 
-                    <div className="flex flex-col gap-4 border-t border-border/40 pt-4">
-                      <PriceDisplay
-                        price={product.price}
-                        discountedPrice={product.discountedPrice}
-                        size="md"
-                        className="justify-start"
-                      />
+                    <CardContent className="p-6 flex flex-col gap-4">
+                      <h3 className="text-xl font-bold text-primary group-hover:text-accent transition-colors">
+                        {product.name}
+                      </h3>
 
-                      {/* Enhanced buttons with more options */}
-                      {/* <div className="flex gap-2">
+                      <p className="text-sm text-muted-foreground line-clamp-3">
+                        {product.description
+                          ?.map((block) => block.children.map((child) => child.text).join(""))
+                          .join(" ") ||
+                          "Exquisite fragrance crafted with premium ingredients for a luxurious scent experience."}
+                      </p>
+
+                      {product.scentProfile?.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {product.scentProfile.map((note, idx) => (
+                            <Badge
+                              key={idx}
+                              variant="outline"
+                              className="text-xs px-3 py-1 rounded-full border-primary/20 text-primary/70 hover:border-accent/40 transition cursor-pointer"
+                              onClick={() => openWhatsApp(`Tell me more about fragrances with ${note} notes`)}
+                            >
+                              {note}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="flex flex-col gap-4 border-t border-border/40 pt-4">
+                        <PriceDisplay
+                          price={product.price}
+                          discountedPrice={product.discountedPrice}
+                          size="md"
+                          className="justify-start"
+                        />
+
+                        {/* Enhanced buttons with more options */}
+                        {/* <div className="flex gap-2">
                         <Button
                           className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl flex-1 group relative overflow-hidden"
                           onClick={() => openWhatsApp(`I'm interested in ${product.name}. Can you tell me more about it?`)}
@@ -2105,257 +2109,260 @@ const Home = () => {
                           <span className="relative z-10">Enquire Now</span>
                         </Button>
                       </div> */}
-                      <div className={`flex gap-2 items-center ${viewMode === 'grid' ? 'flex-col' : 'flex-row'
-                        }`}>
-                        {/* Enquire Button - Fixed Size to Match Eye Icon */}
-                        <Button
-                          className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${viewMode === 'grid'
-                            ? 'w-full h-10 text-xs'
-                            : 'flex-1 h-10 text-sm'
-                            }`}
-                          onClick={() => openWhatsApp(`I'm interested in ${product.name}. Can you tell me more about it?`)}
-                        // disabled={perfume.isOutOfStock}
-                        >
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                          <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
-                          <span className="relative z-10">
-                            {product.isOutOfStock ? 'Out of Stock' : 'Enquire Now'}
-                          </span>
-                        </Button>
+                        <div className={`flex gap-2 items-center ${viewMode === 'grid' ? 'flex-col' : 'flex-row'
+                          }`}>
+                          {/* Enquire Button - Fixed Size to Match Eye Icon */}
+                          <Button
+                            className={`bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl group relative overflow-hidden ${viewMode === 'grid'
+                              ? 'w-full h-10 text-xs'
+                              : 'flex-1 h-10 text-sm'
+                              }`}
+                            onClick={() => openWhatsApp(`I'm interested in ${product.name}. Can you tell me more about it?`)}
+                          // disabled={perfume.isOutOfStock}
+                          >
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                            <MessageCircle className="w-4 h-4 mr-2 relative z-10" />
+                            <span className="relative z-10">
+                              {product.isOutOfStock ? 'Out of Stock' : 'Enquire Now'}
+                            </span>
+                          </Button>
 
-                        {/* Eye Button - Fixed Size Matching Enquire Button */}
-                        <Button
-                          variant="outline"
-                          onClick={() => setQuickViewPerfume(product)}
-                          className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${viewMode === 'grid'
-                            ? 'w-full h-10'
-                            : 'w-10 h-10 flex-shrink-0'
-                            }`}
-                        >
-                          <Eye className="w-4 h-4" />
-                          {viewMode === 'grid' && <span className="ml-2 text-xs">Quick View</span>}
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-          </div>
-
-          {/* Enhanced Quick View Modal */}
-          <Dialog open={!!quickViewPerfume} onOpenChange={() => setQuickViewPerfume(null)}>
-            <DialogContent className="max-w-4xl w-full p-4 sm:p-6 rounded-2xl overflow-y-auto max-h-[90vh]">
-              {quickViewPerfume && (
-                <>
-                  <DialogHeader className="mb-6 border-b border-border/40 pb-4">
-                    <DialogTitle className="text-2xl sm:text-3xl font-extrabold tracking-wide text-primary leading-tight">
-                      {quickViewPerfume.name}
-                    </DialogTitle>
-                    {quickViewPerfume.isPremium && (
-                      <Badge className="mt-2 bg-gradient-to-r from-primary to-accent text-white px-3 py-1 rounded-full shadow-md">
-                        Premium Selection
-                      </Badge>
-                    )}
-                  </DialogHeader>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="relative flex items-center justify-center">
-                      {quickViewPerfume.images && quickViewPerfume.images.length > 0 ? (
-                        <>
-                          <img
-                            src={urlFor(quickViewPerfume.images[quickViewImageIndex].asset).width(600).url()}
-                            alt={`${quickViewPerfume.name} - Image ${quickViewImageIndex + 1}`}
-                            className="w-full h-72 sm:h-80 object-cover rounded-xl shadow-md"
-                            loading="lazy"
-                          />
-                          {quickViewPerfume.images.length > 1 && (
-                            <>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
-                                onClick={() => setQuickViewImageIndex(prev => prev === 0 ? quickViewPerfume.images.length - 1 : prev - 1)}
-                              >
-                                <ChevronLeft size={22} />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
-                                onClick={() => setQuickViewImageIndex(prev => (prev + 1) % quickViewPerfume.images.length)}
-                              >
-                                <ChevronRight size={22} />
-                              </Button>
-                              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                                {quickViewPerfume.images.map((_, index) => (
-                                  <div key={index} className={`w-2 h-2 rounded-full cursor-pointer ${quickViewImageIndex === index ? 'bg-white' : 'bg-white/50'}`} onClick={() => setQuickViewImageIndex(index)} />
-                                ))}
-                              </div>
-                            </>
-                          )}
-                        </>
-                      ) : (
-                        <div className="bg-muted h-72 sm:h-80 w-full rounded-xl flex items-center justify-center text-4xl">
-                          🌸
+                          {/* Eye Button - Fixed Size Matching Enquire Button */}
+                          <Button
+                            variant="outline"
+                            onClick={() => setQuickViewPerfume(product)}
+                            className={`hover:bg-primary/10 transition-colors flex items-center justify-center ${viewMode === 'grid'
+                              ? 'w-full h-10'
+                              : 'w-10 h-10 flex-shrink-0'
+                              }`}
+                          >
+                            <Eye className="w-4 h-4" />
+                            {viewMode === 'grid' && <span className="ml-2 text-xs">Quick View</span>}
+                          </Button>
                         </div>
-                      )}
-                    </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+            </div>
 
-                    <div className="flex flex-col justify-between space-y-4">
-                      <div>
-                        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4">
-                          {quickViewPerfume.description?.map((block) => block.children.map((child) => child.text).join("")).join(" ")}
-                        </p>
-                        {quickViewPerfume.scentProfile?.length > 0 && (
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {quickViewPerfume.scentProfile.map((note, idx) => (
-                              <Badge key={idx} variant="outline" className="text-xs sm:text-sm px-2 py-1 border-primary/30 text-primary/80 rounded-full">
-                                {note}
-                              </Badge>
-                            ))}
+            {/* Enhanced Quick View Modal */}
+            <Dialog open={!!quickViewPerfume} onOpenChange={() => setQuickViewPerfume(null)}>
+              <DialogContent className="max-w-4xl w-full p-4 sm:p-6 rounded-2xl overflow-y-auto max-h-[90vh]">
+                {quickViewPerfume && (
+                  <>
+                    <DialogHeader className="mb-6 border-b border-border/40 pb-4">
+                      <DialogTitle className="text-2xl sm:text-3xl font-extrabold tracking-wide text-primary leading-tight">
+                        {quickViewPerfume.name}
+                      </DialogTitle>
+                      {quickViewPerfume.isPremium && (
+                        <Badge className="mt-2 bg-gradient-to-r from-primary to-accent text-white px-3 py-1 rounded-full shadow-md">
+                          Premium Selection
+                        </Badge>
+                      )}
+                    </DialogHeader>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="relative flex items-center justify-center">
+                        {quickViewPerfume.images && quickViewPerfume.images.length > 0 ? (
+                          <>
+                            <img
+                              src={quickViewPerfume.images?.[quickViewImageIndex]?.asset
+                                ? urlFor(quickViewPerfume.images[quickViewImageIndex].asset).width(600).url()
+                                : ""}
+                              alt={`${quickViewPerfume.name} - Image ${quickViewImageIndex + 1}`}
+                              className="w-full h-72 sm:h-80 object-cover rounded-xl shadow-md"
+                              loading="lazy"
+                            />
+
+                            {quickViewPerfume.images.length > 1 && (
+                              <>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
+                                  onClick={() => setQuickViewImageIndex(prev => prev === 0 ? quickViewPerfume.images.length - 1 : prev - 1)}
+                                >
+                                  <ChevronLeft size={22} />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/60 text-white rounded-full h-9 w-9"
+                                  onClick={() => setQuickViewImageIndex(prev => (prev + 1) % quickViewPerfume.images.length)}
+                                >
+                                  <ChevronRight size={22} />
+                                </Button>
+                                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                                  {quickViewPerfume.images.map((_, index) => (
+                                    <div key={index} className={`w-2 h-2 rounded-full cursor-pointer ${quickViewImageIndex === index ? 'bg-white' : 'bg-white/50'}`} onClick={() => setQuickViewImageIndex(index)} />
+                                  ))}
+                                </div>
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          <div className="bg-muted h-72 sm:h-80 w-full rounded-xl flex items-center justify-center text-4xl">
+                            🌸
                           </div>
                         )}
                       </div>
 
-                      <div className="border-t border-border/40 pt-4">
-                        <div className="flex flex-col gap-4">
-                          <PriceDisplay
-                            price={quickViewPerfume.price}
-                            discountedPrice={quickViewPerfume.discountedPrice}
-                            size="lg"
-                            className="justify-start"
-                          />
+                      <div className="flex flex-col justify-between space-y-4">
+                        <div>
+                          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mb-4">
+                            {quickViewPerfume.description?.map((block) => block.children.map((child) => child.text).join("")).join(" ")}
+                          </p>
+                          {quickViewPerfume.scentProfile?.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mb-4">
+                              {quickViewPerfume.scentProfile.map((note, idx) => (
+                                <Badge key={idx} variant="outline" className="text-xs sm:text-sm px-2 py-1 border-primary/30 text-primary/80 rounded-full">
+                                  {note}
+                                </Badge>
+                              ))}
+                            </div>
+                          )}
+                        </div>
 
-                          {/* Enhanced action buttons */}
-                          <div className="flex flex-col sm:flex-row gap-3">
-                            <Button
-                              className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105"
-                              onClick={() => openWhatsApp(`I want to order ${quickViewPerfume.name}. Please provide me with ordering details.`)}
-                            >
-                              <MessageCircle className="w-4 h-4 mr-2" />
-                              Order via WhatsApp
-                            </Button>
-                            {/* <Button
+                        <div className="border-t border-border/40 pt-4">
+                          <div className="flex flex-col gap-4">
+                            <PriceDisplay
+                              price={quickViewPerfume.price}
+                              discountedPrice={quickViewPerfume.discountedPrice}
+                              size="lg"
+                              className="justify-start"
+                            />
+
+                            {/* Enhanced action buttons */}
+                            <div className="flex flex-col sm:flex-row gap-3">
+                              <Button
+                                className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:bg-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105"
+                                onClick={() => openWhatsApp(`I want to order ${quickViewPerfume.name}. Please provide me with ordering details.`)}
+                              >
+                                <MessageCircle className="w-4 h-4 mr-2" />
+                                Order via WhatsApp
+                              </Button>
+                              {/* <Button
                               variant="outline"
                               className="border-green-500 text-green-600 hover:bg-green-50"
                               onClick={() => openWhatsApp(`Can I get a sample of ${quickViewPerfume.name} before purchasing?`)}
                             >
                               🧪 Request Sample
                             </Button> */}
-                          </div>
+                            </div>
 
-                          <Button
-                            variant="ghost"
-                            className="text-primary hover:bg-primary/5"
-                            onClick={() => openWhatsApp(`I need help choosing between ${quickViewPerfume.name} and other similar fragrances`)}
-                          >
-                            💡 Need Help Deciding? Chat with Expert
-                          </Button>
+                            <Button
+                              variant="ghost"
+                              className="text-primary hover:bg-primary/5"
+                              onClick={() => openWhatsApp(`I need help choosing between ${quickViewPerfume.name} and other similar fragrances`)}
+                            >
+                              💡 Need Help Deciding? Chat with Expert
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </>
-              )}
-            </DialogContent>
-          </Dialog>
+                  </>
+                )}
+              </DialogContent>
+            </Dialog>
 
-          <div className="text-center mt-12">
-            <Link to="/catalog">
+            <div className="text-center mt-12">
+              <Link to="/catalog">
+                <Button
+                  variant="outline"
+                  className="rounded-full text-lg px-8 py-3 text-white border-transparent bg-primary transition-all duration-300 ease-in-out group hover:border-transparent hover:text-primary hover:bg-white hover:shadow-lg hover:shadow-accent/30"
+                >
+                  View All Perfumes
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* 🚀 NEW: Newsletter Section */}
+        {/* <NewsletterSection /> */}
+
+        {/* Customization Services (Enhanced) */}
+        <section className="py-20 bg-muted/20">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+                Popular <span className="text-accent">Services</span>
+              </h2>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
+                Explore our premium customization services, crafted to make your fragrance truly unique.
+              </p>
+
               <Button
                 variant="outline"
-                className="rounded-full text-lg px-8 py-3 text-white border-transparent bg-primary transition-all duration-300 ease-in-out group hover:border-transparent hover:text-primary hover:bg-white hover:shadow-lg hover:shadow-accent/30"
+                className="border-green-500 text-green-600 hover:bg-green-50"
+                onClick={() => openWhatsApp("I want to create a custom fragrance service. Please guide me through the options.")}
               >
-                View All Perfumes
-                <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Get Custom Service Consultation
               </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+            </div>
 
-      {/* 🚀 NEW: Newsletter Section */}
-      {/* <NewsletterSection /> */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {services.filter((s) =>
+                s.popular)
+                .slice(0, 3)
+                .map((service) => (
+                  <Card
+                    key={service._id}
+                    className="glass-card hover:scale-105 transition-transform duration-300 group relative"
+                  >
+                    <div className="aspect-video rounded-lg mb-4 overflow-hidden relative">
+                      {service.imageUrl ? (
+                        <img
+                          src={service.imageUrl}
+                          alt={service.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                          loading="lazy"
+                        />
+                      ) : (
+                        <div className="bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                          <Sparkles className="w-12 h-12 text-primary/50" />
+                        </div>
+                      )}
 
-      {/* Customization Services (Enhanced) */}
-      <section className="py-20 bg-muted/20">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              Popular <span className="text-accent">Services</span>
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-              Explore our premium customization services, crafted to make your fragrance truly unique.
-            </p>
-
-            <Button
-              variant="outline"
-              className="border-green-500 text-green-600 hover:bg-green-50"
-              onClick={() => openWhatsApp("I want to create a custom fragrance service. Please guide me through the options.")}
-            >
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Get Custom Service Consultation
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.filter((s) =>
-              s.popular)
-              .slice(0, 3)
-              .map((service) => (
-                <Card
-                  key={service._id}
-                  className="glass-card hover:scale-105 transition-transform duration-300 group relative"
-                >
-                  <div className="aspect-video rounded-lg mb-4 overflow-hidden relative">
-                    {service.imageUrl ? (
-                      <img
-                        src={service.imageUrl}
-                        alt={service.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className="bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                        <Sparkles className="w-12 h-12 text-primary/50" />
+                      {/* Quick chat overlay */}
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <Button
+                          size="sm"
+                          className="bg-green-500 hover:bg-green-600 text-white"
+                          onClick={() => openWhatsApp(`Tell me more about ${service.title} service`)}
+                        >
+                          <MessageCircle className="w-4 h-4 mr-2" />
+                          Quick Chat
+                        </Button>
                       </div>
-                    )}
-
-                    {/* Quick chat overlay */}
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <Button
-                        size="sm"
-                        className="bg-green-500 hover:bg-green-600 text-white"
-                        onClick={() => openWhatsApp(`Tell me more about ${service.title} service`)}
-                      >
-                        <MessageCircle className="w-4 h-4 mr-2" />
-                        Quick Chat
-                      </Button>
                     </div>
-                  </div>
 
-                  <CardContent className="p-6 flex flex-col gap-3">
-                    <h3 className="text-xl font-semibold text-primary">{service.title}</h3>
-                    <p className="text-sm text-muted-foreground line-clamp-3">
-                      {service.description}
-                    </p>
+                    <CardContent className="p-6 flex flex-col gap-3">
+                      <h3 className="text-xl font-semibold text-primary">{service.title}</h3>
+                      <p className="text-sm text-muted-foreground line-clamp-3">
+                        {service.description}
+                      </p>
 
-                    <PriceDisplay
-                      price={service.price}
-                      discountedPrice={service.discountedPrice}
-                      size="md"
-                      className="justify-start"
-                    />
+                      <PriceDisplay
+                        price={service.price}
+                        discountedPrice={service.discountedPrice}
+                        size="md"
+                        className="justify-start"
+                      />
 
-                    <div className="flex gap-2">
-                      <Button
-                        className="flex-1 hover:bg-green-600 bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105"
-                        onClick={() => openWhatsApp(`I'm interested in ${service.title}. Please provide me with more details and booking information.`)}
-                      >
-                        <MessageCircle className="w-4 h-4 mr-2" />
-                        Book Now
-                      </Button>
-                      {/* <Button
+                      <div className="flex gap-2">
+                        <Button
+                          className="flex-1 hover:bg-green-600 bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg transition-all duration-300 hover:scale-105"
+                          onClick={() => openWhatsApp(`I'm interested in ${service.title}. Please provide me with more details and booking information.`)}
+                        >
+                          <MessageCircle className="w-4 h-4 mr-2" />
+                          Book Now
+                        </Button>
+                        {/* <Button
                         variant="outline"
                         size="sm"
                         className="border-green-500 text-green-600 hover:bg-green-50 px-3"
@@ -2363,135 +2370,135 @@ const Home = () => {
                       >
                         ℹ️
                       </Button> */}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+            </div>
+
+            <div className="text-center mt-12">
+              <Link to="/customization">
+                <Button
+                  variant="outline"
+                  className="rounded-full text-lg px-8 py-3 text-white border-transparent bg-primary transition-all duration-300 ease-in-out group hover:border-transparent hover:text-primary hover:bg-white hover:shadow-lg hover:shadow-accent/30"
+                >
+                  View All Services
+                  <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Enhanced Testimonials */}
+        <section className="py-20">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+                What Our <span className="text-accent">Clients Say</span>
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6">
+                Experience the luxury through the words of our satisfied customers.
+              </p>
+
+              <Button
+                variant="outline"
+                className="border-green-500 text-green-600 hover:bg-green-50"
+                onClick={() => openWhatsApp("I'd like to read more customer reviews and testimonials")}
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Share Your Experience
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <Card key={index} className="glass-card hover:shadow-lg transition-shadow duration-300 group">
+                  <CardContent className="p-8 text-center">
+                    <div className="flex justify-center mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 text-accent fill-current" />
+                      ))}
                     </div>
+                    <p className="text-muted-foreground mb-6 italic">"{testimonial.text}"</p>
+                    <div className="flex items-center justify-center space-x-2">
+                      <Users className="w-5 h-5 text-primary" />
+                      <span className="font-semibold text-primary">{testimonial.name}</span>
+                      {testimonial.verified && <CheckCircle className="w-4 h-4 text-green-500" />}
+                    </div>
+
+                    {/* Hidden quick action for similar recommendations */}
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity text-green-600 hover:bg-green-50"
+                      onClick={() => openWhatsApp(`I saw ${testimonial.name}'s review. Can you recommend something similar for me?`)}
+                    >
+                      <MessageCircle className="w-4 h-4 mr-1" />
+                      Get Similar Recommendation
+                    </Button>
                   </CardContent>
                 </Card>
               ))}
+            </div>
           </div>
-
-          <div className="text-center mt-12">
-            <Link to="/customization">
-              <Button
-                variant="outline"
-                className="rounded-full text-lg px-8 py-3 text-white border-transparent bg-primary transition-all duration-300 ease-in-out group hover:border-transparent hover:text-primary hover:bg-white hover:shadow-lg hover:shadow-accent/30"
-              >
-                View All Services
-                <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Enhanced Testimonials */}
-      <section className="py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
-              What Our <span className="text-accent">Clients Say</span>
+        </section>
+        {/* Enhanced CTA Section */}
+        <section className="py-20 relative overflow-hidden">
+          <div className="absolute inset-0 hero-gradient opacity-95"></div>
+          <div className="relative z-10 max-w-4xl mx-auto text-center px-6">
+            <h2 className="text-4xl md:text-5xl font-bold text-cream mb-6">
+              Ready to Find Your <span className="text-accent">Signature Scent?</span>
             </h2>
-            <p className="text-lg text-muted-foreground mb-6">
-              Experience the luxury through the words of our satisfied customers.
+            <p className="text-xl text-cream/90 mb-8 max-w-2xl mx-auto">
+              Experience the art of luxury perfumery with our exclusive collection and custom fragrance services.
             </p>
 
-            <Button
-              variant="outline"
-              className="border-green-500 text-green-600 hover:bg-green-50"
-              onClick={() => openWhatsApp("I'd like to read more customer reviews and testimonials")}
-            >
-              <MessageCircle className="w-4 h-4 mr-2" />
-              Share Your Experience
-            </Button>
-          </div>
+            {/* Enhanced CTA buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <Button
+                className="luxury-button text-lg px-8 py-4"
+                onClick={() => openWhatsApp("I'm ready to start my custom fragrance journey. Please guide me through the process.")}
+              >
+                <MessageCircle className="mr-2 w-5 h-5" />
+                Start Custom Journey
+              </Button>
+              <Button
+                variant="outline"
+                className="glass-card text-cream border-cream/30 hover:bg-cream/10 text-lg px-8 py-4"
+              // onClick={() => openWhatsApp("I have questions about ZOSHE fragrances and services. Can we chat?")}
+              >
+                <Phone className="mr-2 w-5 h-5" />
+                {/* Get Personal Consultation */}
+                <a href="tel:+917977233704"> Get Personal Consultation</a>
+              </Button>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="glass-card hover:shadow-lg transition-shadow duration-300 group">
-                <CardContent className="p-8 text-center">
-                  <div className="flex justify-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-accent fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mb-6 italic">"{testimonial.text}"</p>
-                  <div className="flex items-center justify-center space-x-2">
-                    <Users className="w-5 h-5 text-primary" />
-                    <span className="font-semibold text-primary">{testimonial.name}</span>
-                    {testimonial.verified && <CheckCircle className="w-4 h-4 text-green-500" />}
-                  </div>
-
-                  {/* Hidden quick action for similar recommendations */}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity text-green-600 hover:bg-green-50"
-                    onClick={() => openWhatsApp(`I saw ${testimonial.name}'s review. Can you recommend something similar for me?`)}
-                  >
-                    <MessageCircle className="w-4 h-4 mr-1" />
-                    Get Similar Recommendation
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-      {/* Enhanced CTA Section */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 hero-gradient opacity-95"></div>
-        <div className="relative z-10 max-w-4xl mx-auto text-center px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-cream mb-6">
-            Ready to Find Your <span className="text-accent">Signature Scent?</span>
-          </h2>
-          <p className="text-xl text-cream/90 mb-8 max-w-2xl mx-auto">
-            Experience the art of luxury perfumery with our exclusive collection and custom fragrance services.
-          </p>
-
-          {/* Enhanced CTA buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Button
-              className="luxury-button text-lg px-8 py-4"
-              onClick={() => openWhatsApp("I'm ready to start my custom fragrance journey. Please guide me through the process.")}
-            >
-              <MessageCircle className="mr-2 w-5 h-5" />
-              Start Custom Journey
-            </Button>
-            <Button
-              variant="outline"
-              className="glass-card text-cream border-cream/30 hover:bg-cream/10 text-lg px-8 py-4"
-            // onClick={() => openWhatsApp("I have questions about ZOSHE fragrances and services. Can we chat?")}
-            >
-              <Phone className="mr-2 w-5 h-5" />
-              {/* Get Personal Consultation */}
-              <a href="tel:+917977233704"> Get Personal Consultation</a>
-            </Button>
-          </div>
-
-          {/* Contact info */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-              <div>
-                <MessageCircle className="w-6 h-6 mx-auto mb-2 text-green-400" />
-                <div className="text-sm text-cream/90">WhatsApp</div>
-                <div className="text-xs text-cream/70">Available 24/7</div>
-              </div>
-              <div>
-                <Mail className="w-6 h-6 mx-auto mb-2 text-blue-400" />
-                <div className="text-sm text-cream/90">Email</div>
-                <div className="text-xs text-cream/70">Quick Response</div>
-              </div>
-              <div>
-                <Award className="w-6 h-6 mx-auto mb-2 text-purple-400" />
-                <div className="text-sm text-cream/90">Expert Advice</div>
-                <div className="text-xs text-cream/70">Personalized Service</div>
+            {/* Contact info */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div>
+                  <MessageCircle className="w-6 h-6 mx-auto mb-2 text-green-400" />
+                  <div className="text-sm text-cream/90">WhatsApp</div>
+                  <div className="text-xs text-cream/70">Available 24/7</div>
+                </div>
+                <div>
+                  <Mail className="w-6 h-6 mx-auto mb-2 text-blue-400" />
+                  <div className="text-sm text-cream/90">Email</div>
+                  <div className="text-xs text-cream/70">Quick Response</div>
+                </div>
+                <div>
+                  <Award className="w-6 h-6 mx-auto mb-2 text-purple-400" />
+                  <div className="text-sm text-cream/90">Expert Advice</div>
+                  <div className="text-xs text-cream/70">Personalized Service</div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <FAQSection />
-    </div>
+        <FAQSection />
+      </div>
     </>
   );
 };

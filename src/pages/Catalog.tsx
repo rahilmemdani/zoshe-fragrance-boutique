@@ -426,12 +426,16 @@ const ProductImageSlider = ({
 
         {images.length > 0 ? (
           <img
-            src={urlFor(images[currentImageIndex].asset).width(800).url()}
+            src={
+              images?.[currentImageIndex]?.asset &&
+              urlFor(images[currentImageIndex].asset).width(800).url()
+            }
             alt={`${perfume.name} - Image ${currentImageIndex + 1}`}
             className={`w-full h-full object-cover transition-all duration-700 group-hover:scale-110 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
             onLoad={() => setImageLoaded(true)}
             loading="lazy"
           />
+
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
             <div className="text-6xl opacity-50">🌸</div>
@@ -937,12 +941,12 @@ const Catalog = () => {
               className="flex justify-center"
             >
               <a href="#searchFilter">
-              <ChevronDown className="w-6 md:w-8 h-6 md:h-8 opacity-70" />
+                <ChevronDown className="w-6 md:w-8 h-6 md:h-8 opacity-70" />
               </a>
             </motion.div>
           </div>
         </section>
-        
+
         {/* Enhanced Search & Filter Section */}
         <section id="searchFilter" className="py-8 sm:py-12 bg-muted/20 border-b border-border/50 scroll-smooth">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -1087,10 +1091,14 @@ const Catalog = () => {
                   >
                     <div className="relative h-32 overflow-hidden rounded-t-lg">
                       <img
-                        src={urlFor(perfume.images[0].asset).width(200).url()}
+                        src={
+                          perfume.images?.[0]?.asset &&
+                          urlFor(perfume.images[0].asset).width(200).url()
+                        }
                         alt={perfume.name}
                         className="w-full h-full object-cover"
                       />
+
                     </div>
                     <CardContent className="p-3">
                       <h4 className="font-semibold text-sm truncate">{perfume.name}</h4>
@@ -1120,10 +1128,14 @@ const Catalog = () => {
                   >
                     <div className="relative h-32 overflow-hidden rounded-t-lg">
                       <img
-                        src={urlFor(perfume.images[0].asset).width(200).url()}
+                        src={
+                          perfume.images?.[0]?.asset &&
+                          urlFor(perfume.images[0].asset).width(200).url()
+                        }
                         alt={perfume.name}
                         className="w-full h-full object-cover"
                       />
+
                     </div>
                     <CardContent className="p-3">
                       <h4 className="font-semibold text-sm truncate">{perfume.name}</h4>
@@ -1413,10 +1425,14 @@ const Catalog = () => {
                       <>
                         <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
                           <img
-                            src={urlFor(quickViewPerfume.images[quickViewImageIndex].asset).width(800).url()}
+                            src={
+                              quickViewPerfume.images?.[quickViewImageIndex]?.asset &&
+                              urlFor(quickViewPerfume.images[quickViewImageIndex].asset).width(800).url()
+                            }
                             alt={`${quickViewPerfume.name} - Image ${quickViewImageIndex + 1}`}
                             className="w-full h-full object-cover"
                           />
+
                           {quickViewPerfume.images.length > 1 && (
                             <>
                               <Button
@@ -1449,10 +1465,14 @@ const Catalog = () => {
                                   }`}
                               >
                                 <img
-                                  src={urlFor(quickViewPerfume.images[index].asset).width(100).url()}
+                                  src={
+                                    quickViewPerfume.images?.[index]?.asset &&
+                                    urlFor(quickViewPerfume.images[index].asset).width(100).url()
+                                  }
                                   alt={`Thumbnail ${index + 1}`}
                                   className="w-full h-full object-cover"
                                 />
+
                               </button>
                             ))}
                           </div>
