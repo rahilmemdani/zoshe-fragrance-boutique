@@ -76,7 +76,7 @@ const Customization = () => {
           <>
             <div className="relative">
               <span className={`${sizeClasses[size]} font-bold text-muted-foreground/60 line-through decoration-2 decoration-red-500`}>
-                ₹{price.toLocaleString()}
+                ₹{price?.toLocaleString()}
               </span>
             </div>
 
@@ -86,7 +86,7 @@ const Customization = () => {
               transition={{ duration: 0.3, ease: "easeOut" }}
               className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-green-600 via-emerald-500 to-green-600 bg-clip-text text-transparent`}
             >
-              ₹{discountedPrice.toLocaleString()}
+              ₹{discountedPrice?.toLocaleString()}
             </motion.span>
 
             {showBadge && discountPercent && (
@@ -109,7 +109,7 @@ const Customization = () => {
             transition={{ duration: 0.3 }}
             className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent`}
           >
-            ₹{price.toLocaleString()}
+            ₹{price?.toLocaleString()}
           </motion.span>
         )}
       </div>
