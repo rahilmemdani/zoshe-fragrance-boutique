@@ -56,30 +56,33 @@ const Customization = () => {
   }
 
   const PriceDisplay = ({ price, discountedPrice, size = 'md', showBadge = true, className = '' }: PriceDisplayProps) => {
+    if (!price && !discountedPrice) return null; // ✅ Don't render if no price at all
+  
     const getDiscountPercent = (originalPrice: number, discountPrice?: number) => {
       if (!discountPrice || discountPrice >= originalPrice) return null;
       return Math.round(((originalPrice - discountPrice) / originalPrice) * 100);
     };
-
+  
     const sizeClasses = {
       sm: 'text-base sm:text-lg',
       md: 'text-lg sm:text-xl',
       lg: 'text-xl sm:text-2xl md:text-3xl'
     };
-
+  
     const hasDiscount = discountedPrice && discountedPrice < price;
     const discountPercent = getDiscountPercent(price, discountedPrice);
-
+  
     return (
       <div className={`flex flex-wrap items-center gap-2 sm:gap-3 ${className}`}>
         {hasDiscount ? (
           <>
-            <div className="relative">
-              <span className={`${sizeClasses[size]} font-bold text-muted-foreground/60 line-through decoration-2 decoration-red-500`}>
-                ₹{price?.toLocaleString()}
-              </span>
-            </div>
-
+            {price && (
+              <div className="relative">
+                <span className={`${sizeClasses[size]} font-bold text-muted-foreground/60 line-through decoration-2 decoration-red-500`}>
+                  ₹{price?.toLocaleString()}
+                </span>
+              </div>
+            )}
             <motion.span
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -88,7 +91,7 @@ const Customization = () => {
             >
               ₹{discountedPrice?.toLocaleString()}
             </motion.span>
-
+  
             {showBadge && discountPercent && (
               <motion.div
                 initial={{ scale: 0, rotate: -10 }}
@@ -103,18 +106,21 @@ const Customization = () => {
             )}
           </>
         ) : (
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent`}
-          >
-            ₹{price?.toLocaleString()}
-          </motion.span>
+          price && (
+            <motion.span
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className={`${sizeClasses[size]} font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent`}
+            >
+              ₹{price?.toLocaleString()}
+            </motion.span>
+          )
         )}
       </div>
     );
   };
+  
 
   return (
     <>
