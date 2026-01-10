@@ -40,15 +40,6 @@ const About = () => {
   // Enhanced team members data
   const teamMembers = [
     {
-      name: "Zoya Amirali Gilani",
-      role: "Creative Brand & Marketing Specialist",
-      quote: "Creating connections through scent, building brands through passion.",
-      image: zoyaImage,
-      gradient: "from-accent to-primary",
-      expertise: ["Social Media Strategy", "Brand Building", "Customer Relations"],
-      achievement: "10K+ Engaged Followers"
-    },
-    {
       name: "Shahreen Mohd Imran",
       role: "Multi-credentialed Professional",
       quote: "Every fragrance tells a story. My mission is to help you discover yours.",
@@ -56,6 +47,15 @@ const About = () => {
       gradient: "from-primary to-accent",
       expertise: ["Fragrance Composition", "Scent Profiling", "Quality Control"],
       achievement: "500+ Custom Fragrances"
+    },
+    {
+      name: "Mohammed Imran",
+      role: "Investor & Pâtisserie Master",
+      quote: "Luxury is built on precision, balance, and unforgettable experiences.",
+      image: shahreenImage,
+      gradient: "from-accent to-primary",
+      expertise: ["Luxury Strategy", "Culinary Craftsmanship", "Brand Investment"],
+      achievement: "Decade of Culinary & Luxury Expertise"
     }
   ];
 
@@ -150,7 +150,7 @@ const About = () => {
               className="mt-16 flex justify-center"
             >
               <a href="#searchFilter">
-              <ChevronDown className="w-8 h-8 opacity-70" />
+                <ChevronDown className="w-8 h-8 opacity-70" />
               </a>
             </motion.div>
           </div>
@@ -590,7 +590,7 @@ const About = () => {
                       The Beginning
                     </h3>
                     <p className="text-muted-foreground leading-relaxed">
-                      Zoya and Shahreen founded the company with a vision to create the best products for our clients' tailored necessities. A spiritual journey to the Kingdom of Saudi Arabia soon turned into friendship and led to the formation of ZOSHE, where two young individuals combined their best abilities and aspire to conquer great lengths together.
+                      Shahreen founded the company with a vision to create the best products for our clients' tailored necessities. A spiritual journey to the Kingdom of Saudi Arabia soon turned into friendship and led to the formation of ZOSHE, where two young individuals combined their best abilities and aspire to conquer great lengths together.
                     </p>
 
                     {/* Decorative element */}
