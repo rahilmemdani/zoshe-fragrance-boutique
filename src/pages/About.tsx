@@ -3,8 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Sparkles, Award, Users, Globe, ChevronDown, Heart, Star, Crown, Target, Zap, Shield } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import shahreenImage from "../assets/shahreen Mohd Imran.jpeg";
-import zoyaImage from "../assets/Zoya Image.jpeg";
 import aboutUs from "../assets/About Us.jpeg";
 import { Link } from 'react-router-dom';
 import { Helmet } from "react-helmet";
@@ -43,19 +41,19 @@ const About = () => {
       name: "Shahreen Mohd Imran",
       role: "Multi-credentialed Professional",
       quote: "Every fragrance tells a story. My mission is to help you discover yours.",
-      image: shahreenImage,
       gradient: "from-primary to-accent",
       expertise: ["Fragrance Composition", "Scent Profiling", "Quality Control"],
-      achievement: "500+ Custom Fragrances"
+      achievement: "500+ Custom Fragrances",
+      subRole: ""
     },
     {
-      name: "Mohammed Imran",
-      role: "Investor & Pâtisserie Master",
-      quote: "Luxury is built on precision, balance, and unforgettable experiences.",
-      image: shahreenImage,
+      name: "Nadeem .N . khan",
+      role: "Entrepreneur, Creative Director & Industrial Manufacturer",
+      subRole: "Beauty Cosmetics Company Owner - HERBOSOL",
+      quote: "My Aim is to provide simplified effective Beauty products & and deliver the same through luxurious Fragrances.",
       gradient: "from-accent to-primary",
-      expertise: ["Luxury Strategy", "Culinary Craftsmanship", "Brand Investment"],
-      achievement: "Decade of Culinary & Luxury Expertise"
+      expertise: ["Cosmetics Manufacturer", "Product innovation", "Businesses strategist"],
+      achievement: "Industry Leader in Beauty Cosmetics"
     }
   ];
 
@@ -189,9 +187,7 @@ const About = () => {
                     transition={{ delay: 0.2 }}
                     className="text-foreground/80"
                   >
-                    Founded in 2025, a master of perfumery and a social media marketing
-                    specialist came together to form a brand named after them.
-                    At ZOSHE, we believe your fragrance should be as unique as you are.
+                    Founded in 2025, A master of Perfumery with Beauty & Cosmetics Company Owner came together to form this brand . At ZOSHE, we believe your fragrance should be as unique as you are.
                   </motion.p>
 
                   <motion.p
@@ -305,28 +301,20 @@ const About = () => {
 
                   <div className="relative z-10">
                     {/* Enhanced Profile Section */}
-                    <div className="text-center mb-8">
-                      <div className="relative w-48 h-48 mx-auto mb-6">
-                        <div className={`absolute inset-0 bg-gradient-to-br ${member.gradient} rounded-full p-2 shadow-2xl group-hover:scale-105 transition-transform duration-500`}>
-                          <div className="w-full h-full rounded-full overflow-hidden bg-white">
-                            <img
-                              src={member.image}
-                              alt={member.name}
-                              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
-                              loading="lazy"
-                            />
-                          </div>
-                        </div>
-                        {/* Enhanced glowing effect */}
-                        <div className={`absolute -inset-6 bg-gradient-to-br ${member.gradient} rounded-full opacity-20 blur-2xl group-hover:opacity-40 transition-opacity duration-500`}></div>
-                      </div>
-
+                    <div className="text-center mb-8 pt-6">
                       <h3 className="text-2xl md:text-3xl font-bold text-primary mb-2 group-hover:text-accent transition-colors duration-300">
                         {member.name}
                       </h3>
-                      <p className="text-accent font-semibold mb-4 text-base">
+                      <p className="text-accent font-semibold mb-1 text-base">
                         {member.role}
                       </p>
+                      {member.subRole ? (
+                        <p className="text-accent/80 font-medium mb-4 text-sm mt-1">
+                          {member.subRole}
+                        </p>
+                      ) : (
+                        <div className="mb-4"></div>
+                      )}
                     </div>
 
                     {/* Enhanced Content */}
@@ -590,7 +578,7 @@ const About = () => {
                       The Beginning
                     </h3>
                     <p className="text-muted-foreground leading-relaxed">
-                      Shahreen founded the company with a vision to create the best products for our clients' tailored necessities. A spiritual journey to the Kingdom of Saudi Arabia soon turned into friendship and led to the formation of ZOSHE, where two young individuals combined their best abilities and aspire to conquer great lengths together.
+                      Shahreen Mohd Imran founded the company with a vision to create the best products for our clients' tailored necessities. Nadeem .N Khan has excelled in the field of Cosmetics which runs down through generations in building Beauty & cosmetics. A journey from Friendship to Business created ZOSHE. Where two young individuals combined their best abilities and aspire to conquer great lengths together.
                     </p>
 
                     {/* Decorative element */}
